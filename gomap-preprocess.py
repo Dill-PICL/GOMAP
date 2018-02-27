@@ -29,21 +29,21 @@ with open(main_args.config_file) as tmp_file:
     config_input = json.load(tmp_file)
 
 #This merges the pipline and user configs and makes a single configuration
-config = jsonmerge.merge(config_pipline,config_input)
-logging_config = config["input"]["logging"]
+logging_config = config_pipline["logging"]
 
-log_file = config["input"]["dir"]["work_dir"] +"/"+ logging_config["file_name"] + ('.log' if re.match(".*\.log$",logging_config["file_name"]) == None else '')
-
-pp.pprint(log_file)
+log_file = config_input["dir"]["work_dir"] +"/"+ config_input["logging"]["file_name"] + ('.log' if re.match(".*\.log$",logging_config["file_name"]) == None else '')
 
 logging.basicConfig(filename=log_file,level=logging_config['level'],filemode='w+',format=logging_config["format"],datefmt=logging_config["formatTime"])
-sys.exit()
-'''=======================================================================
+
+'''
+=======================================================================
 Step 1 is to clean the input fasta file downloaded from Gramene/Ensembl to
 get longest representative sequence
-======================================================================='''
-from steps._1_clean_input import clean_input
-clean_input(config)
+=======================================================================
+'''
+from code.pipline.clean_input import clean_input
+clean_input(config_input)
+sys.exit()
 
 '''
 Step 4 is to get the blasts done, to and against TAIR and UniProt datasets

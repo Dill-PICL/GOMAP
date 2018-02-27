@@ -27,17 +27,18 @@ log_file = logging_config["file_name"] + ('.log' if re.match(".*\.log$",logging_
 logging.basicConfig(filename=log_file,level=logging_config['level'],filemode='w+',format=logging_config["format"],datefmt=logging_config["formatTime"])
 
 '''
-Step 2 is to clean the fasta file downloaded from TAIR to get longest representative sequence. We need to check if the filt file already exists
+Step 1 is to clean the fasta file downloaded from TAIR to get longest
+representative sequence. We need to check if the filt file already exists
+The TAIR file cannot be downloaded anymore. It has become a subscription
+only resource and is not freely distibuted
 '''
 logging.info("Cleaning TAIR Files")
 from code.process.clean_tair import clean_tair_fasta,tair_go2gaf,clean_tair_data
 clean_tair_data(config,config_file)
 
 '''
-Step 3 is to get relavent sequences from UniProt for the taxonomy ids mentioned in the config files
+Step 2 is to get relavent sequences from UniProt for the taxonomy ids mentioned in the config files
 '''
-logging.info("Processing UniProt files")
-
+logging.info("Downloading and processing UniProt files")
 from code.process.clean_uniprot import clean_uniprot_data
 clean_uniprot_data(config,config_file)
-sys.exit()

@@ -26,3 +26,4 @@ test.job
 test.json
 jupyter-reqs
 data/*
+software/

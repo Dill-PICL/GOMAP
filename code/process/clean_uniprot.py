@@ -115,17 +115,12 @@ def make_db(clean_fasta,config):
 
 def clean_uniprot_data(config, config_file):
     uniprot_config = config["data"]["seq-sim"]["uniprot"]
-    gaf_url = uniprot_config["urls"]["gaf"]
-    fasta_url = uniprot_config["urls"]["fasta"]
+    (gaf_url,fasta_url) = (uniprot_config["urls"]["gaf"],uniprot_config["urls"]["fasta"])
     raw_base = uniprot_config["basedir"] + "/raw/" + uniprot_config["filenames"]["basename"]
-    tmp_gaf = raw_base + ".gaf.gz"
-    raw_gaf = raw_base + ".gaf"
-    raw_fasta = raw_base + ".fa.gz"
     clean_base = uniprot_config["basedir"] + "/clean/" + uniprot_config["filenames"]["basename"]
-    clean_gaf = clean_base+".gaf"
-    clean_fasta = clean_base+".fa"
+    (tmp_gaf,raw_gaf,clean_gaf) = (raw_base + ".gaf.gz",raw_base + ".gaf",clean_base+".gaf")
+    (raw_fasta,clean_fasta) = (raw_base + ".fa.gz",clean_base+".fa")
 
     clean_raw_gaf(gaf_url,raw_gaf,tmp_gaf,clean_gaf,config)
     clean_uniprot_fasta(fasta_url,raw_fasta,clean_fasta,clean_gaf)
     make_db(clean_fasta,config)
-    # download_uniprot_fasta(fasta_url,raw_fasta)

@@ -9,6 +9,22 @@ import code.utils.basic_utils as basic_utils
 
 
 def make_db(clean_fasta,config):
+    """This function does something.
+
+    Parameters
+    ----------
+    var1 : array_like
+        This is a type.
+    var2 : int
+        This is another var.
+    Long_variable_name : {'hi', 'ho'}, optional
+        Choices in brackets, default first when optional.
+
+    Returns
+    -------
+    describe : type
+        Explanation
+    """
     fasta_db = clean_fasta + ".phr"
     makedb_command = [config["software"]["blast"]["bin"]+"/makeblastdb","-in",clean_fasta,"-dbtype","prot","-out",clean_fasta,"-hash_index"]
     basic_utils.check_output_and_run(fasta_db,makedb_command)

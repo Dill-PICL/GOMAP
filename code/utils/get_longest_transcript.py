@@ -9,7 +9,6 @@ import logging
 #checking if the transcript pattern is supplied by the user and making
 #regular expression objects of the pattern
 def get_longest_transcript(input,output,gene_start,trans_pattern="\.[0-9]+"):
-
     trans_pattern = re.compile(trans_pattern)
 
     '''
@@ -34,7 +33,6 @@ def get_longest_transcript(input,output,gene_start,trans_pattern="\.[0-9]+"):
                 seqs[gene_id] = record
         else:
             seqs[gene_id] = record
-    print("++++++++++++++++++++++++++++++++++++++")
 
     '''
     This creates a list of sequences which can be saved into a file
@@ -47,8 +45,6 @@ def get_longest_transcript(input,output,gene_start,trans_pattern="\.[0-9]+"):
         out_seqs.append(curr_seq)
 
     #Write the output file as fasta
-    print(seqs[seqs.keys()[1]])
-    print(out_seqs[1])
     SeqIO.write(out_seqs,output,"fasta")
 
 
