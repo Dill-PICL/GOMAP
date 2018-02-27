@@ -15,6 +15,7 @@
                     "basename": "At.TAIR10"
                 },
                 "basedir": "data/seq-sim/tair",
+                "tmpdir": "tmp/seq-sim/tair",
                 "cleaning": {
                     "gene_start": "AT",
                     "trans_pattern": "\\.[0-9]+"
@@ -30,6 +31,7 @@
                     "basename": "Plant.UniProt.hc"
                 },
                 "basedir": "data/seq-sim/uniprot",
+                "tmpdir":"tmp/seq-sim/uniprot",
                 "cleaning": {
                     "sel_tax": [
                         "15368",

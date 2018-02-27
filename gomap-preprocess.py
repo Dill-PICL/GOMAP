@@ -20,8 +20,9 @@ main_args = main_parser.parse_args()
 pipeline_config_file = os.path.dirname(sys.argv[0]) + "/pipeline.json"
 
 with open(pipeline_config_file) as tmp_file:
-    config_pipline = json.load(tmp_file)
+    config_pipeline = json.load(tmp_file)
 
+config_pipeline["pipeline_location"] = os.path.dirname(sys.argv[0])
 '''
     This section loads the input parameters for the users current job.
 '''
@@ -29,7 +30,7 @@ with open(main_args.config_file) as tmp_file:
     config_input = json.load(tmp_file)
 
 #This merges the pipline and user configs and makes a single configuration
-logging_config = config_pipline["logging"]
+logging_config = config_pipeline["logging"]
 
 log_file = config_input["dir"]["work_dir"] +"/"+ config_input["logging"]["file_name"] + ('.log' if re.match(".*\.log$",logging_config["file_name"]) == None else '')
 
@@ -41,24 +42,27 @@ Step 1 is to clean the input fasta file downloaded from Gramene/Ensembl to
 get longest representative sequence
 =======================================================================
 '''
-from code.pipline.clean_input import clean_input
-clean_input(config_input)
-sys.exit()
+from code.pipeline.clean_input import clean_input
+clean_input(config_input,config_pipeline)
+
 
 '''
 Step 4 is to get the blasts done, to and against TAIR and UniProt datasets
 '''
 logging.info("Processing Sequence-Similarity Steps")
-import steps._4_run_rbh as run_rbh
-run_rbh.make_dbs(config)
-run_rbh.run_blast(config)
-run_rbh.get_rbh_annotations(config)
+from code.pipeline.run_rbh_blast import run_tair_blast,run_uniprot_blast
+run_tair_blast(config_input,config_pipeline)
+run_uniprot_blast(config_input,config_pipeline)
+
+#run_rbh.run_blast(config)
+#run_rbh.get_rbh_annotations(config)
 
 '''
 Step 5 is to run interproscan5 against the clean input protein sequences
 '''
 logging.info("Running domain annotations using " +config["domain"]["software"])
 import steps._5_run_iprs as run_iprs
+sys.exit()
 run_iprs.run_iprs(config)
 run_iprs.iprs2gaf(config)
 

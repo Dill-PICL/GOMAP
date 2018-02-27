@@ -3,7 +3,7 @@ from Bio import SeqIO
 import urllib
 import pprint as pp
 from datetime import date
-import code.utils.basic_utils as basic_utils
+from code.utils.blast_utils import make_blastdb
 
 def download_gaf(gaf_url,tmp_gaf,raw_gaf,config):
     dirname = os.path.dirname(raw_gaf)
@@ -13,6 +13,9 @@ def download_gaf(gaf_url,tmp_gaf,raw_gaf,config):
     if not os.path.isfile(tmp_gaf):
         logging.info("Downloading UniProt GOA file")
         urllib.urlretrieve(gaf_url,tmp_gaf)
+        '''
+        TODO update the code to get date from existing files instead of the date
+        '''
         today = date.today()
         config["data"]["seq-sim"]["uniprot"]["metadata"]["version"] = str(today)
         with open(config_file,"w") as outfile:
@@ -108,11 +111,6 @@ def clean_uniprot_fasta(fasta_url,raw_fasta,clean_fasta,clean_gaf):
         logging.warn("The UniProt clean fasta file already exists.")
         logging.info("Please delete the "+ clean_fasta + " if you want to download again")
 
-def make_db(clean_fasta,config):
-    fasta_db = clean_fasta + ".phr"
-    makedb_command = [config["software"]["blast"]["bin"]+"/makeblastdb","-in",clean_fasta,"-dbtype","prot","-out",clean_fasta,"-hash_index"]
-    basic_utils.check_output_and_run(fasta_db,makedb_command)
-
 def clean_uniprot_data(config, config_file):
     uniprot_config = config["data"]["seq-sim"]["uniprot"]
     (gaf_url,fasta_url) = (uniprot_config["urls"]["gaf"],uniprot_config["urls"]["fasta"])
@@ -123,4 +121,4 @@ def clean_uniprot_data(config, config_file):
 
     clean_raw_gaf(gaf_url,raw_gaf,tmp_gaf,clean_gaf,config)
     clean_uniprot_fasta(fasta_url,raw_fasta,clean_fasta,clean_gaf)
-    make_db(clean_fasta,config)
+    make_blastdb(clean_fasta,config)

@@ -22,6 +22,9 @@ main_args = main_parser.parse_args()
 config_file = main_args.config_file
 with open(config_file) as tmp_file:
     config = json.load(tmp_file)
+
+config["pipeline_location"] = os.path.dirname(sys.argv[0])
+
 logging_config = config["logging"]
 log_file = logging_config["file_name"] + ('.log' if re.match(".*\.log$",logging_config["file_name"]) == None else '')
 logging.basicConfig(filename=log_file,level=logging_config['level'],filemode='w+',format=logging_config["format"],datefmt=logging_config["formatTime"])
