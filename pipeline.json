@@ -1,0 +1,75 @@
+{
+    "data": {
+        "seq-sim": {
+            "ev_codes": {
+                "omit": [
+                    "IEA",
+                    "NAS",
+                    "ND"
+                ]
+            },
+            "TAIR": {
+                "file_names": {
+                    "go_file": "ATH_GO_GOSLIM-12-16-2014.txt",
+                    "raw": "TAIR10_pep_20110103_representative_gene_model_updated",
+                    "basename": "At.TAIR10"
+                },
+                "basedir": "data/seq-sim/tair",
+                "cleaning": {
+                    "gene_start": "AT",
+                    "trans_pattern": "\\.[0-9]+"
+                },
+                "metadata": {
+                    "date": "",
+                    "version": "TAIR10",
+                    "species": "Arabidopsis"
+                }
+            },
+            "uniprot": {
+                "filenames": {
+                    "basename": "Plant.UniProt.hc"
+                },
+                "basedir": "data/seq-sim/uniprot",
+                "cleaning": {
+                    "sel_tax": [
+                        "15368",
+                        "29760",
+                        "3055",
+                        "3218",
+                        "3694",
+                        "3702",
+                        "3847",
+                        "39947",
+                        "4081",
+                        "4558"
+                    ],
+                    "omit_tax": [
+                        "4577"
+                    ]
+                },
+                "urls": {
+                    "gaf": "http://localhost/downloads/goa_uniprot_all.gaf.gz",
+                    "fasta": "http://localhost/downloads/uniprotkb_viridiplantae.gz"
+                },
+                "metadata": {
+                    "version": "2018-02-26",
+                    "species": "Plants"
+                }
+            }
+        }
+    },
+    "software":{
+      "blast":{
+          "bin": "software/blast-2.6.0+/bin",
+          "num_threads": 4,
+          "evalue": "10e-10",
+          "opt_params": [ "-max_target_seqs", "100" ]
+      }
+    },
+    "logging": {
+        "file_name": "setup.log",
+        "format": "%(levelname)s [%(asctime)s] %(message)s",
+        "formatTime": "%Y-%m-%d %H:%M",
+        "level": "DEBUG"
+    }
+}
