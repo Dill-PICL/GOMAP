@@ -69,7 +69,7 @@
       }
     },
     "logging": {
-        "file_name": "setup.log",
+        "file_name": "gomap.log",
         "format": "%(levelname)s [%(asctime)s] %(message)s",
         "formatTime": "%Y-%m-%d %H:%M",
         "level": "DEBUG"
@@ -80,6 +80,6 @@
         "name": "GO-MAP"
     },
     "input": {
-        "work_dir": "/workdir"
+        "workdir": "/workdir"
     }
 }
