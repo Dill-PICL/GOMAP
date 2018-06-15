@@ -37,16 +37,6 @@ log_file = config_input["dir"]["work_dir"] +"/"+ config_input["logging"]["file_n
 logging.basicConfig(filename=log_file,level=logging_config['level'],filemode='w+',format=logging_config["format"],datefmt=logging_config["formatTime"])
 
 '''
-=======================================================================
-Step 1 is to clean the input fasta file downloaded from Gramene/Ensembl to
-get longest representative sequence
-=======================================================================
-'''
-from code.pipeline.clean_input import clean_input
-clean_input(config_input,config_pipeline)
-
-
-'''
 Step 4 is to get the blasts done, to and against TAIR and UniProt datasets
 '''
 logging.info("Processing Sequence-Similarity Steps")
