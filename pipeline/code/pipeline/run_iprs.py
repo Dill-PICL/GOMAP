@@ -1,7 +1,7 @@
 import logging, os, re
-import code.basic_utils as basic_utils
+import code.utils.basic_utils as basic_utils
 
-def run_iprs(config):
+def run_iprs(config_input,config_pipeline):
     dom_config = config["domain"]
     input_config = config["input"]
     out_file=dom_config["output"] + input_config["basename"]

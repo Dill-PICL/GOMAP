@@ -60,8 +60,8 @@ run_uniprot_blast(config_input,config_pipeline)
 '''
 Step 5 is to run interproscan5 against the clean input protein sequences
 '''
-logging.info("Running domain annotations using " +config["domain"]["software"])
-import steps._5_run_iprs as run_iprs
+logging.info("Running domain annotations using IPRS")
+from code.pipeline.run_iprs import run_iprs
 sys.exit()
 run_iprs.run_iprs(config)
 run_iprs.iprs2gaf(config)
