@@ -73,5 +73,13 @@
         "format": "%(levelname)s [%(asctime)s] %(message)s",
         "formatTime": "%Y-%m-%d %H:%M",
         "level": "DEBUG"
+    },
+    "pipeline": {
+        "config_file": "pipeline.json",
+        "version": "0.2",
+        "name": "GO-MAP"
+    },
+    "input": {
+        "work_dir": "/workdir"
     }
 }
