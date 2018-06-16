@@ -1,25 +1,11 @@
 {
     "data": {
         "seq-sim": {
-            "ev_codes": {
-                "omit": [
-                    "IEA",
-                    "NAS",
-                    "ND"
-                ]
-            },
             "TAIR": {
-                "file_names": {
-                    "go_file": "ATH_GO_GOSLIM-12-16-2014.txt",
-                    "raw": "TAIR10_pep_20110103_representative_gene_model_updated",
-                    "basename": "At.TAIR10"
-                },
-                "basedir": "data/seq-sim/tair",
+                "basename": "At.TAIR10",
+                "basedir": "data/data/seq-sim/tair",
                 "tmpdir": "tmp/seq-sim/tair",
-                "cleaning": {
-                    "gene_start": "AT",
-                    "trans_pattern": "\\.[0-9]+"
-                },
+								"gaf":"gaf/At.TAIR10",
                 "metadata": {
                     "date": "",
                     "version": "TAIR10",
@@ -27,10 +13,8 @@
                 }
             },
             "uniprot": {
-                "filenames": {
-                    "basename": "Plant.UniProt.hc"
-                },
-                "basedir": "data/seq-sim/uniprot",
+                "basename": "Plant.UniProt.hc",
+                "basedir": "data/data/seq-sim/uniprot",
                 "tmpdir":"tmp/seq-sim/uniprot",
                 "cleaning": {
                     "sel_tax": [
@@ -49,10 +33,6 @@
                         "4577"
                     ]
                 },
-                "urls": {
-                    "gaf": "http://localhost/downloads/goa_uniprot_all.gaf.gz",
-                    "fasta": "http://localhost/downloads/uniprotkb_viridiplantae.gz"
-                },
                 "metadata": {
                     "version": "2018-02-26",
                     "species": "Plants"
@@ -62,11 +42,18 @@
     },
     "software":{
       "blast":{
-          "bin": "software/blast-2.6.0+/bin",
+          "bin": "data/software/blast-2.6.0+/bin",
           "num_threads": 4,
           "evalue": "10e-10",
-          "opt_params": [ "-max_target_seqs", "100" ]
-      }
+          "opt_params": [ "-max_target_seqs", "10" ],
+					"blast_cols": "data/data/cols/blast_cols.txt"
+      },
+			"domain": {
+	        "bin": "interproscan.sh",
+	        "path": "software/interproscan-5.25-64.0/",
+	        "software": "Interproscan5",
+	        "output": "domain/iprs/"
+	    }
     },
     "logging": {
         "file_name": "gomap.log",
@@ -77,9 +64,27 @@
     "pipeline": {
         "config_file": "pipeline.json",
         "version": "0.2",
-        "name": "GO-MAP"
+        "name": "GO-MAP",
+				"pipeline_loc":"/opt/GO-MAP"
     },
     "input": {
         "workdir": "/workdir"
+    },
+		"gaf": {
+        "raw_dir": "gaf/raw",
+        "non_red_dir": "gaf/non_red",
+        "agg_dir": "gaf/agg",
+        "uniq_dir": "gaf/uniq"
+    },
+		"go": {
+        "gaf_cols": "data/data/cols/gaf_cols.txt",
+        "obo": "data/data/go/go.obo",
+        "evidence_codes": {
+            "omitted": [
+                "IEA",
+                "ND",
+                "NAS"
+            ]
+        }
     }
 }

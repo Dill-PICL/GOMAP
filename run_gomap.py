@@ -6,8 +6,8 @@ pprint is only needed for debugging purposes
 '''
 import  os, re, logging, json, sys, argparse, jsonmerge
 from argparse import RawTextHelpFormatter
-
 from pprint import pprint
+from code.gomap_preprocess import run_preprocess
 
 from jsonmerge import Merger
 schema = {
@@ -35,13 +35,18 @@ main_args = main_parser.parse_args()
 with open("pipeline.json") as tmp_file:
     pipe_config = json.load(tmp_file)
 
-if  main_args.config:
+if main_args.config:
     config_file = main_args.config
     with open(config_file) as tmp_file:
         user_config = json.load(tmp_file)
 
 config = merger.merge(pipe_config, user_config)
+config["input"]["config_file"] = main_args.config
 
+conf_out = config["input"]["workdir"]+"/"+config["input"]["basename"]+".json"
+config["input"]["config_file"] = conf_out
+with open(conf_out,"w") as out_f:
+	json.dump(config,out_f,indent=4)
 
 logging_config = config["logging"]
 log_file = config["input"]["workdir"] + "/" + config["input"]["basename"] + '.log'
@@ -52,8 +57,8 @@ Depending the step selected by the user we are going to run the relevant part of
 '''
 
 if main_args.step == "preprocess":
-    logging.info("Running Preprocessing Step")
-
+	logging.info("Running Preprocessing Step")
+	run_preprocess(config)
 elif main_args.step == "annotate":
     logging.info("Running Annotation Step")
 

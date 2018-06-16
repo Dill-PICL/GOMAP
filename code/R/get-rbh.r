@@ -1,7 +1,7 @@
 library("data.table",quietly = T)
 library("parallel",quietly = T)
-blast_cols = fread("misc/blast_cols.txt",header = F)$V1
-source("code/gaf_tools.r")
+blast_cols = fread(config$software$blast$blast_cols,header = F)$V1
+source("code/R/gaf_tools.r")
 
 if(F){
     main2other     <- "blast/maize-arabidopsis.bl.out"
@@ -89,24 +89,20 @@ get_uniprot_rbh <- function(main2other,other2main, config){
 get_rbh <- function(main2other,other2main, evalue_th){
     main2other_blast <- fread(main2other,header = F,sep = "\t",stringsAsFactors = F)
     colnames(main2other_blast) <- blast_cols
-    #db2mz_blast <- data.table(db2mz_blast)
     setkeyv(main2other_blast,c("qseqid","sseqid"))
     main2other_blast <- main2other_blast[evalue <= evalue_th]
-    which_max_score <- main2other_blast[,list(max_score=.I[which.max(score)]),by=qseqid]
-    main2other_blast_filt <- main2other_blast[which_max_score$max_score]
-    #db2mz_blast_filt
+    which_max_score <- main2other_blast[,list(max_ind=.I[which.max(score)]),by=qseqid]
+    main2other_blast_filt <- main2other_blast[which_max_score$max_ind]
     main2other_hits <- paste(main2other_blast_filt$qseqid,main2other_blast_filt$sseqid,sep = "-")
 
     other2main_blast <- fread(other2main,header = F,sep = "\t",stringsAsFactors = F)
     colnames(other2main_blast) <- blast_cols
-    #other2main_blast <- data.table(other2main_blast)
     setkeyv(other2main_blast,c("qseqid","sseqid"))
     other2main_blast <- other2main_blast[evalue < evalue_th]
-    which_min_eval <- other2main_blast[,list(min_ind=.I[which.min(evalue)]),by=qseqid]
-    other2main_blast_filt <- other2main_blast[which_min_eval$min_ind]
-    #other2main_blast_filt
+    which_max_score <- other2main_blast[,list(max_ind=.I[which.max(score)]),by=qseqid]
+    other2main_blast_filt <- other2main_blast[which_max_score$max_ind]
     other2main_hits <- paste(other2main_blast_filt$sseqid,other2main_blast_filt$qseqid,sep="-")
-    #head(other2main_hits)
+    
 
     rbh <- main2other_blast_filt[main2other_hits %in% other2main_hits]
     rbh_data = rbh[,1:2,with=F]
@@ -138,9 +134,10 @@ assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,out_gaf_file){
         }
     })
 
+    ass_by = config[["data"]]$`seq-sim`[[spp]][["metadata"]]$species
     out_gaf <- do.call(rbind,tmp_out)
     out_gaf[,db:="maize-GAMER"]
-    out_gaf[,assigned_by:=spp]
+    out_gaf[,assigned_by:=ass_by]
     out_gaf[,db_reference:="MG:0000"]
     out_gaf[,taxon:="taxon:4577"]
     out_gaf[,date:=gaf_date]
@@ -150,15 +147,17 @@ assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,out_gaf_file){
     out_gaf[,with:=""]
 
     out_dir <- dirname(out_gaf_file)
-    ifelse(!dir.exists(out_dir),dir.create(out_dir),paste(out_dir,"already exists so not creating one"))
+    ifelse(!dir.exists(out_dir),dir.create(out_dir,recursive = T),paste(out_dir,"already exists so not creating one"))
     write_gaf(out_gaf,out_gaf_file)
 }
 
 get_blast_out <- function(config1,config2){
-    base_name = dirname(dirname(config2[["fasta"]]))
-    #
-     out1=paste(base_name, "/blast/", config1[["basename"]], "-", config2[["basename"]], ".bl.out", sep = "")
-     out2=paste(base_name, "/blast/", config2[["basename"]], "-", config1[["basename"]], ".bl.out", sep = "")
+    # print(config1)
+    base_name = paste(config1[["workdir"]],config2[["tmpdir"]],sep="/")
+    # out1=paste(base_name, "/blast/", config1[["basename"]], "-", config2[["basename"]], ".bl.out", sep = "")
+    out1=dir(base_name,pattern = paste("^",config1["basename"],sep=""),full.names = T)[1]
+    # out2=paste(base_name, "/blast/", config2[["basename"]], "-", config1[["basename"]], ".bl.out", sep = "")
+    out2=dir(base_name,pattern = paste(config1["basename"],".bl.out",sep=""),full.names = T)[1]
     return(list(main2other=out1,other2main=out2))
 }
 
@@ -182,3 +181,4 @@ get_gaf_out <- function(config1,config2){
     return(out_file)
 
 }
+

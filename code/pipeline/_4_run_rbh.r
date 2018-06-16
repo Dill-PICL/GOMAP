@@ -1,9 +1,6 @@
 #Loading Necessary libraries and packages
 library("jsonlite",quietly = T)
 
-source("code/get-rbh.r")
-source("code/logger.r")
-
 args <- commandArgs(T)
 
 config_file <- args[1]
@@ -13,6 +10,9 @@ config = fromJSON(config_file)
 if(F){
     config = fromJSON("maize.W22.AGPv2.json")
 }
+
+source("code/R/get-rbh.r")
+source("code/R/logger.r")
 
 #set the logfile and initiate the logger
 set_logger(config)
@@ -27,14 +27,14 @@ ommited_ev_codes = config$go$evidence_codes$omitted
 #processing arabidopsis results
 spp = "TAIR"
 flog.info(paste("Processing", spp))
-eval_th = as.numeric(config$blast$evalue)
-bl_out = get_blast_out(config[["input"]],config[["seq-sim"]][[spp]])
+eval_th = as.numeric(config$software$blast$evalue)
+bl_out = get_blast_out(config[["input"]],config[["data"]][["seq-sim"]][[spp]])
 main2other = bl_out$main2other
 other2main = bl_out$other2main
-gaf_file = config$`seq-sim`[[spp]]$gaf_file
-out_gaf_file=paste(config$gaf$raw_dir,"/",config$input$basename,".",config$`seq-sim`$TAIR$species,".gaf",sep = "")
-#out_gaf_file=get_gaf_out(config[["input"]],config[["seq-sim"]][[spp]])
+gaf_file = paste(config[["data"]]$`seq-sim`[[spp]]$basedir,"/",config[["data"]]$`seq-sim`[[spp]]$basename,".gaf",sep="")
+out_gaf_file=paste(config[["input"]][["workdir"]],"/",config$gaf$raw_dir,"/",config$input$basename,".",config[["data"]]$`seq-sim`[[spp]][["metadata"]]$species,".gaf",sep = "")
 rbh_out = gsub("bl.out","rbh.out",main2other)
+
 if(!file.exists(rbh_out)){
     rbh_hits = get_rbh(main2other,other2main,eval_th)
 }else{
@@ -42,17 +42,23 @@ if(!file.exists(rbh_out)){
     rbh_hits = fread(rbh_out,header = F)
     colnames(rbh_hits) <- c("qseqid","sseqid")
 }
-assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,out_gaf_file)
+if(!file.exists(out_gaf_file)){
+    assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,out_gaf_file)    
+}else{
+    flog.info(paste(out_gaf_file, "already exists. Delete to regenerate"))
+}
+
 
 #Processing UniProt plants results
-spp = "UniProt"
+spp = "uniprot"
 flog.info(paste("Processing", spp))
-bl_out = get_blast_out(config[["input"]],config[["seq-sim"]][[spp]])
+bl_out = get_blast_out(config[["input"]],config[["data"]][["seq-sim"]][[spp]])
 main2other = bl_out$main2other
 other2main = bl_out$other2main
-gaf_file = config$`seq-sim`[[spp]]$gaf_file
-out_gaf_file=get_gaf_out(config[["input"]],config[["seq-sim"]][[spp]])
+gaf_file = paste(config[["data"]]$`seq-sim`[[spp]]$basedir,"/",config[["data"]]$`seq-sim`[[spp]]$basename,".gaf",sep="")
+out_gaf_file=paste(config[["input"]][["workdir"]],"/",config$gaf$raw_dir,"/",config$input$basename,".",config[["data"]]$`seq-sim`[[spp]][["metadata"]]$species,".gaf",sep = "")
 rbh_out = gsub("bl.out","rbh.out",main2other)
+
 if(!file.exists(rbh_out)){
     rbh_hits = get_rbh(main2other,other2main,eval_th)
 }else{
@@ -60,4 +66,8 @@ if(!file.exists(rbh_out)){
         rbh_hits = fread(rbh_out,header = F)
         colnames(rbh_hits) <- c("qseqid","sseqid")
 }
-assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,out_gaf_file)
+if(!file.exists(out_gaf_file)){
+    assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,out_gaf_file)    
+}else{
+    flog.info(paste(out_gaf_file, "already exists. Delete to regenerate"))
+}
