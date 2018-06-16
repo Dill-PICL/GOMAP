@@ -1,4 +1,4 @@
-library("futile.logger")
+library("futile.logger",quietly = T)
 
 set_logger <- function(config){
     logfile = paste(config[["input"]][["workdir"]], "/", config[["input"]][["basename"]], '.log',sep = "")

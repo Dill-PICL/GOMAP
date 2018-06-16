@@ -13,7 +13,7 @@ def check_output_and_run(outfile,command,stdin_file=None,stdout_file=None):
             stdin_file = open(stdin_file,"r")
         if stdout_file is not None:
             stdout_file = open(stdout_file,"w")
-        subprocess.call(command,stdin=stdin_file,stdout=stdout_file)
+        subprocess.check_call(command,stdin=stdin_file,stdout=stdout_file)
     else:
         logging.warn("The "+outfile+" exists so not running the command\n\""+" ".join(command)+"\"")
         logging.warn("Delete existing output file(s) to rerun the previous command")
@@ -23,3 +23,6 @@ def get_files_with_ext(in_dir,extension="fa"):
     out_files = []
     [out_files.append(tmp_file) if tmp_file.endswith(extension) else None for tmp_file in all_files]
     return out_files
+
+def get_output_file(config):
+    print(config)

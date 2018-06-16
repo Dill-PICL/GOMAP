@@ -50,10 +50,10 @@ def run_preprocess(config):
 	Step 5 is to run interproscan5 against the clean input protein sequences
 	'''
 	logging.info("Running domain annotations using IPRS")
-	from code.pipeline.run_iprs import run_iprs
-	run_iprs.run_iprs(config)
+	from code.pipeline.run_iprs import run_iprs,iprs2gaf
+	run_iprs(config)
+	iprs2gaf(config)
 	sys.exit()
-	# run_iprs.iprs2gaf(config)
 
 	'''
 	Step 6 is to run components of preprocessing pipeline to create input data for the mixed method pipelines

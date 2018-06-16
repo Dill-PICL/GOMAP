@@ -1,15 +1,14 @@
 library("jsonlite",quietly = T)
 
-source("code/iprs2gaf.r")
-source("code/logger.r")
-#source("code/assign_rbh_go.r")
-
 #Reading config file name
 args <- commandArgs(T)
 config_file <- args[1]
 
 #Reading config file and creating config object
 config = fromJSON(config_file)
+
+source("code/R/iprs2gaf.r")
+source("code/R/logger.r")
 
 #set the logfile and initiate the logger
 set_logger(config)
@@ -23,7 +22,7 @@ raw_dir=paste(config$gaf$raw_dir,"/",sep="")
 
 go_obo = config$go$obo
 iprs_out = paste("temp/",paste(config$input$species,config$input$inbred,config$input$version,"tsv",sep="."),sep = "")
-out_gaf = paste(raw_dir,gsub(".tsv","",basename(iprs_out)),".",config$domain$software,".gaf",sep = "")
+out_gaf = paste(raw_dir,gsub(".tsv","",basename(iprs_out)),".",config$software$domain$software,".gaf",sep = "")
 
 if(file.exists(out_gaf)){
     flog.warn(paste("The",out_gaf,"exists, So not regenerating InterProScan dataset"))

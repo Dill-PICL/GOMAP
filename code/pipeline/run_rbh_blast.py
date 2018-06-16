@@ -64,7 +64,6 @@ def get_rbh_annotations(config):
 	ss_config = config["seq-sim"]
 	out_file=tmp_base_dir = config["input"]["workdir"]+config["data"]["seq-sim"]["uniprot"]["tmpdir"]
 	command = ["Rscript", "code/pipeline/_4_run_rbh.r",config["input"]["config_file"]]
-	pprint(command)
 	check_output_and_run(out_file,command)
     # for key in ss_config.keys():
     #     base_dir = os.path.dirname(os.path.dirname(ss_config[key]["fasta"]))

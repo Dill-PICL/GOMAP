@@ -1,37 +1,40 @@
 #!/usr/bin/env python2
 
-import logging, os, re
-import code.utils.basic_utils as basic_utils
+import logging, os, re,sys
+from code.utils.basic_utils import check_output_and_run
+from pprint import pprint
 
 def run_iprs(config):
 	dom_config = config["software"]["domain"]
-	input_config = config["input"]
-	# out_file=dom_config["output"] + input_config["basename"]
-	# input_fa = input_config["filt_fasta"]
-	# cmd = [dom_config["path"]+""+dom_config["bin"],"-goterms","-pa","-i",input_config["filt_fasta"],"-dp","-b",out_file]
-	# check_out=out_file+".tsv"
-	# print(cmd)
-	sys.exit()
-	# basic_utils.check_output_and_run(check_out,cmd)
+	workdir=config["input"]["workdir"]+"/"
+	out_file=workdir + dom_config["tmpdir"] + "/" + config["input"]["basename"]
+	input_fa = workdir + config["input"]["fasta"]
+	cmd = [dom_config["path"]+""+dom_config["bin"],"-goterms","-pa","-i",input_fa,"-dp","-b",out_file] + dom_config["options"]
+	check_out=out_file+".tsv"
+	check_output_and_run(check_out,cmd)
 
 def iprs2gaf(config):
-	dom_config = config["domain"]
+	dom_config = config["software"]["domain"]
 	input_config = config["input"]
-	out_file=dom_config["output"] + input_config["basename"] + ".tsv"
-	#print(out_file)
+	tsv_base=config["input"]["workdir"] + "/" + dom_config["tmpdir"] + "/" + config["input"]["basename"]
+	infile=tsv_base+".tsv"
+	tmpfile=tsv_base+".go.tsv"
+	gaf_dir=config["input"]["workdir"]+"/"+config["gaf"]["raw_dir"]+"/"
+	print(infile)
 
-	tmp_file="temp/"+os.path.basename(out_file)
-	tmp_iprs=open(tmp_file,"w")
-	#print(tmp_file)
+	tmp_iprs=open(tmpfile,"w")
 
-	with open(out_file,"r+") as raw_iprs:
+	with open(infile,"r+") as raw_iprs:
 	    for line in raw_iprs:
 	        if re.search("GO:",line) is not None:
 	            tmp_iprs.write(line)
 	            #print >> tmp_iprs, line
+
 	tmp_iprs.close()
-	out_gaf = "gaf/raw/"+os.path.basename(out_file)
-	out_gaf = re.sub(".tsv","",out_gaf)
-	out_gaf = out_gaf +"."+ config["domain"]["software"] + ".gaf"
-	cmd = ["Rscript","steps/_5_iprs2gaf.r",config["input"]["config_file"]]
-	basic_utils.check_output_and_run(out_gaf,cmd)
+
+	out_gaf = gaf_dir+os.path.basename(infile)
+	out_gaf = re.sub(".tsv","gaf",out_gaf)
+	# out_gaf = out_gaf +"."+ config["domain"]["software"] + ".gaf"
+	print(out_gaf)
+	cmd = ["Rscript","code/pipeline/_5_iprs2gaf.r",config["input"]["config_file"]]
+	check_output_and_run(out_gaf,cmd)
