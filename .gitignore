@@ -16,7 +16,6 @@ input/*
 *pyc
 sync2iplant*
 dir2sync.txt
-requirements.txt
 start_interact.sh
 temp/*
 config.job
