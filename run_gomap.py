@@ -4,7 +4,7 @@
 Importing all the modules necessary for running the pipeline
 pprint is only needed for debugging purposes
 '''
-import  os, re, logging, json, sys, argparse, jsonmerge
+import  os, re, logging, json, sys, argparse, jsonmerge, yaml
 from argparse import RawTextHelpFormatter
 from pprint import pprint
 from code.gomap_preprocess import run_preprocess
@@ -32,8 +32,8 @@ main_args = main_parser.parse_args()
     location. and loads the pipleine configutation
 '''
 
-with open("pipeline.json") as tmp_file:
-    pipe_config = json.load(tmp_file)
+with open("pipeline.yml") as tmp_file:
+    pipe_config = yaml.load(tmp_file)
 
 if main_args.config:
     config_file = main_args.config

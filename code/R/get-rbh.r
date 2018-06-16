@@ -1,6 +1,6 @@
 library("data.table",quietly = T)
 library("parallel",quietly = T)
-blast_cols = fread(config$software$blast$blast_cols,header = F)$V1
+blast_cols = fread(config$software$blast$cols,header = F)$V1
 source("code/R/gaf_tools.r")
 
 if(F){
