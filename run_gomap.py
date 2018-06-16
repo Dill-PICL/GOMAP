@@ -8,6 +8,7 @@ import  os, re, logging, json, sys, argparse, jsonmerge, yaml
 from argparse import RawTextHelpFormatter
 from pprint import pprint
 from code.gomap_preprocess import run_preprocess
+from code.utils.basic_utils import init_dirs, copy_input
 
 from jsonmerge import Merger
 schema = {
@@ -32,7 +33,7 @@ main_args = main_parser.parse_args()
     location. and loads the pipleine configutation
 '''
 
-with open("pipeline.yml") as tmp_file:
+with open("config/pipeline.yml") as tmp_file:
     pipe_config = yaml.load(tmp_file)
 
 if main_args.config:
@@ -42,16 +43,20 @@ if main_args.config:
 
 config = merger.merge(pipe_config, user_config)
 
-conf_out = config["input"]["workdir"]+"/."+config["input"]["basename"]+".all.yml"
+config = init_dirs(config)
+copy_input(config)
+
+conf_out = config["input"]["gomap_dir"]+"/"+config["input"]["basename"]+".all.yml"
 config["input"]["config_file"] = conf_out
 with open(conf_out,"w") as out_f:
-	json.dump(config,out_f,indent=4)
+	yaml.dump(config,out_f)
+
+
 
 logging_config = config["logging"]
-log_file = config["input"]["workdir"] + "/log/" + config["input"]["basename"] + '.log'
-os.makedirs(os.path.dirname(log_file))
+log_file = config["input"]["gomap_dir"] + "/log/" + config["input"]["basename"] + '.log'
 logging.basicConfig(filename=log_file,level=logging_config['level'],filemode='w+',format=logging_config["format"],datefmt=logging_config["formatTime"])
-
+logging.info("Starting to run the pipline for " + config["input"]["basename"])
 '''
 Depending the step selected by the user we are going to run the relevant part of GO-MAP
 '''

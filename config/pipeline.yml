@@ -2,19 +2,20 @@
 data:
   seq-sim:
     TAIR:
-      basename: At.TAIR10
-      basedir: data/data/seq-sim/tair
-      tmpdir: tmp/seq-sim/tair
-      gaf: gaf/At.TAIR10
+      basename:   At.TAIR10
+      basedir:    data/data/seq-sim/tair
+      tmpdir:     tmp/seq-sim/tair
+      gaf:        gaf/At.TAIR10
       metadata:
-        date: ''
-        version: TAIR10
-        species: Arabidopsis
+        date:     ''
+        version:  TAIR10
+        species:  Arabidopsis
     uniprot:
-      basename: Plant.UniProt.hc
-      basedir: data/data/seq-sim/uniprot
-      tmpdir: tmp/seq-sim/uniprot
+      basename:   Plant.UniProt.hc
+      basedir:    data/data/seq-sim/uniprot
+      tmpdir:     tmp/seq-sim/uniprot
       cleaning:
+        #asdsadsadas
         sel_tax:
         - '15368'
         - '29760'
@@ -29,46 +30,48 @@ data:
         omit_tax:
         - '4577'
       metadata:
-        version: '2018-02-26'
-        species: Plants
+        version:  '2018-02-26'
+        species:  Plants
+  domain:
+    tmpdir: tmp/domain/iprs
+    metadata:
+      tool: Interproscan5
+      version: 5.25-64.0
 software:
   blast:
-    bin: data/software/blast-2.6.0+/bin
-    num_threads: 4
-    evalue: 10e-10
+    bin:          data/software/blast-2.6.0+/bin
+    num_threads:  4
+    evalue:       10e-10
     opt_params:
     - "-max_target_seqs"
     - '10'
-    cols: data/data/cols/blast_cols.txt
-  domain:
-    bin: interproscan.sh
-    path: data/software/interproscan-5.25-64.0/
-    software: Interproscan5
-    tmpdir: tmp/domain/iprs
-    options:
-    - "-cpu"
-    - '4'
+    cols:         data/data/cols/blast_cols.txt
+  iprs:
+    path:         data/software/interproscan-5.25-64.0/
     cols: data/data/cols/iprs_cols.txt
+    options:
+      - -cpu 4
 logging:
-  file_name: gomap.log
-  format: "%(levelname)s [%(asctime)s] %(message)s"
-  formatTime: "%Y-%m-%d %H:%M"
-  level: DEBUG
+  file_name:      gomap.log
+  format:         "%(levelname)s [%(asctime)s] %(message)s"
+  formatTime:     "%Y-%m-%d %H:%M"
+  level:          DEBUG
 pipeline:
-  config_file: pipeline.json
-  version: '0.2'
-  name: GO-MAP
-  pipeline_loc: "/opt/GO-MAP"
+  config_file:    pipeline.json
+  version:        '0.2'
+  name:           GO-MAP
+  pipeline_loc:   "/opt/GO-MAP"
+  dir_struct:     "config/dirs.yml"
 input:
-  workdir: "/workdir"
+  workdir:        "/workdir"
 gaf:
-  raw_dir: gaf/raw
-  non_red_dir: gaf/non_red
-  agg_dir: gaf/agg
-  uniq_dir: gaf/uniq
+  raw_dir:        gaf/raw
+  non_red_dir:    gaf/non_red
+  agg_dir:        gaf/agg
+  uniq_dir:       gaf/uniq
 go:
-  gaf_cols: data/data/cols/gaf_cols.txt
-  obo: data/data/go/go.obo
+  gaf_cols:       data/data/cols/gaf_cols.txt
+  obo:            data/data/go/go.obo
   evidence_codes:
     omitted:
     - IEA

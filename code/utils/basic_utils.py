@@ -1,4 +1,7 @@
-import os, re, logging, subprocess, sys
+import os, re, logging, subprocess, sys, yaml,shutil
+from yamldirs import create_files
+from dirsync import sync
+from logging import Logger
 
 def make_dir(file):
     dir_name = os.path.dirname(file)
@@ -24,5 +27,18 @@ def get_files_with_ext(in_dir,extension="fa"):
     [out_files.append(tmp_file) if tmp_file.endswith(extension) else None for tmp_file in all_files]
     return out_files
 
-def get_output_file(config):
-    print(config)
+def init_dirs(config):
+    gomap_dir = config["input"]["workdir"]+"/go-map-"+config["input"]["basename"]
+    config["input"]["gomap_dir"] = gomap_dir
+    if not os.path.exists(gomap_dir):
+        os.makedirs(gomap_dir, mode=0777)
+    with open(config["pipeline"]["dir_struct"]) as tmp_file:
+        dir_struct = tmp_file.read()
+        with create_files(dir_struct) as workdir:
+            sync(workdir,gomap_dir,"update")
+    return(config)
+
+def copy_input(config):
+    src=config["input"]["workdir"]+"/"+config["input"]["fasta"]
+    dest=config["input"]["gomap_dir"]+"/input"
+    shutil.copy(src, dest)

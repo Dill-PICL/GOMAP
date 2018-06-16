@@ -1,0 +1,23 @@
+tmp:
+    seq-sim:
+        - a
+        - uniprot:
+            - a
+        - tair:
+            - a
+    domain:
+        - iprs:
+            - a
+log:
+    - a
+gaf:
+  - raw:
+      - a
+  - non_red:
+      - a
+  - agg:
+      - a
+  - uniq:
+      - a
+input:
+    - a

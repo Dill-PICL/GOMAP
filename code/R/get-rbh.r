@@ -153,7 +153,7 @@ assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,out_gaf_file){
 
 get_blast_out <- function(config1,config2){
     # print(config1)
-    base_name = paste(config1[["workdir"]],config2[["tmpdir"]],sep="/")
+    base_name = paste(config1[["gomap_dir"]],config2[["tmpdir"]],sep="/")
     # out1=paste(base_name, "/blast/", config1[["basename"]], "-", config2[["basename"]], ".bl.out", sep = "")
     out1=dir(base_name,pattern = paste("^",config1["basename"],sep=""),full.names = T)[1]
     # out2=paste(base_name, "/blast/", config2[["basename"]], "-", config1[["basename"]], ".bl.out", sep = "")

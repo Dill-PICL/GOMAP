@@ -10,7 +10,7 @@ outcols='6 qseqid sseqid qlen qstart qend slen sstart send evalue bitscore score
 Make the blast database for the input sequence first
 '''
 def make_input_blastdb(config):
-	input_fa = config["input"]["workdir"]+"/"+config["input"]["fasta"]
+	input_fa = config["input"]["gomap_dir"]+"/input/"+config["input"]["fasta"]
 	make_blastdb(input_fa,config)
 
 '''
@@ -22,8 +22,8 @@ def run_tair_blast(config):
 	tair_fa = pipeline_loc+tair_config["basedir"]+"/"+tair_config["basename"]+".fa"
 	blast_config = config["software"]["blast"]
 	blast_bin = pipeline_loc+blast_config["bin"]+"/blastp"
-	workdir=config["input"]["workdir"]+"/"
-	input_fa = config["input"]["workdir"]+"/"+config["input"]["fasta"]
+	workdir=config["input"]["gomap_dir"]+"/"
+	input_fa = workdir+"/input/"+config["input"]["fasta"]
 	tmp_base_dir = workdir+tair_config["tmpdir"]
 
 	#running main vs other blast.
@@ -45,8 +45,8 @@ def run_uniprot_blast(config):
 	uniprot_fa = pipeline_loc + uniprot_config["basedir"] + "/" + uniprot_config["basename"]+".fa"
 	blast_config = config["software"]["blast"]
 	blast_bin = pipeline_loc+blast_config["bin"]+"/blastp"
-	workdir=config["input"]["workdir"]+"/"
-	input_fa = config["input"]["workdir"]+"/"+config["input"]["fasta"]
+	workdir=config["input"]["gomap_dir"]+"/"
+	input_fa = workdir+"/input/"+config["input"]["fasta"]
 	tmp_base_dir = workdir+uniprot_config["tmpdir"]
 
 	#running main vs other blast.
@@ -62,8 +62,8 @@ def run_uniprot_blast(config):
 def get_rbh_annotations(config):
 	file_exist = True
 	ss_config = config["seq-sim"]
-	out_file=tmp_base_dir = config["input"]["workdir"]+config["data"]["seq-sim"]["uniprot"]["tmpdir"]
-	command = ["Rscript", "code/pipeline/_4_run_rbh.r",config["input"]["config_file"]]
+	out_file= config["input"]["gomap_dir"] + "/" + config["data"]["seq-sim"]["uniprot"]["tmpdir"]+"/test"
+	command = ["Rscript", "code/pipeline/run_rbh.r", config["input"]["config_file"]]
 	check_output_and_run(out_file,command)
     # for key in ss_config.keys():
     #     base_dir = os.path.dirname(os.path.dirname(ss_config[key]["fasta"]))
