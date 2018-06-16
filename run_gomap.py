@@ -38,18 +38,18 @@ with open("pipeline.yml") as tmp_file:
 if main_args.config:
     config_file = main_args.config
     with open(config_file) as tmp_file:
-        user_config = json.load(tmp_file)
+        user_config = yaml.load(tmp_file)
 
 config = merger.merge(pipe_config, user_config)
-config["input"]["config_file"] = main_args.config
 
-conf_out = config["input"]["workdir"]+"/"+config["input"]["basename"]+".json"
+conf_out = config["input"]["workdir"]+"/."+config["input"]["basename"]+".all.yml"
 config["input"]["config_file"] = conf_out
 with open(conf_out,"w") as out_f:
 	json.dump(config,out_f,indent=4)
 
 logging_config = config["logging"]
-log_file = config["input"]["workdir"] + "/" + config["input"]["basename"] + '.log'
+log_file = config["input"]["workdir"] + "/log/" + config["input"]["basename"] + '.log'
+os.makedirs(os.path.dirname(log_file))
 logging.basicConfig(filename=log_file,level=logging_config['level'],filemode='w+',format=logging_config["format"],datefmt=logging_config["formatTime"])
 
 '''

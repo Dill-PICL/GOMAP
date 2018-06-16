@@ -1,12 +1,13 @@
 #Loading Necessary libraries and packages
 library("jsonlite",quietly = T)
+library("yaml",quietly = T)
 
 args <- commandArgs(T)
 
 config_file <- args[1]
 
 #Reading config file and creating config object
-config = fromJSON(config_file)
+config = read_yaml(config_file)
 if(F){
     config = fromJSON("maize.W22.AGPv2.json")
 }

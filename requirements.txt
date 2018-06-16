@@ -17,3 +17,4 @@ PyYAML==3.12
 SecretStorage==2.3.1
 six==1.11.0
 virtualenv==15.1.0
+yamldirs==1.1.3
