@@ -3,7 +3,7 @@ source("code/R/obo_tools.r")
 source("code/R/gaf_tools.r")
 
 
-iprs_cols = fread(config[["software"]][["domain"]][["cols"]],header = F)$V1
+iprs_cols = fread(config[["software"]][["iprs"]][["cols"]],header = F)$V1
 
 iprs2gaf <- function(go_obo,iprs_out,gaf_file){
     

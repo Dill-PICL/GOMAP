@@ -1,14 +1,15 @@
 import logging, os, re, json, sys
-import code.basic_utils as basic_utils
-import code.split_fa as split_fa
+from code.utils.basic_utils import check_output_and_run
+from code.utils.split_fa import split_fasta
 import pprint as pp
 from distutils.version import StrictVersion
 
 def process_fasta(config):
-    fa_file=config["input"]["filt_fasta"]
-    split_dir=config["mixed-meth"]["preprocess"]["fa_path"]
-    num_seqs=config["mixed-meth"]["preprocess"]["num_seqs"]
-    split_fa.split_fasta(fa_file,split_dir,num_seqs)
+    workdir=config["input"]["gomap_dir"]+"/"
+    fa_file=workdir + "input/" + config["input"]["fasta"]
+    split_dir=workdir + config["data"]["mixed-meth"]["preprocess"]["fa_path"]
+    num_seqs=config["data"]["mixed-meth"]["preprocess"]["num_seqs"]
+    split_fasta(fa_file,split_dir,num_seqs)
 
 def make_uniprotdb(config):
     uniprot_fa = config["mixed-meth"]["preprocess"]["uniprot_db"]+".fa"
@@ -24,8 +25,10 @@ def make_uniprotdb(config):
     makedb_cmd= ["makeblastdb", "-in", uniprot_fa, "-dbtype", "prot", "-out", uniprot_db, "-parse_seqids", "-hash_index","-max_file_sz","10GB"]
     if 1 in db_exist:
         logging.warn("The Uniprot blast database already exists, if not remove the database files to recreate the database")
+        logging.info(makedb_cmd)
     else:
         basic_utils.check_output_and_run("temp/uniprotdb",makedb_cmd)
+
 def make_tmp_fa(config):
     fa_path=config["mixed-meth"]["preprocess"]["fa_path"]
     tmp_bl_dir=config["mixed-meth"]["preprocess"]["tmp_bl_dir"]

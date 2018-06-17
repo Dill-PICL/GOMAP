@@ -21,7 +21,7 @@ def run_preprocess(config):
 	run_tair_blast(config)
 	run_uniprot_blast(config)
 	get_rbh_annotations(config)
-	
+
 
 	'''
 	Step 5 is to run interproscan5 against the clean input protein sequences
@@ -29,14 +29,15 @@ def run_preprocess(config):
 	logging.info("Running domain annotations using IPRS")
 	from code.pipeline.run_iprs import run_iprs,iprs2gaf
 	run_iprs(config)
+	iprs2gaf(config)
 
-	sys.exit()
 
 	'''
 	Step 6 is to run components of preprocessing pipeline to create input data for the mixed method pipelines
 	'''
-	import steps._6_run_preprocess as run_preprocess
-	run_preprocess.process_fasta(config)
+	from code.pipeline.run_mm_preproc import process_fasta
+	process_fasta(config)
+	sys.exit()
 	run_preprocess.make_uniprotdb(config)
 	run_preprocess.make_tmp_fa(config)
 	run_preprocess.run_uniprot_blast(config)

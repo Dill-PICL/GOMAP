@@ -1,11 +1,12 @@
 library("jsonlite",quietly = T)
+library("yaml",quietly = T)
 
 #Reading config file name
 args <- commandArgs(T)
 config_file <- args[1]
 
 #Reading config file and creating config object
-config = fromJSON(config_file)
+config = read_yaml(config_file)
 
 source("code/R/iprs2gaf.r")
 source("code/R/logger.r")
@@ -20,9 +21,12 @@ raw_dir=paste(config$gaf$raw_dir,"/",sep="")
 #    setwd(config$input$work_dir)
 #}
 
-go_obo = config$go$obo
-iprs_out = paste("temp/",paste(config$input$species,config$input$inbred,config$input$version,"tsv",sep="."),sep = "")
-out_gaf = paste(raw_dir,gsub(".tsv","",basename(iprs_out)),".",config$software$domain$software,".gaf",sep = "")
+go_obo = config[["data"]][["go"]][["obo"]]
+workdir=paste(config[["input"]][["gomap_dir"]],"/",sep="")
+
+iprs_out=paste(workdir,config[["data"]][["domain"]][["tmpdir"]], "/", config[["input"]][["basename"]],".go.tsv",sep="")
+
+out_gaf = paste(workdir,raw_dir,gsub("go.tsv","",basename(iprs_out)),config$data$domain$tool$name,".gaf",sep = "")
 
 if(file.exists(out_gaf)){
     flog.warn(paste("The",out_gaf,"exists, So not regenerating InterProScan dataset"))

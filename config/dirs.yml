@@ -8,6 +8,10 @@ tmp:
     domain:
         - iprs:
             - a
+    mixed-meth:
+        - preprocess:
+            - fa:
+                - a
 log:
     - a
 gaf:
