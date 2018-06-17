@@ -16,7 +16,7 @@ def make_uniprotdb(config):
     uniprot_db = config["mixed-meth"]["preprocess"]["uniprot_db"]
     uniprot_db_dir = os.path.dirname(uniprot_db)
 
-    db_dir = os.path.dirname(uniprot_db)
+    db_dir = os.path.dirname(uniprot_db)   
     files = os.listdir("mixed-meth/data/blastdb/")
     db_pattern = os.path.basename(uniprot_db)
     db_pattern = re.compile(db_pattern+".*phd")
@@ -30,8 +30,10 @@ def make_uniprotdb(config):
         basic_utils.check_output_and_run("temp/uniprotdb",makedb_cmd)
 
 def make_tmp_fa(config):
-    fa_path=config["mixed-meth"]["preprocess"]["fa_path"]
-    tmp_bl_dir=config["mixed-meth"]["preprocess"]["tmp_bl_dir"]
+    fa_path=config["data"]["mixed-meth"]["preprocess"]["fa_path"]
+    tmp_bl_dir=config["data"]["mixed-meth"]["preprocess"]["blast_out"]+"/temp"
+	print(fa_path,tmp_bl_dir)
+	sys.exit()
     if not os.path.isdir(tmp_bl_dir):
         os.mkdir(tmp_bl_dir)
     all_files  = os.listdir(fa_path)
@@ -44,7 +46,7 @@ def make_tmp_fa(config):
         fa_tmp_dir=os.path.join(tmp_bl_dir,fa_file)
         if not os.path.isdir(fa_tmp_dir):
             os.mkdir(fa_tmp_dir)
-        split_fa.split_fasta(fa_file_loc,fa_tmp_dir,100)
+        split_fasta(fa_file_loc,fa_tmp_dir,10)
 
 def run_uniprot_blast(config):
     fa_path = config["mixed-meth"]["preprocess"]["tmp_bl_dir"]

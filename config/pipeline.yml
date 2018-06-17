@@ -44,12 +44,13 @@ data:
         blast_out: tmp/mixed-meth/preprocess/blast
         uniprot_db: mixed-meth/data/blastdb/uniprot_2017_07.sel
         fa_path: tmp/mixed-meth/preprocess/fa
+        tmp_bl_dir: tmp/mixed-meth/preprocess/blast/bl
   go:
     gaf_cols:       data/data/cols/gaf_cols.txt
     obo:            data/data/go/go.obo
     evidence_codes:
       omitted:
-      - IEA
+      - IEA  
       - ND
       - NAS
 

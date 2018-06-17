@@ -9,8 +9,9 @@ def run_iprs(config):
 	iprs_config = config["software"]["iprs"]
 	workdir=config["input"]["gomap_dir"]+"/"
 	out_file= workdir + dom_config["tmpdir"] + "/" + config["input"]["basename"]
+	temp_dir= workdir + dom_config["tmpdir"] + "/temp"
 	input_fa = workdir + "input/" + config["input"]["fasta"]
-	cmd = [iprs_config["path"]+"/interproscan.sh","-goterms","-pa","-i",input_fa,"-dp","-b",out_file] + iprs_config["options"]
+	cmd = [iprs_config["path"]+"/interproscan.sh","-goterms","-pa","-i",input_fa,"-dp","-b",out_file, "-T",temp_dir] + iprs_config["options"]
 	check_out=out_file+".tsv"
 	check_output_and_run(check_out,cmd)
 
