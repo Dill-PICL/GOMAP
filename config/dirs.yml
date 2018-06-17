@@ -12,6 +12,12 @@ tmp:
         - preprocess:
             - fa:
                 - a
+            - blast:
+                - temp:
+                    # - fa:
+                    #     - a
+                    # - blast:
+                    #     - a
 log:
     - a
 gaf:

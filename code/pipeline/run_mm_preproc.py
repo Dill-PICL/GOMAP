@@ -1,7 +1,8 @@
 import logging, os, re, json, sys
 from code.utils.basic_utils import check_output_and_run
 from code.utils.split_fa import split_fasta
-import pprint as pp
+from glob import glob
+from pprint import pprint
 from distutils.version import StrictVersion
 
 def process_fasta(config):
@@ -30,40 +31,23 @@ def make_uniprotdb(config):
         basic_utils.check_output_and_run("temp/uniprotdb",makedb_cmd)
 
 def make_tmp_fa(config):
-    fa_path=config["data"]["mixed-meth"]["preprocess"]["fa_path"]
-    tmp_bl_dir=config["data"]["mixed-meth"]["preprocess"]["blast_out"]+"/temp"
-	print(fa_path,tmp_bl_dir)
-	sys.exit()
-    if not os.path.isdir(tmp_bl_dir):
-        os.mkdir(tmp_bl_dir)
-    all_files  = os.listdir(fa_path)
-    fa_files = []
-    [fa_files.append(tmp_file) if tmp_file.endswith("fa") and tmp_file.startswith(config['input']['basename']) else None for tmp_file in all_files]
+    workdir=config["input"]["gomap_dir"]+"/"
+    fa_path=workdir + config["data"]["mixed-meth"]["preprocess"]["fa_path"]
+    tmp_fa_dir=workdir + config["data"]["mixed-meth"]["preprocess"]["blast_out"]+"/temp/"
+    fa_pattern=fa_path+"/"+config["input"]["basename"]+"*.fa"
+    fa_files = glob(fa_pattern)
+    
     for fa_file in fa_files:
-        #print fa_file
-        fa_file_loc = os.path.join(fa_path,fa_file)
-        #print fa_file_loc
-        fa_tmp_dir=os.path.join(tmp_bl_dir,fa_file)
-        if not os.path.isdir(fa_tmp_dir):
-            os.mkdir(fa_tmp_dir)
-        split_fasta(fa_file_loc,fa_tmp_dir,10)
+        split_fasta(fa_file,tmp_fa_dir,10)
 
 def run_uniprot_blast(config):
-    fa_path = config["mixed-meth"]["preprocess"]["tmp_bl_dir"]
-    all_files  = []
-    for root, dirs, files in os.walk(fa_path, topdown=False):
-        for name in files:
-            all_files.append(os.path.join(root,name))
-
-    fa_files = []
-    [fa_files.append(tmp_file) if tmp_file.endswith("fa") and os.path.basename(tmp_file).startswith(config['input']['basename']) else None for tmp_file in all_files]
-    fa_files.sort(key=lambda s:map(int, s.split('.')[7:9]))
-    #pp.pprint(fa_files)
-
-    blast_config=config["blast"]
-    uniprot_db=config["mixed-meth"]["preprocess"]["uniprot_db"]
-    out_dir=config["mixed-meth"]["preprocess"]["blast_out"]
-
+    workdir=config["input"]["gomap_dir"]+"/"
+    tmp_fa_dir=workdir + config["data"]["mixed-meth"]["preprocess"]["blast_out"]+"/temp"
+    fa_pattern=tmp_fa_dir+"/"+config["input"]["basename"]+"*.fa"
+    fa_files = sorted(glob(fa_pattern))
+    blast_config=config["software"]["blast"]
+    uniprot_db=config["data"]["mixed-meth"]["preprocess"]["uniprot_db"]
+        
     for fa_file in fa_files:
         in_file=fa_file
         out_file=re.sub(r'fa$',"bl.out",fa_file)
@@ -72,7 +56,9 @@ def run_uniprot_blast(config):
         else:
             print(out_file)
             blast_cmd = [blast_config["bin"]+"/blastp","-outfmt","11", "-db",uniprot_db,"-query",in_file,"-out",out_file,"-num_threads",str(blast_config["num_threads"])]
-            basic_utils.check_output_and_run(out_file,blast_cmd)
+            check_output_and_run(out_file,blast_cmd)
+            logging.info("BLASTP run completed and "+out_file+" created")
+            sys.exit()
 
 def compile_blast_out(config):
         fa_path = config["mixed-meth"]["preprocess"]["tmp_bl_dir"]

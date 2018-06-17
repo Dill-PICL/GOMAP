@@ -42,9 +42,8 @@ data:
         hmmerdb:    mixed-meth/data/pfamdb/Pfam-A.hmm
         num_seqs: '10000'
         blast_out: tmp/mixed-meth/preprocess/blast
-        uniprot_db: mixed-meth/data/blastdb/uniprot_2017_07.sel
+        uniprot_db: data/data/mixed-meth/uniprot/uniprot_2017_07.sel
         fa_path: tmp/mixed-meth/preprocess/fa
-        tmp_bl_dir: tmp/mixed-meth/preprocess/blast/bl
   go:
     gaf_cols:       data/data/cols/gaf_cols.txt
     obo:            data/data/go/go.obo
@@ -57,7 +56,7 @@ data:
 software:
   blast:
     bin:            data/software/blast-2.6.0+/bin
-    num_threads:    4
+    num_threads:    6
     evalue:         10e-10
     opt_params:
     - "-max_target_seqs"

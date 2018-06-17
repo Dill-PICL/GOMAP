@@ -17,6 +17,7 @@ def check_output_and_run(outfile,command,stdin_file=None,stdout_file=None):
         if stdout_file is not None:
             stdout_file = open(stdout_file,"w")
         subprocess.check_call(command,stdin=stdin_file,stdout=stdout_file)
+        logging.info("Step completed")
     else:
         logging.warn("The "+outfile+" exists so not running the command\n\""+" ".join(command)+"\"")
         logging.warn("Delete existing output file(s) to rerun the previous command")

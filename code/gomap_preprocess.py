@@ -33,12 +33,12 @@ def run_preprocess(config):
 	'''
 	Step 6 is to run components of preprocessing pipeline to create input data for the mixed method pipelines
 	'''
-	from code.pipeline.run_mm_preproc import process_fasta,make_tmp_fa
+	from code.pipeline.run_mm_preproc import process_fasta,make_tmp_fa, run_uniprot_blast
 	process_fasta(config)
 	make_tmp_fa(config)
-	sys.exit()
 	#run_preprocess.make_uniprotdb(config)
-	run_preprocess.run_uniprot_blast(config)
+	run_uniprot_blast(config)
+	sys.exit()
 	logging.info("All the blast commands have been run and temporary files have been generated")
 	run_preprocess.compile_blast_out(config)
 
