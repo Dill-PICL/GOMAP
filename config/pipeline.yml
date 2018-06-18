@@ -15,7 +15,6 @@ data:
       basedir:      data/data/seq-sim/uniprot
       tmpdir:       tmp/seq-sim/uniprot
       cleaning:
-        #asdsadsadas
         sel_tax:
         - '15368'
         - '29760'
@@ -39,16 +38,30 @@ data:
         version:    5.25-64.0
   mixed-method:
       preprocess:
-        hmmerdb:    mixed-meth/data/pfamdb/Pfam-A.hmm
-        num_seqs: '20'
+        hmmerdb:    data/data/mixed-meth/pfamdb/Pfam-A.hmm
+        num_seqs: '40'
         blast_out: tmp/mixed-meth/preprocess/blast
         uniprot_db: data/data/mixed-meth/uniprot/test
         fa_path: tmp/mixed-meth/preprocess/fa
-        blast_opts: ["-max_target_seqs", "1","-word_size","6","-evalue","10e-10"]
+        blast_opts: ["-evalue","10e-10"]
       argot2:
         preprocess:
           blast: tmp/mixed-meth/argot2.5/blast
           hmmer: tmp/mixed-meth/argot2.5/hmmer
+        result_dir: mixed-meth/argot2.5/results
+        score_th:
+          P: 0.15
+          C: 0.05
+          F: 0.15
+      pannzer:
+        preprocess:
+          blast: tmp/mixed-meth/pannzer/blast
+        conf_dir: tmp/mixed-meth/pannzer/conf
+        result_dir: tmp/mixed-meth/pannzer/results
+        score_th:
+          P: 0.4
+          C: 0.2
+          F: 0.55
           
   go:
     gaf_cols:       data/data/cols/gaf_cols.txt
@@ -62,11 +75,9 @@ data:
 software:
   blast:
     bin:            data/software/blast-2.6.0+/bin
-    num_threads:    6
+    num_threads:    4
     evalue:         10e-10
-    opt_params:
-    - "-max_target_seqs"
-    - '10'
+    opt_params: ["-max_target_seqs", '10']
     cols:           data/data/cols/blast_cols.txt
   iprs:
     path:           data/software/interproscan-5.25-64.0
@@ -74,8 +85,18 @@ software:
     options:
       - -cpu 4
   hmmer:
-    path:           software/hmmer-3.1b2-linux-intel-x86_64/binaries
-    cpu:            16
+    path:           data/software/hmmer-3.1b2-linux-intel-x86_64/binaries
+    cpu:            4
+  pannzer:
+    database:
+      SQL_DB: pannzer
+      SQL_DB_PASSWORD: ""
+      SQL_DB_USER: pannzer
+      SQL_DB_HOST: localhost
+      SQL_DB_PORT: ""
+    path: data/software/PANNZER
+    conf_template: template.conf
+    
 logging:
   file_name:        gomap.log
   format:           "%(levelname)s [%(asctime)s] %(message)s"

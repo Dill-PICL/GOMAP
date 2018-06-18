@@ -36,6 +36,7 @@ main_args = main_parser.parse_args()
 with open("config/pipeline.yml") as tmp_file:
     pipe_config = yaml.load(tmp_file)
 
+
 if main_args.config:
     config_file = main_args.config
     with open(config_file) as tmp_file:

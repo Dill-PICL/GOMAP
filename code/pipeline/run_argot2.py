@@ -4,6 +4,7 @@ import code.utils.split_fa as split_fa
 from pprint import pprint
 from lxml import etree
 from glob import glob
+import zipfile
 
 def convert_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"
@@ -17,45 +18,30 @@ def convert_blast(config):
 
     for blast_xml in blast_xml_files:
         argot_out=argot_tsv_dir+"/"+re.sub(r'.xml$',".tsv",os.path.basename(blast_xml))
-        print(argot_out)        
         bl_tree = etree.parse(blast_xml)
         result_txt = transform(bl_tree)
-        result_txt.write_output(argot_out)        
-            # argot_out.write(result_txt)
-
-    # all_bl_files = basic_utils.get_files_with_ext(archive_dir,".bl.out")
-    # bl_files = []
-    # [bl_files.append(tmp_file) if tmp_file.startswith(config['input']['basename']) else None for tmp_file in all_bl_files]
-    # blast_config = config["blast"]
-    # argot_blast=config["mixed-meth"]["Argot"]["preprocess"]["blast_files"]
-    # outfmt="6 qseqid sseqid evalue"
-    # for bl_file in bl_files:
-    #     in_file = archive_dir + "/" + bl_file
-    #     out_file = argot_blast + "/" + bl_file.replace("out","tsv")
-    #     cmd = [blast_config["bin"]+"/"+"blast_formatter","-archive", in_file ,"-out",out_file, "-outfmt", outfmt]
-    #     # print(cmd)
-    #     basic_utils.check_output_and_run(out_file,cmd)
-    #     zip_file = out_file+".zip"
-    #     basic_utils.check_output_and_run(zip_file,["zip","-9",zip_file,out_file])
-
+        result_txt.write_output(argot_out)
+        zipfile_loc=argot_out+'.zip'
+        if os.path.isfile(zipfile_loc):
+            logging.info(zipfile_loc +" already exists. Please delete if you need this recreated")
+        else:
+            zf = zipfile.ZipFile(zipfile_loc, mode='w')
+            zf.write(argot_out)
+        
 def run_hmmer(config):
     workdir = config["input"]["gomap_dir"] + "/"
-    fa_dir = workdir+config["data"]["mixed-method"]["preprocess"]["fa_path"]
-    print(fa_dir)
-    sys.exit()
-    all_fa_files = basic_utils.get_files_with_ext(fa_dir,".fa")
-    fa_files = []
-    [fa_files.append(tmp_file) if tmp_file.startswith(config['input']['basename']) else None for tmp_file in all_fa_files]
-    hmmer_bin = config["hmmer"]["path"]+"/hmmscan"
-    seqdb = config["hmmer"]["seqdb"]
-    cpu = str(config["hmmer"]["cpu"])
-    tmp_file="temp/hmmer.out"
-    for fa_file in fa_files:
-        infile = fa_dir + "/" + fa_file
-        outfile = config["mixed-meth"]["Argot"]["preprocess"]["hmmer_files"] + "/" + re.sub("\.fa",".hmm.out",fa_file)
-        cmd = [hmmer_bin,"-o",tmp_file,"--tblout",outfile,"--cpu",cpu,seqdb,infile]
-        basic_utils.check_output_and_run(outfile,cmd)
+    fa_dir = workdir+config["data"]["mixed-method"]["preprocess"]["fa_path"]    
+    fa_files = glob(fa_dir+"/*fa")
+    hmmer_bin = config["software"]["hmmer"]["path"]+"/hmmscan"
+    hmmerdb=config["data"]["mixed-method"]["preprocess"]["hmmerdb"]
+    cpu = str(config["software"]["hmmer"]["cpu"])
+    tmp_file=workdir+"hmmscan.tmp"
+        
+    for infile in fa_files:
+        outfile = workdir+config["data"]["mixed-method"]["argot2"]["preprocess"]["hmmer"] + "/" + re.sub("\.fa",".hmm.out",os.path.basename(infile))
+        cmd = [hmmer_bin,"-o",tmp_file,"--tblout",outfile,"--cpu",cpu,hmmerdb,infile]
         zipfile = outfile+".zip"
-        basic_utils.check_output_and_run(zipfile,["zip","-9",zipfile,outfile])
+        check_output_and_run(zipfile,cmd)
+        check_output_and_run(zipfile,["zip","-9",zipfile,outfile])
         if os.path.isfile(tmp_file):
             os.remove(tmp_file)

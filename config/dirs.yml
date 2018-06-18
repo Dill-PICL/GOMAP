@@ -21,6 +21,13 @@ tmp:
         - argot2.5:
             - blast:
                 - a
+        - pannzer:
+            - blast:
+                - a
+            - results:
+                - a
+            - conf:
+                - a
 log:
     - a
 gaf:

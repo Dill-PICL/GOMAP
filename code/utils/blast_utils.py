@@ -57,8 +57,15 @@ def combine_blast_xml(in_files,out_file):
             tmp_tree = ET.parse(in_file)
             tmp_root = tmp_tree.getroot()
             for elem in tmp_root.findall("./BlastOutput_iterations/Iteration"):
+                hits = elem.findall("Iteration_hits/Hit")
+                for hit in hits:
+                    hit_id=hit.find("Hit_id")
+                    hit_def=hit.find("Hit_def")
+                    hit_def.text = hit_id.text + " " + hit_def.text
                 out_f.write(ET.tostring(elem))
         out_f.write('</BlastOutput_iterations>\n')
         out_f.write('</BlastOutput>')
+        out_f.close()
+    # os.remove(out_file)
 
     

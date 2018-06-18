@@ -39,23 +39,21 @@ def run_preprocess(config):
 	run_uniprot_blast(config)
 	logging.info("All the blast commands have been run and temporary files have been generated")
 	compile_blast_out(config)
-	
 
 	'''
 	Step 7 is to run the preprocessing steps for Argot2.5
 	'''
 	from code.pipeline.run_argot2 import convert_blast,run_hmmer
 	convert_blast(config)
-	print("Running Hmmer")	
-	run_hmmer(config)
-	sys.exit()
+	run_hmmer(config)	
 
 	'''
 	Step 8 is to run the mixed-method pipeline PANNZER
 	'''
-	import code.pipeline._8_run_pannzer as run_pannzer
-	run_pannzer.convert_blast(config)
-	run_pannzer.run_pannzer(config)
+	from code.pipeline.run_pannzer import copy_blast, run_pannzer
+	copy_blast(config)
+	run_pannzer(config)
+	sys.exit()
 
 	'''
 	Step 9 is to run FANN-GO tools and get predictions
