@@ -18,6 +18,9 @@ tmp:
                     #     - a
                     # - blast:
                     #     - a
+        - argot2.5:
+            - blast:
+                - a
 log:
     - a
 gaf:

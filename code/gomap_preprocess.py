@@ -3,7 +3,7 @@
 Importing all the modules necessary for running the pipeline
 pprint is only needed for debugging purposes
 '''
-import  os, re, logging, json, sys, argparse, jsonmerge
+import  logging, sys
 from pprint import pprint
 
 def run_preprocess(config):
@@ -33,33 +33,34 @@ def run_preprocess(config):
 	'''
 	Step 6 is to run components of preprocessing pipeline to create input data for the mixed method pipelines
 	'''
-	from code.pipeline.run_mm_preproc import process_fasta,make_tmp_fa, run_uniprot_blast
+	from code.pipeline.run_mm_preproc import process_fasta,make_tmp_fa, run_uniprot_blast, compile_blast_out
 	process_fasta(config)
 	make_tmp_fa(config)
-	#run_preprocess.make_uniprotdb(config)
 	run_uniprot_blast(config)
-	sys.exit()
 	logging.info("All the blast commands have been run and temporary files have been generated")
-	run_preprocess.compile_blast_out(config)
+	compile_blast_out(config)
+	
 
 	'''
 	Step 7 is to run the preprocessing steps for Argot2.5
 	'''
-	import steps._7_run_argot2 as run_argot
-	run_argot.convert_blast(config)
-	run_argot.run_hmmer(config)
+	from code.pipeline.run_argot2 import convert_blast,run_hmmer
+	convert_blast(config)
+	print("Running Hmmer")	
+	run_hmmer(config)
+	sys.exit()
 
 	'''
 	Step 8 is to run the mixed-method pipeline PANNZER
 	'''
-	import steps._8_run_pannzer as run_pannzer
+	import code.pipeline._8_run_pannzer as run_pannzer
 	run_pannzer.convert_blast(config)
 	run_pannzer.run_pannzer(config)
 
 	'''
 	Step 9 is to run FANN-GO tools and get predictions
 	'''
-	import steps._9_run_fanngo as run_fanngo
+	import code.pipeline._9_run_fanngo as run_fanngo
 	run_fanngo.run_fanngo(config)
 
 	logging.info("First part of GAMER pipeline has been completed")

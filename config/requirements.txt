@@ -1,6 +1,7 @@
 asn1crypto==0.24.0
 biopython==1.71
 cryptography==2.1.4
+dirsync==2.2.3
 enum34==1.1.6
 functools32==3.2.3.post2
 idna==2.6
@@ -9,6 +10,7 @@ jsonmerge==1.5.1
 jsonschema==2.6.0
 keyring==10.6.0
 keyrings.alt==3.0
+lxml==4.2.1
 numpy==1.14.5
 pycrypto==2.6.1
 pygobject==3.26.1

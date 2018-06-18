@@ -37,13 +37,19 @@ data:
     tool:
         name:       Interproscan5
         version:    5.25-64.0
-  mixed-meth:
+  mixed-method:
       preprocess:
         hmmerdb:    mixed-meth/data/pfamdb/Pfam-A.hmm
-        num_seqs: '10000'
+        num_seqs: '20'
         blast_out: tmp/mixed-meth/preprocess/blast
-        uniprot_db: data/data/mixed-meth/uniprot/uniprot_2017_07.sel
+        uniprot_db: data/data/mixed-meth/uniprot/test
         fa_path: tmp/mixed-meth/preprocess/fa
+        blast_opts: ["-max_target_seqs", "1","-word_size","6","-evalue","10e-10"]
+      argot2:
+        preprocess:
+          blast: tmp/mixed-meth/argot2.5/blast
+          hmmer: tmp/mixed-meth/argot2.5/hmmer
+          
   go:
     gaf_cols:       data/data/cols/gaf_cols.txt
     obo:            data/data/go/go.obo
