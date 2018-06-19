@@ -25,8 +25,8 @@ merger = Merger(schema)
     Parsing the input config file that will be supplied by te user.
 '''
 main_parser = argparse.ArgumentParser(description='Welcome to running the GO-MAP pipeline',formatter_class=RawTextHelpFormatter)
-main_parser.add_argument('--config',help="The config file in json format. \nPlease see config.json for an example. \nIf a config file is not provided then the default parameters will be used.",default="/workdir/config.yml")
-main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['preprocess','annotate'],default="preprocess")
+main_parser.add_argument('--config',help="The config file in yml format. \nPlease see config.json for an example. \nIf a config file is not provided then the default parameters will be used.",default="/workdir/config.yml")
+main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['preprocess','annotate'],default="preprocess",required=True)
 main_args = main_parser.parse_args()
 
 '''
@@ -58,7 +58,7 @@ with open(conf_out,"w") as out_f:
 
 logging_config = config["logging"]
 log_file = config["input"]["gomap_dir"] + "/log/" + config["input"]["basename"] + '.log'
-logging.basicConfig(filename=log_file,level=logging_config['level'],filemode='w+',format=logging_config["format"],datefmt=logging_config["formatTime"])
+logging.basicConfig(filename=log_file,level=logging_config['level'],filemode='a+',format=logging_config["format"],datefmt=logging_config["formatTime"])
 logging.info("Starting to run the pipline for " + config["input"]["basename"])
 '''
 Depending the step selected by the user we are going to run the relevant part of GO-MAP

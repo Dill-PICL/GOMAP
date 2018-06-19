@@ -41,14 +41,14 @@ data:
         hmmerdb:    data/data/mixed-meth/pfamdb/Pfam-A.hmm
         num_seqs: '40'
         blast_out: tmp/mixed-meth/preprocess/blast
-        uniprot_db: data/data/mixed-meth/uniprot/test
+        uniprot_db: data/data/mixed-meth/uniprot/uniprot_2017_07.sel
         fa_path: tmp/mixed-meth/preprocess/fa
         blast_opts: ["-evalue","10e-10"]
       argot2:
         preprocess:
           blast: tmp/mixed-meth/argot2.5/blast
           hmmer: tmp/mixed-meth/argot2.5/hmmer
-        result_dir: mixed-meth/argot2.5/results
+        result_dir: tmp/mixed-meth/argot2.5/results
         score_th:
           P: 0.15
           C: 0.05
@@ -115,3 +115,4 @@ gaf:
   non_red_dir:      gaf/non_red
   agg_dir:          gaf/agg
   uniq_dir:         gaf/uniq
+  mixed_method_dir: gaf/mixed-method

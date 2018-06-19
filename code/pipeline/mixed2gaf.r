@@ -1,11 +1,5 @@
 library("jsonlite",quietly = T)
-
-source("code/gaf_tools.r")
-source("code/obo_tools.r")
-source("code/argot2gaf.r")
-source("code/pannzer2gaf.r")
-source("code/fanngo2gaf.r")
-source("code/logger.r")
+library("yaml",quietly = T)
 
 #Reading config file name
 args <- commandArgs(T)
@@ -16,7 +10,14 @@ if(F){
 }
 
 #Reading config file and creating config object
-config = fromJSON(config_file)
+config = read_yaml(config_file)
+
+source("code/R/gaf_tools.r")
+source("code/R/obo_tools.r")
+source("code/R/argot2gaf.r")
+source("code/R/pannzer2gaf.r")
+source("code/R/fanngo2gaf.r")
+source("code/R/logger.r")
 
 #set the logfile and initiate the logger
 set_logger(config)
@@ -24,12 +25,20 @@ set_logger(config)
 #setting the correct working directory
 #setwd(config$input$work_dir)
 
-gaf_dir = paste(config$`mixed-meth`$gaf,"/",sep="")
+
+gaf_dir = paste(config$input$gomap_dir,"/",config$gaf[["mixed_method_dir"]],"/",sep="")
+print("===========================")
+print(gaf_dir)
+
 species <- config$input$basename
 
 #processing argot2.5 results
-all_argot2_results = dir(config$`mixed-meth`$Argot$result_dir,full.names = T)
+argot_result_dir = config[["data"]][["mixed-method"]][["argot2"]][["result_dir"]]
+all_argot2_results = dir(argot_result_dir,full.names = T)
 argot2_results = all_argot2_results[grep(species,all_argot2_results)]
+print(argot2_results)
+print("===========================")
+stop()
 argot2_gaf=paste(gaf_dir,paste(species,"argot2.5","gaf",sep="."),sep = "")
 if(!file.exists(argot2_gaf)){
     filter_argot2(in_file=argot2_results,out_file=argot2_gaf,config=config)

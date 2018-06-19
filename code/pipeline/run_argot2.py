@@ -1,4 +1,4 @@
-import logging, os, re, sys
+import logging, os, re, sys,shutil
 from code.utils.basic_utils import check_output_and_run
 import code.utils.split_fa as split_fa
 from pprint import pprint
@@ -45,3 +45,19 @@ def run_hmmer(config):
         check_output_and_run(zipfile,["zip","-9",zipfile,outfile])
         if os.path.isfile(tmp_file):
             os.remove(tmp_file)
+
+def process_argot2(config):
+    workdir = config["input"]["gomap_dir"] + "/"
+    result_dir = workdir + config["data"]["mixed-method"]["argot2"]["result_dir"]
+    zipfiles=glob(result_dir+"/*zip")
+    print(zipfiles)
+    for result_zip in zipfiles:
+        outfile=re.sub(r".zip",".tsv",result_zip)
+        if not os.path.isfile(outfile):
+            logging.info("Unzipping " + os.path.basename(result_zip))
+            archive = zipfile.ZipFile(result_zip)
+            pprint(archive.namelist())
+            result_file="argot_results_ts0.tsv"            
+            archive.extract(result_file,".")
+            shutil.move(result_file, outfile)
+        
