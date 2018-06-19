@@ -8,6 +8,7 @@ import  os, re, logging, json, sys, argparse, jsonmerge, yaml
 from argparse import RawTextHelpFormatter
 from pprint import pprint
 from code.gomap_preprocess import run_preprocess
+from code.gomap_annotate import annotate
 from code.utils.basic_utils import init_dirs, copy_input
 
 from jsonmerge import Merger
@@ -24,7 +25,7 @@ merger = Merger(schema)
     Parsing the input config file that will be supplied by te user.
 '''
 main_parser = argparse.ArgumentParser(description='Welcome to running the GO-MAP pipeline',formatter_class=RawTextHelpFormatter)
-main_parser.add_argument('--config',help="The config file in json format. \nPlease see config.json for an example. \nIf a config file is not provided then the default parameters will be used.",default="/workdir/config.json")
+main_parser.add_argument('--config',help="The config file in json format. \nPlease see config.json for an example. \nIf a config file is not provided then the default parameters will be used.",default="/workdir/config.yml")
 main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['preprocess','annotate'],default="preprocess")
 main_args = main_parser.parse_args()
 
@@ -35,6 +36,7 @@ main_args = main_parser.parse_args()
 
 with open("config/pipeline.yml") as tmp_file:
     pipe_config = yaml.load(tmp_file)
+
 
 
 if main_args.config:
@@ -66,22 +68,5 @@ if main_args.step == "preprocess":
 	logging.info("Running Preprocessing Step")
 	run_preprocess(config)
 elif main_args.step == "annotate":
+    annotate(config)
     logging.info("Running Annotation Step")
-
-
-# '''
-# Step 1 is to clean the fasta file downloaded from TAIR to get longest
-# representative sequence. We need to check if the filt file already exists
-# The TAIR file cannot be downloaded anymore. It has become a subscription
-# only resource and is not freely distibuted
-# '''
-# logging.info("Cleaning TAIR Files")
-# from code.process.clean_tair import clean_tair_fasta,tair_go2gaf,clean_tair_data
-# clean_tair_data(config,config_file)
-#
-# '''
-# Step 2 is to get relavent sequences from UniProt for the taxonomy ids mentioned in the config files
-# '''
-# logging.info("Downloading and processing UniProt files")
-# from code.process.clean_uniprot import clean_uniprot_data
-# clean_uniprot_data(config,config_file)

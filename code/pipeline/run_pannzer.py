@@ -41,8 +41,6 @@ def run_pannzer(config):
         
         blank_config.write(open(out_conf,"w"))
         pannzer_out = blank_config.get("GENERAL_SETTINGS","RESULT_FOLDER")+"/"+out_base + "_results.GO"
-        print(pannzer_out)
-        print(blank_config.get("GENERAL_SETTINGS","RESULT_FOLDER"))
         pannzer_cmd = ["python","run.py",out_conf]
         check_output_and_run(pannzer_out,pannzer_cmd)
     os.chdir(cwd)

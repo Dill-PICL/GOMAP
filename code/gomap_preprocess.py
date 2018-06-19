@@ -3,18 +3,20 @@
 Importing all the modules necessary for running the pipeline
 pprint is only needed for debugging purposes
 '''
+
+'''
+will this be included?
+'''
+
 import  logging, sys
 from pprint import pprint
 
 def run_preprocess(config):
-	'''
-		Step 1 is to create a working directory in the current location and
-	'''
+	"""A really useful function.
 
+    Returns None
+    """
 
-	'''
-	Step 2 is to get the blast searches done, to and against TAIR and UniProt datasets
-	'''
 	logging.info("Processing Sequence-Similarity Steps")
 	from code.pipeline.run_rbh_blast import make_input_blastdb,run_tair_blast,run_uniprot_blast,get_rbh_annotations
 	make_input_blastdb(config)
@@ -29,7 +31,7 @@ def run_preprocess(config):
 	from code.pipeline.run_iprs import run_iprs,iprs2gaf
 	run_iprs(config)
 	iprs2gaf(config)
-   
+
 	'''
 	Step 6 is to run components of preprocessing pipeline to create input data for the mixed method pipelines
 	'''
@@ -40,12 +42,7 @@ def run_preprocess(config):
 	logging.info("All the blast commands have been run and temporary files have been generated")
 	compile_blast_out(config)
 
-	'''
-	Step 7 is to run the preprocessing steps for Argot2.5
-	'''
-	from code.pipeline.run_argot2 import convert_blast,run_hmmer
-	convert_blast(config)
-	run_hmmer(config)	
+	preproc_argot2(config)
 
 	'''
 	Step 8 is to run the mixed-method pipeline PANNZER
@@ -53,12 +50,12 @@ def run_preprocess(config):
 	from code.pipeline.run_pannzer import copy_blast, run_pannzer
 	copy_blast(config)
 	run_pannzer(config)
-	sys.exit()
 
+def preproc_argot2(config):
 	'''
-	Step 9 is to run FANN-GO tools and get predictions
+	Step 7 is to run the preprocessing steps for Argot2.5
+	sadsdsadsa
 	'''
-	import code.pipeline._9_run_fanngo as run_fanngo
-	run_fanngo.run_fanngo(config)
-
-	logging.info("First part of GAMER pipeline has been completed")
+	from code.pipeline.run_argot2 import convert_blast,run_hmmer
+	convert_blast(config)
+	run_hmmer(config)	
