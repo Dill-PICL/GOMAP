@@ -1,5 +1,4 @@
 library("data.table",quietly = T)
-library("ggplot2",quietly = T)
 library("tools",quietly = T)
 
 gaf_cols = c("db", "db_object_id", "db_object_symbol", "qualifier", "term_accession", "db_reference", "evidence_code", "with", "aspect", "db_object_name", "db_object_synonym", "db_object_type", "taxon", "date", "assigned_by", "annotation_extension", "gene_product_form_id")

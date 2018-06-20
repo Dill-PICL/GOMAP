@@ -13,8 +13,10 @@ def make_blastdb(in_fasta,config):
 def check_bl_out(in_fasta,in_xml):
     skip_blast=False
     if not os.path.isfile(in_xml):
+        logging.info(in_xml+" does not exist")
         skip_blast=False
     elif os.stat(in_xml).st_size==0:
+        logging.info(in_xml+" is empty")
         os.remove(in_xml)
         skip_blast=False
     else:
@@ -26,9 +28,11 @@ def check_bl_out(in_fasta,in_xml):
             if len(aligned_seqs) == len(input_seqs):
                 skip_blast=True
             else:
+                logging.info("Number of input and output sequences do not match"+in_xml)
                 os.remove(in_xml)
                 skip_blast=False
         except:
+            logging.info("Cannot read "+in_xml)
             os.remove(in_xml)
             skip_blast=False
 
@@ -38,7 +42,14 @@ def check_bl_out(in_fasta,in_xml):
     
 def combine_blast_xml(in_files,out_file):
     if os.path.isfile(out_file):
-        logging.info(out_file+" already exists.\n Delete it if you want to recreate")
+        logging.info(out_file+" already exists.")
+        out_file_time = os.path.getmtime(out_file)
+        same_time=True
+        for infile in in_files:
+            infile_time = os.path.getmtime(infile)
+            if infile_time >  out_file_time:
+                same_time = True
+    if same_time:
         return True
 
     tree = ET.parse(in_files[0])

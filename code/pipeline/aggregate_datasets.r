@@ -1,11 +1,4 @@
-library("jsonlite",quietly = T)
-
-source("code/gaf_tools.r")
-source("code/obo_tools.r")
-source("code/gen_utils.r")
-source("code/get_comp.r")
-source("code/get_nr_dataset.r")
-source("code/logger.r")
+library("yaml",quietly = T)
 
 #Reading config file name
 args <- commandArgs(T)
@@ -16,7 +9,14 @@ if(F){
 }
 
 #Reading config file and creating config object
-config = fromJSON(config_file)
+config = read_yaml(config_file)
+
+source("code/R/gaf_tools.r")
+source("code/R/obo_tools.r")
+source("code/R/gen_utils.r")
+source("code/R/get_comp.r")
+source("code/R/get_nr_dataset.r")
+source("code/R/logger.r")
 
 #set the logfile and initiate the logger
 set_logger(config)
@@ -24,15 +24,17 @@ set_logger(config)
 #setting the correct working directory
 #setwd(config$input$work_dir)
 
-nr_dir = config$gaf$non_red_dir
+workdir=paste(config$input$gomap_dir,"/",sep="")
+nr_dir = paste(workdir,config$data$gaf$non_red_dir,sep="")
 all_nr_datasets=dir(nr_dir,full.names = T)
 nr_datasets = all_nr_datasets[grep(config$input$basename,all_nr_datasets)]
-nr_datasets
 
-agg_dir=paste(config$gaf$agg_dir,"/",sep="")
+agg_dir=paste(workdir,config$data$gaf$agg_dir,"/",sep="")
 out_gaf=paste(agg_dir,paste(config$input$basename,"aggregate","gaf",sep="."),sep = "")
 
-if(file.exists(out_gaf)){
+new_gaf=sum(file.mtime(nr_datasets)>file.mtime(out_gaf))==0
+
+if(file.exists(out_gaf) & new_gaf){
     flog.warn(paste("The",out_gaf,"exists, So not regenerating aggregate dataset"))
     flog.info(paste("Remove the ",out_gaf,"file to regenerate"))
 }else{

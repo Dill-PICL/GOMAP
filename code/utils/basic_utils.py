@@ -9,7 +9,6 @@ def make_dir(file):
         os.makedirs(dir_name)
 
 def check_output_and_run(outfile,command,stdin_file=None,stdout_file=None):
-    make_dir(outfile)
     if not os.path.exists(outfile):
         logging.info(outfile+" not present so running command\n" +" ".join(command))
         if stdin_file is not None:

@@ -14,7 +14,7 @@ source("code/R/logger.r")
 #set the logfile and initiate the logger
 set_logger(config)
 
-raw_dir=paste(config$gaf$raw_dir,"/",sep="")
+
 
 #setting the correct working directory
 #if(dir.exists(config$input$work_dir)){
@@ -23,11 +23,11 @@ raw_dir=paste(config$gaf$raw_dir,"/",sep="")
 
 go_obo = config[["data"]][["go"]][["obo"]]
 workdir=paste(config[["input"]][["gomap_dir"]],"/",sep="")
+raw_dir=paste(workdir,config$data$gaf$raw_dir,"/",sep="")
 
 iprs_out=paste(workdir,config[["data"]][["domain"]][["tmpdir"]], "/", config[["input"]][["basename"]],".go.tsv",sep="")
 
-out_gaf = paste(workdir,raw_dir,gsub("go.tsv","",basename(iprs_out)),config$data$domain$tool$name,".gaf",sep = "")
-
+out_gaf = paste(raw_dir,gsub("go.tsv","",basename(iprs_out)),config$data$domain$tool$name,".gaf",sep = "")
 if(file.exists(out_gaf)){
     flog.warn(paste("The",out_gaf,"exists, So not regenerating InterProScan dataset"))
     flog.warn(paste("Remove the ",out_gaf,"file to regenerate"))

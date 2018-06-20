@@ -26,7 +26,7 @@ merger = Merger(schema)
 '''
 main_parser = argparse.ArgumentParser(description='Welcome to running the GO-MAP pipeline',formatter_class=RawTextHelpFormatter)
 main_parser.add_argument('--config',help="The config file in yml format. \nPlease see config.json for an example. \nIf a config file is not provided then the default parameters will be used.",default="/workdir/config.yml")
-main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['preprocess','annotate'],default="preprocess",required=True)
+main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['preprocess','aggregate','init'],required=True)
 main_args = main_parser.parse_args()
 
 '''
@@ -65,8 +65,10 @@ Depending the step selected by the user we are going to run the relevant part of
 '''
 
 if main_args.step == "preprocess":
-	logging.info("Running Preprocessing Step")
+	logging.info("Running Pre-processing Step")
 	run_preprocess(config)
-elif main_args.step == "annotate":
-    logging.info("Running Annotation Step")   
+elif main_args.step == "aggregate":
+    logging.info("Running Aggregate Step")
     annotate(config)
+elif main_args.step == "init":
+    logging.info("Creating the workdir")

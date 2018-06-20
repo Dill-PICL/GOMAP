@@ -1,12 +1,7 @@
-source("code/gen_utils.r")
-source("code/get_nr_dataset.r")
-
 compile_comprehensive = function(nr_datasets,out_gaf,config){
-    #data_dir="nr_test"
-    #obo="obo/go.obo"
     
     #check if the obo object is available if not read go.obo file
-    go_obo = check_obo_data(config$go$obo)
+    go_obo = check_obo_data(config$data$go$obo)
     obs_and_alt = c(unlist(go_obo$alt_id[go_obo$obsolete]),names(go_obo$obsolete[go_obo$obsolete]))
     
     
@@ -18,16 +13,11 @@ compile_comprehensive = function(nr_datasets,out_gaf,config){
     all_datasets = do.call(rbind,tmp_datasets)
     all_datasets = gaf_check_simple(go_obo,all_datasets)
     
-    
-    #make sure to keep the col order from the input gaf object
-    gaf_cols = fread(config$go$gaf_cols,sep = "\t",header = F)$V1
-    
     #remove redundancy to get the minimal set
     print(paste("Removing Redundancy"))
     unit_perc = 1
     unit_size = (NROW(all_datasets) %/% 100 / unit_perc)+1
     print(unit_size)
-    
     
     #order the dataset by gene and aspect for index to make sense
     all_datasets = all_datasets[order(db_object_id,aspect)]

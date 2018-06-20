@@ -3,9 +3,9 @@ if(F){
 }
 remove_redundancy = function(in_gaf,out_gaf,config){
     
-    go_obo = check_obo_data(config$go$obo)
+    go_obo = check_obo_data(config$data$go$obo)
     obs_and_alt = c(unlist(go_obo$alt_id[go_obo$obsolete]),names(go_obo$obsolete[go_obo$obsolete]))
-    gaf_cols = fread(config$go$gaf_cols,sep = "\t",header = F)$V1
+    # gaf_cols = fread(config$data$go$gaf_cols,sep = "\t",header = F)$V1
     
     print(paste("Reading",in_gaf))
     data = read_gaf(in_gaf)

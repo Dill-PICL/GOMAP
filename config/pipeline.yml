@@ -1,4 +1,3 @@
----
 data:
   seq-sim:
     TAIR:
@@ -9,28 +8,28 @@ data:
       metadata:
         date:       ''
         version:    TAIR10
-        species:    Arabidopsis
+        species:    arabidopsis
     uniprot:
       basename:     Plant.UniProt.hc
       basedir:      data/data/seq-sim/uniprot
       tmpdir:       tmp/seq-sim/uniprot
       cleaning:
         sel_tax:
-        - '15368'
-        - '29760'
-        - '3055'
-        - '3218'
-        - '3694'
-        - '3702'
-        - '3847'
-        - '39947'
-        - '4081'
-        - '4558'
+          - '15368'
+          - '29760'
+          - '3055'
+          - '3218'
+          - '3694'
+          - '3702'
+          - '3847'
+          - '39947'
+          - '4081'
+          - '4558'
         omit_tax:
         - '4577'
       metadata:
-        version:    '2018-02-26'
-        species:    Plants
+        version:    '2017-07-26'
+        species:    uniprot
   domain:
     tmpdir:         tmp/domain/iprs
     tool:
@@ -62,15 +61,20 @@ data:
           P: 0.4
           C: 0.2
           F: 0.55
+  gaf:
+    raw_dir:          gaf/raw
+    non_red_dir:      gaf/non_red
+    agg_dir:          gaf/agg
+    uniq_dir:         gaf/uniq
+    mixed_method_dir: gaf/mixed-method
   go:
     gaf_cols:       data/data/cols/gaf_cols.txt
     obo:            data/data/go/go.obo
     evidence_codes:
       omitted:
-      - IEA  
+      - IEA
       - ND
       - NAS
-
 software:
   blast:
     bin:            data/software/blast-2.6.0+/bin
@@ -95,7 +99,6 @@ software:
       SQL_DB_PORT: ""
     path: data/software/PANNZER
     conf_template: template.conf
-    
 logging:
   file_name:        gomap.log
   format:           "%(levelname)s [%(asctime)s] %(message)s"
@@ -109,9 +112,4 @@ pipeline:
   dir_struct:       "config/dirs.yml"
 input:
   workdir:          "/workdir"
-gaf:
-  raw_dir:          gaf/raw
-  non_red_dir:      gaf/non_red
-  agg_dir:          gaf/agg
-  uniq_dir:         gaf/uniq
-  mixed_method_dir: gaf/mixed-method
+

@@ -22,7 +22,7 @@ def iprs2gaf(config):
 	tsv_base=workdir + dom_config["tmpdir"] + "/" + config["input"]["basename"]
 	infile=tsv_base+".tsv"
 	tmpfile=tsv_base+".go.tsv"
-	gaf_dir=workdir + config["gaf"]["raw_dir"]+"/"
+	gaf_dir=workdir + config["data"]["gaf"]["raw_dir"]+"/"
 
 	tmp_iprs=open(tmpfile,"w")
 
