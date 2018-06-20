@@ -5,11 +5,11 @@ library("tools")
 #library("GOSemSim")
 library("parallel")
 
-source("code/obo_tools.r")
-source("code/gen_utils.r")
-source("code/gaf_tools.r")
-source("code/get_nr_dataset.r")
-source("code/aigo_tools.r")
+source("code/R/obo_tools.r")
+source("code/R/gen_utils.r")
+source("code/R/gaf_tools.r")
+source("code/R/get_nr_dataset.r")
+source("code/R/aigo_tools.r")
 
 
 read_data = function(tool){

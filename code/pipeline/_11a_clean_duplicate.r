@@ -1,10 +1,10 @@
 library("jsonlite",quietly = T)
 
-source("code/gaf_tools.r")
-source("code/obo_tools.r")
-source("code/rm_dup_annot.r")
-source("code/gen_utils.r")
-source("code/logger.r")
+source("code/R/gaf_tools.r")
+source("code/R/obo_tools.r")
+source("code/R/rm_dup_annot.r")
+source("code/R/gen_utils.r")
+source("code/R/logger.r")
 
 
 

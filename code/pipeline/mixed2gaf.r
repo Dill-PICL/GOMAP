@@ -7,6 +7,7 @@ config_file <- args[1]
 
 if(F){
     config_file = "maize.W22.AGPv2.json"
+    config_file = "../test/go-map-ZmAGPv4/ZmAGPv4.all.yml"
 }
 
 #Reading config file and creating config object
@@ -25,45 +26,48 @@ set_logger(config)
 #setting the correct working directory
 #setwd(config$input$work_dir)
 
-
-gaf_dir = paste(config$input$gomap_dir,"/",config$gaf[["mixed_method_dir"]],"/",sep="")
-print("===========================")
-print(gaf_dir)
-
-species <- config$input$basename
+workdir=paste(config$input$gomap_dir,"/",sep="")
+gaf_dir = paste(workdir,config$gaf[["mixed_method_dir"]],"/",sep="")
+basename <- config$input$basename
 
 #processing argot2.5 results
-argot_result_dir = config[["data"]][["mixed-method"]][["argot2"]][["result_dir"]]
-all_argot2_results = dir(argot_result_dir,full.names = T)
-argot2_results = all_argot2_results[grep(species,all_argot2_results)]
-print(argot2_results)
-print("===========================")
-stop()
-argot2_gaf=paste(gaf_dir,paste(species,"argot2.5","gaf",sep="."),sep = "")
+argot_result_dir = paste(workdir,config[["data"]][["mixed-method"]][["argot2"]][["result_dir"]],sep="")
+all_argot2_results = dir(argot_result_dir,full.names = T,pattern = "*.tsv")
+argot2_results = all_argot2_results[grep(basename,all_argot2_results)]
+
+argot2_gaf=paste(gaf_dir,paste(basename,"argot2.5","gaf",sep="."),sep = "")
 if(!file.exists(argot2_gaf)){
-    filter_argot2(in_file=argot2_results,out_file=argot2_gaf,config=config)
+    argot2gaf(in_files=argot2_results,out_file=argot2_gaf,config=config)
 }else{
     flog.warn(paste("The",argot2_gaf,"exists. So not Running converting Argot-2.5 results"))
     flog.info(paste("Remove the file to reconvert"))
 }
 
+
 #processing PANNZER results
-all_pannzer_results =  dir(config$`mixed-meth`$PANNZER$result_dir,pattern = ".GO",full.names = T)
-pannzer_results = all_pannzer_results[grep(species,all_pannzer_results)]
-pannzer_gaf = paste(gaf_dir,paste(species,"pannzer","gaf",sep="."),sep = "")
+print("===========================")
+pannzer_result_dir = paste(workdir,config$data$`mixed-method`$pannzer$result_dir,sep="")
+all_pannzer_results =  dir(pannzer_result_dir,pattern = ".GO",full.names = T)
+pannzer_results = all_pannzer_results[grep(basename,all_pannzer_results)]
+pannzer_gaf = paste(gaf_dir,paste(basename,"pannzer","gaf",sep="."),sep = "")
+
 if(!file.exists(pannzer_gaf)){
     pannzer2gaf(in_files = pannzer_results,out_gaf=pannzer_gaf,config)
 }else{
     flog.warn(paste("The",pannzer_gaf,"exists. So not Running converting PANNZER results"))
     flog.info(paste("Remove the file to reconvert"))
 }
+print(pannzer_gaf)
+print("===========================")
 
 #processing FANN-GO results
-fanngo_res= paste(config$`mixed-meth`$fanngo$output,"/",species,".score.txt",sep="")
-fanngo_gaf = paste(gaf_dir,paste(species,"fanngo","gaf",sep="."),sep = "")
-if(!file.exists(fanngo_gaf)){
-    fanngo2gaf(fanngo_res,fanngo_gaf,config)
-}else{
-    flog.warn(paste("The",fanngo_gaf,"exists. So not Running converting FANN-GO results"))
-    flog.info(paste("Remove the file to reconvert"))
+if(F){
+    fanngo_res= paste(config$`mixed-meth`$fanngo$output,"/",species,".score.txt",sep="")
+    fanngo_gaf = paste(gaf_dir,paste(species,"fanngo","gaf",sep="."),sep = "")
+    if(!file.exists(fanngo_gaf)){
+        fanngo2gaf(fanngo_res,fanngo_gaf,config)
+    }else{
+        flog.warn(paste("The",fanngo_gaf,"exists. So not Running converting FANN-GO results"))
+        flog.info(paste("Remove the file to reconvert"))
+    }
 }

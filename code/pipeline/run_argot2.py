@@ -50,7 +50,6 @@ def process_argot2(config):
     workdir = config["input"]["gomap_dir"] + "/"
     result_dir = workdir + config["data"]["mixed-method"]["argot2"]["result_dir"]
     zipfiles=glob(result_dir+"/*zip")
-    print(zipfiles)
     for result_zip in zipfiles:
         outfile=re.sub(r".zip",".tsv",result_zip)
         if not os.path.isfile(outfile):
@@ -60,4 +59,6 @@ def process_argot2(config):
             result_file="argot_results_ts0.tsv"            
             archive.extract(result_file,".")
             shutil.move(result_file, outfile)
+        else:
+            logging.info("Outfile " + outfile + " already exists.\n Please delete it to regenerate")
         

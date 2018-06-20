@@ -68,5 +68,5 @@ if main_args.step == "preprocess":
 	logging.info("Running Preprocessing Step")
 	run_preprocess(config)
 elif main_args.step == "annotate":
+    logging.info("Running Annotation Step")   
     annotate(config)
-    logging.info("Running Annotation Step")

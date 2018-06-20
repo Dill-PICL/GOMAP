@@ -8,7 +8,6 @@ def annotate(config):
     from code.pipeline.run_argot2 import process_argot2
     process_argot2(config)
     
-    sys.exit()
     # '''
     # Step 10 is to convert the outputs from CAFA to GAF 2.0 files to work with the
     # rest of the code written in R

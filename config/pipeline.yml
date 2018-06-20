@@ -62,7 +62,6 @@ data:
           P: 0.4
           C: 0.2
           F: 0.55
-          
   go:
     gaf_cols:       data/data/cols/gaf_cols.txt
     obo:            data/data/go/go.obo

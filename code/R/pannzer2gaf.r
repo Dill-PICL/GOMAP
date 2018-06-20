@@ -15,9 +15,7 @@ pannzer2gaf <- function(in_files,out_gaf,config){
     pannzer_data
     
     
-    gaf_cols=fread(config$go$gaf_cols,header = F)$V1
-    gaf_cols
-    pannzer_data
+    gaf_cols=fread(config$data$go$gaf_cols,header = F)$V1
     print("Converting to GAF 2.0")
     gaf_data = pannzer_data[,.(QueryId,GO_class,Score)]
     colnames(gaf_data) = c("db_object_id","term_accession","with")
@@ -26,7 +24,7 @@ pannzer2gaf <- function(in_files,out_gaf,config){
     max_score=max(gaf_data$with)
     gaf_data$with = (gaf_data$with - min_score)/(max_score - min_score)
     
-    obo_data = check_obo_data(config$go$obo)
+    obo_data = check_obo_data(config$data$go$obo)
     tmp_aspect=lapply(gaf_data$term_accession,function(x){
         out = obo_data$aspect[[x]]
         if(is.null(out)){
