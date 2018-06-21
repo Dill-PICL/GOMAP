@@ -61,7 +61,6 @@ def run_uniprot_blast(config):
 
 def get_rbh_annotations(config):
 	file_exist = True
-	ss_config = config["seq-sim"]
 	out_file= config["input"]["gomap_dir"] + "/" + config["data"]["seq-sim"]["uniprot"]["tmpdir"]+"/test"
 	command = ["Rscript", "code/pipeline/run_rbh.r", config["input"]["config_file"]]
 	check_output_and_run(out_file,command)
