@@ -1,4 +1,3 @@
-library("jsonlite",quietly = T)
 library("yaml",quietly = T)
 
 #Reading config file name
@@ -36,14 +35,18 @@ all_argot2_results = dir(argot_result_dir,full.names = T,pattern = "*.tsv")
 argot2_results = all_argot2_results[grep(basename,all_argot2_results)]
 argot2_gaf=paste(gaf_dir,paste(basename,"argot2.5","gaf",sep="."),sep = "")
 
-old_gaf = sum(file.mtime(argot2_results) > file.mtime(argot2_gaf))>1
-        
-if(!file.exists(argot2_gaf) & old_gaf){
+if(!file.exists(argot2_gaf)){
     flog.info(paste("Generating GAF file from Argot2.5 Results"))
-    argot2gaf(in_files=argot2_results,out_file=argot2_gaf,config=config)
+    argot2gaf(in_files=argot2_results,out_file=argot2_gaf,config=config)    
 }else{
-    flog.warn(paste("The",argot2_gaf,"exists. So not Running converting Argot-2.5 results"))
-    flog.info(paste("Remove the file to reconvert"))
+    old_gaf = sum(file.mtime(argot2_results) > file.mtime(argot2_gaf))>1
+    if(old_gaf){
+        flog.info(paste("Generating GAF file from Argot2.5 Results"))
+        argot2gaf(in_files=argot2_results,out_file=argot2_gaf,config=config)    
+    }else{
+        flog.warn(paste("The",argot2_gaf,"exists. So not Running converting Argot-2.5 results"))
+        flog.info(paste("Remove the file to reconvert"))    
+    }
 }
 
 
@@ -57,8 +60,14 @@ if(!file.exists(pannzer_gaf)){
     flog.info(paste("Generating GAF file from PANNZER Results"))
     pannzer2gaf(in_files = pannzer_results,out_gaf=pannzer_gaf,config)
 }else{
-    flog.warn(paste("The",pannzer_gaf,"exists. So not Running converting PANNZER results"))
-    flog.info(paste("Remove the file to reconvert"))
+    old_gaf = sum(file.mtime(pannzer_results) > file.mtime(pannzer_gaf))>1
+    if(old_gaf){
+        flog.info(paste("Generating GAF file from PANNZER Results"))
+        pannzer2gaf(in_files = pannzer_results,out_gaf=pannzer_gaf,config)
+    }else{
+        flog.warn(paste("The",pannzer_gaf,"exists. So not Running converting PANNZER results"))
+        flog.info(paste("Remove the file to reconvert"))
+    }
 }
 
 

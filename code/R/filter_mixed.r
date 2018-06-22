@@ -4,7 +4,9 @@ tool="Argot"
 
 filter_mixed_gaf <- function(cafa_gaf,raw_gaf,tool,config){
     cafa_data = read_gaf(cafa_gaf)
-    score_ths = config$`mixed-meth`[[tool]]$score_th
+    print(config$data[["mixed-method"]][[tool]])
+    score_ths = config$data[["mixed-method"]][[tool]]$score_th
+    print(score_ths)
     
     flog.info(paste("Filtering annotations with follwing score thresholds for ",tool))
     flog.info(paste(score_ths,names(score_ths)))

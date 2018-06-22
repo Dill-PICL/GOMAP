@@ -1,5 +1,4 @@
 #Loading Necessary libraries and packages
-library("jsonlite",quietly = T)
 library("yaml",quietly = T)
 
 args <- commandArgs(T)

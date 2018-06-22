@@ -28,7 +28,7 @@ def get_files_with_ext(in_dir,extension="fa"):
     return out_files
 
 def init_dirs(config):
-    gomap_dir = config["input"]["workdir"]+"/go-map-"+config["input"]["basename"]
+    gomap_dir = config["input"]["workdir"]+"/GOMAP-"+config["input"]["basename"]
     config["input"]["gomap_dir"] = gomap_dir
     if not os.path.exists(gomap_dir):
         os.makedirs(gomap_dir, mode=0777)

@@ -27,7 +27,6 @@ in_gaf=uniq_datasets[1]
 tmp_out = lapply(uniq_datasets,function(in_gaf){
     non_red_dir=paste(workdir,config$data$gaf$non_red_dir,sep="")
     out_gaf=paste(non_red_dir,"/",basename(in_gaf),sep="")
-    
     if(file.exists(out_gaf) & file.mtime(in_gaf)<file.mtime(out_gaf)){
         flog.warn(paste("The",out_gaf,"exists, So not removing duplicates from",in_gaf))
         flog.info(paste("Remove the ",out_gaf,"file to regenerate"))

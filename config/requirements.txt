@@ -17,7 +17,7 @@ pycrypto==2.6.1
 pygobject==3.26.1
 pyxdg==0.25
 PyYAML==3.12
+scipy==1.1.0
 SecretStorage==2.3.1
 six==1.11.0
-virtualenv==15.1.0
 yamldirs==1.1.3

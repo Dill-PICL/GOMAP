@@ -1,4 +1,3 @@
-library("jsonlite",quietly = T)
 library("yaml",quietly = T)
 
 #Reading config file name
