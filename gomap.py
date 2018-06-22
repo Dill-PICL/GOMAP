@@ -25,7 +25,7 @@ merger = Merger(schema)
     Parsing the input config file that will be supplied by te user.
 '''
 main_parser = argparse.ArgumentParser(description='Welcome to running the GO-MAP pipeline',formatter_class=RawTextHelpFormatter)
-main_parser.add_argument('--config',help="The config file in yml format. \nPlease see config.json for an example. \nIf a config file is not provided then the default parameters will be used.",default="/workdir/config.yml")
+main_parser.add_argument('--config',help="The config file in yml format. \nPlease see config.json for an example. \nIf a config file is not provided then the default parameters will be used.",required=True)
 main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['preprocess','aggregate','init'],required=True)
 main_args = main_parser.parse_args()
 
@@ -37,12 +37,10 @@ main_args = main_parser.parse_args()
 with open("config/pipeline.yml") as tmp_file:
     pipe_config = yaml.load(tmp_file)
 
-
-
-if main_args.config:
-    config_file = main_args.config
-    with open(config_file) as tmp_file:
-        user_config = yaml.load(tmp_file)
+config_file = pipe_config["input"]["workdir"]+"/"+main_args.config
+with open(config_file) as tmp_file:
+    user_config = yaml.load(tmp_file)
+    user_config["input"]["workdir"] = os.path.dirname(config_file)
 
 config = merger.merge(pipe_config, user_config)
 

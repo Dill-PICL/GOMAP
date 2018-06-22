@@ -5,6 +5,8 @@ args <- commandArgs(T)
 
 config_file <- args[1]
 
+
+
 #Reading config file and creating config object
 config = read_yaml(config_file)
 if(F){
