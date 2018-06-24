@@ -44,9 +44,6 @@ with open(config_file) as tmp_file:
 
 config = merger.merge(pipe_config, user_config)
 
-config = init_dirs(config)
-copy_input(config)
-
 conf_out = config["input"]["gomap_dir"]+"/"+config["input"]["basename"]+".all.yml"
 config["input"]["config_file"] = conf_out
 with open(conf_out,"w") as out_f:
@@ -58,15 +55,22 @@ logging_config = config["logging"]
 log_file = config["input"]["gomap_dir"] + "/log/" + config["input"]["basename"] + '.log'
 logging.basicConfig(filename=log_file,level=logging_config['level'],filemode='a+',format=logging_config["format"],datefmt=logging_config["formatTime"])
 logging.info("Starting to run the pipline for " + config["input"]["basename"])
+
 '''
 Depending the step selected by the user we are going to run the relevant part of GO-MAP
 '''
 
 if main_args.step == "preprocess":
-	logging.info("Running Pre-processing Step")
-	run_preprocess(config)
+    logging.info("Running Pre-processing Step")
+    config = init_dirs(config)
+    copy_input(config)
+    run_preprocess(config)
 elif main_args.step == "aggregate":
     logging.info("Running Aggregate Step")
+    config = init_dirs(config)
     annotate(config)
 elif main_args.step == "init":
     logging.info("Creating the workdir")
+    config = init_dirs(config)
+elif main_args.step == "setup":
+    logging.info("Downloading data from CyVerse")

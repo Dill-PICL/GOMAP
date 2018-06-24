@@ -7,7 +7,7 @@ remove_redundancy = function(in_gaf,out_gaf,config){
     obs_and_alt = c(unlist(go_obo$alt_id[go_obo$obsolete]),names(go_obo$obsolete[go_obo$obsolete]))
     # gaf_cols = fread(config$data$go$gaf_cols,sep = "\t",header = F)$V1
     
-    print(paste("Reading",in_gaf))
+    flog.info(paste("Reading",in_gaf))
     data = read_gaf(in_gaf)
     colnames(data) <- gaf_cols
     
@@ -21,7 +21,7 @@ remove_redundancy = function(in_gaf,out_gaf,config){
     out_data = data[,rm_red(.SD,aspect,db_object_id,go_obo,obs_and_alt,.I,unit_size,unit_perc,in_gaf),by=list(aspect,db_object_id)]
     setcolorder(out_data,gaf_cols)
     
-    print(paste("Writing NR of ",in_gaf, "to",out_gaf))
+    flog.info(paste("Writing NR of ",in_gaf, "to",out_gaf))
     write_gaf(out_data,out_gaf)
 }
 
