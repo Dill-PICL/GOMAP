@@ -8,7 +8,8 @@ import  os, re, logging, json, sys, argparse, jsonmerge, yaml
 from argparse import RawTextHelpFormatter
 from pprint import pprint
 from code.gomap_preprocess import run_preprocess
-from code.gomap_annotate import annotate
+from code.gomap_aggregate import aggregate
+from code.gomap_setup import setup
 from code.utils.basic_utils import init_dirs, copy_input
 
 from jsonmerge import Merger
@@ -26,7 +27,7 @@ merger = Merger(schema)
 '''
 main_parser = argparse.ArgumentParser(description='Welcome to running the GO-MAP pipeline',formatter_class=RawTextHelpFormatter)
 main_parser.add_argument('--config',help="The config file in yml format. \nPlease see config.json for an example. \nIf a config file is not provided then the default parameters will be used.",required=True)
-main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['preprocess','aggregate','init'],required=True)
+main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['preprocess','aggregate','init','setup'],required=True)
 main_args = main_parser.parse_args()
 
 '''
@@ -43,6 +44,7 @@ with open(config_file) as tmp_file:
     user_config["input"]["workdir"] = os.path.dirname(config_file)
 
 config = merger.merge(pipe_config, user_config)
+config = init_dirs(config)
 
 conf_out = config["input"]["gomap_dir"]+"/"+config["input"]["basename"]+".all.yml"
 config["input"]["config_file"] = conf_out
@@ -62,15 +64,12 @@ Depending the step selected by the user we are going to run the relevant part of
 
 if main_args.step == "preprocess":
     logging.info("Running Pre-processing Step")
-    config = init_dirs(config)
     copy_input(config)
     run_preprocess(config)
 elif main_args.step == "aggregate":
     logging.info("Running Aggregate Step")
-    config = init_dirs(config)
-    annotate(config)
-elif main_args.step == "init":
-    logging.info("Creating the workdir")
-    config = init_dirs(config)
+    aggregate(config)
 elif main_args.step == "setup":
     logging.info("Downloading data from CyVerse")
+    setup(config)
+

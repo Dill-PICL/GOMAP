@@ -41,6 +41,7 @@ def check_bl_out(in_fasta,in_xml):
     
     
 def combine_blast_xml(in_files,out_file):
+    same_time=False
     if os.path.isfile(out_file):
         logging.info(out_file+" already exists.")
         out_file_time = os.path.getmtime(out_file)

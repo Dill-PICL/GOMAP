@@ -12,6 +12,22 @@ code\.pipeline\.clean\_input module
     :undoc-members:
     :show-inheritance:
 
+code\.pipeline\.make\_aggregate module
+--------------------------------------
+
+.. automodule:: code.pipeline.make_aggregate
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+code\.pipeline\.mixed2gaf module
+--------------------------------
+
+.. automodule:: code.pipeline.mixed2gaf
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 code\.pipeline\.run\_argot2 module
 ----------------------------------
 

@@ -33,6 +33,7 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
+    'numpydoc'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -50,8 +51,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'GO-MAP'
-copyright = u'2017, Dill PICL, Iowa State University'
+project = u'GOMAP'
+copyright = u'2018, Dill PICL, Iowa State University'
 author = u'Wimalanathan,Kokulapalan'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -141,7 +142,7 @@ html_theme = 'sphinx_rtd_theme'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied

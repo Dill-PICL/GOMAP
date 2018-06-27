@@ -13,10 +13,10 @@ Subpackages
 Submodules
 ----------
 
-code\.gomap\_annotate module
-----------------------------
+code\.gomap\_aggregate module
+-----------------------------
 
-.. automodule:: code.gomap_annotate
+.. automodule:: code.gomap_aggregate
     :members:
     :undoc-members:
     :show-inheritance:

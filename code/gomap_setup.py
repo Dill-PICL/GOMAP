@@ -1,47 +1,46 @@
 #!/usr/bin/env python2
 
 '''
-Importing all the modules necessary for running the pipeline
-pprint is only needed for debugging purposes
+This submodule lets the user download the data files necessary for running the GOMAP pipline from CyVerse
+
+Currently the files are stored in Gokul's personal directory so the download has to be initiated by gokul's own CyVerse account with icommands
 '''
 import  os, re, logging, json, sys, argparse, jsonmerge
-import pprint as pp
+from pprint import pprint
+from code.utils.basic_utils import check_output_and_run
+import tarfile
+cyverse_path="i:/iplant/home/kokulapalan/GOMAP/GOMAP-data.tar.gz"
 
-'''
-    Parsing the input config file that will be supplied by te user.
-'''
-main_parser = argparse.ArgumentParser(description='Running the first part of GAMER pipeline')
-main_parser.add_argument('config_file',help="The config file in json format. Please see config.json for an example")
-main_args = main_parser.parse_args()
+def setup(config):
+    """
+    setup(config)
 
-'''
-    This section loads the pipeline base config file from the pipeline script
-    location. and loads the pipleine configutation
-'''
+    This function downloads the **GOMAP-data.tar.gz** directory from CyVerse and extracts the content to the **data** directory. The steps run by this function is given below
 
-config_file = main_args.config_file
-with open(config_file) as tmp_file:
-    config = json.load(tmp_file)
+    1. asdsdsa
+    2. sadsadsad
+    3. sadsadsad
 
-config["pipeline_location"] = os.path.dirname(sys.argv[0])
+    Parameters
+    ----------
+    config : dict
+        The config dict generated in the gomap.py script.
+    """
+    
+    outfile="data/"+os.path.basename(cyverse_path)
+    cmd = ["irsync","-v",cyverse_path,outfile]
+    logging.info("Downloading file from Cyverse using irsync")
+    #The irsync will checksum the files on both ends and dtermine if the download is necessary and will only download if necessary
+    check_output_and_run("outfile",cmd)
 
-logging_config = config["logging"]
-log_file = logging_config["file_name"] + ('.log' if re.match(".*\.log$",logging_config["file_name"]) == None else '')
-logging.basicConfig(filename=log_file,level=logging_config['level'],filemode='w+',format=logging_config["format"],datefmt=logging_config["formatTime"])
+    if not os.path.isfile("data/software/PANNZER/GO.py"):
+        logging.info("Extracting the files")
+        tar = tarfile.open(outfile)
+        # tar.extract("GOMAP-data/","data/")
+        tar.extractall("data/")
+    else:
+        logging.info("The GOMAP-data files have been already extracted")
+    
 
-'''
-Step 1 is to clean the fasta file downloaded from TAIR to get longest
-representative sequence. We need to check if the filt file already exists
-The TAIR file cannot be downloaded anymore. It has become a subscription
-only resource and is not freely distibuted
-'''
-logging.info("Cleaning TAIR Files")
-from code.process.clean_tair import clean_tair_fasta,tair_go2gaf,clean_tair_data
-clean_tair_data(config,config_file)
 
-'''
-Step 2 is to get relavent sequences from UniProt for the taxonomy ids mentioned in the config files
-'''
-logging.info("Downloading and processing UniProt files")
-from code.process.clean_uniprot import clean_uniprot_data
-clean_uniprot_data(config,config_file)
+    

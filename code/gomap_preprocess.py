@@ -4,10 +4,6 @@ Importing all the modules necessary for running the pipeline
 pprint is only needed for debugging purposes
 '''
 
-'''
-will this be included?
-'''
-
 import  logging, sys
 from pprint import pprint
 
@@ -16,7 +12,6 @@ def run_preprocess(config):
 
     Returns None
     """
-
 	logging.info("Processing Sequence-Similarity Steps")
 	from code.pipeline.run_rbh_blast import make_input_blastdb,run_tair_blast,run_uniprot_blast,get_rbh_annotations
 	make_input_blastdb(config)
@@ -42,7 +37,13 @@ def run_preprocess(config):
 	logging.info("All the blast commands have been run and temporary files have been generated")
 	compile_blast_out(config)
 
-	preproc_argot2(config)
+	'''
+	Step 7 is to run the preprocessing steps for Argot2.5
+	sadsdsadsa
+	'''
+	from code.pipeline.run_argot2 import convert_blast,run_hmmer
+	convert_blast(config)
+	run_hmmer(config)
 
 	'''
 	Step 8 is to run the mixed-method pipeline PANNZER
@@ -51,11 +52,4 @@ def run_preprocess(config):
 	copy_blast(config)
 	run_pannzer(config)
 
-def preproc_argot2(config):
-	'''
-	Step 7 is to run the preprocessing steps for Argot2.5
-	sadsdsadsa
-	'''
-	from code.pipeline.run_argot2 import convert_blast,run_hmmer
-	convert_blast(config)
-	run_hmmer(config)	
+		

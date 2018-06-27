@@ -108,7 +108,7 @@ pipeline:
   config_file:      pipeline.json
   version:          '0.2'
   name:             GO-MAP
-  pipeline_loc:     "/opt/GO-MAP"
+  pipeline_loc:     "/opt/GOMAP"
   dir_struct:       "config/dirs.yml"
 input:
   workdir:          "/workdir"

@@ -1,8 +1,22 @@
+#!/usr/bin/env python2
+
+'''
+This file includes the steps to aggregate
+'''
+
 import  os, re, logging, json, sys
 from pprint import pprint
 
 
-def annotate(config):
+def aggregate(config):
+    '''
+    annotate(config)
+
+    Parameters
+    ----------
+    config : dict
+        The config dict generated in the gomap.py script.
+    '''
 
     from code.pipeline.run_argot2 import process_argot2
     process_argot2(config)
