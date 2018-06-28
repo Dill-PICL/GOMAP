@@ -39,7 +39,7 @@ def setup(config):
         tar = tarfile.open(outfile)
         # tar.extract("GOMAP-data/","data/")
         try:
-            tar.extractall("data2/")
+            tar.extractall("data/")
         except:
             print("Error extracting files")
         os.remove(outfile)
