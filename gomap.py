@@ -11,6 +11,7 @@ from code.gomap_preprocess import run_preprocess
 from code.gomap_aggregate import aggregate
 from code.gomap_setup import setup
 from code.utils.basic_utils import init_dirs, copy_input
+from code.utils.logging_utils import setlogging
 
 from jsonmerge import Merger
 schema = {
@@ -46,17 +47,20 @@ with open(config_file) as tmp_file:
 config = merger.merge(pipe_config, user_config)
 config = init_dirs(config)
 
+setlogging(config)
+
 conf_out = config["input"]["gomap_dir"]+"/"+config["input"]["basename"]+".all.yml"
 config["input"]["config_file"] = conf_out
 with open(conf_out,"w") as out_f:
 	yaml.dump(config,out_f)
 
 
+# logging_config = config["logging"]
+# log_file = config["input"]["gomap_dir"] + "/log/" + config["input"]["basename"] + '.log'
+# gomap_logger.basicConfig(filename=log_file,level=logging_config['level'],filemode='w+',format=logging_config["format"],datefmt=logging_config["formatTime"])
+# logger = gomap_logger.getLogger("gomap")
+# logger.info("Starting to run the pipline for " + config["input"]["basename"])
 
-logging_config = config["logging"]
-log_file = config["input"]["gomap_dir"] + "/log/" + config["input"]["basename"] + '.log'
-logging.basicConfig(filename=log_file,level=logging_config['level'],filemode='a+',format=logging_config["format"],datefmt=logging_config["formatTime"])
-logging.info("Starting to run the pipline for " + config["input"]["basename"])
 
 '''
 Depending the step selected by the user we are going to run the relevant part of GO-MAP

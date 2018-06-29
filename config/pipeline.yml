@@ -100,7 +100,6 @@ software:
     path: data/software/PANNZER
     conf_template: template.conf
 logging:
-  file_name:        gomap.log
   format:           "%(levelname)s [%(asctime)s] %(message)s"
   formatTime:       "%Y-%m-%d %H:%M"
   level:            DEBUG
