@@ -1,6 +1,5 @@
 import logging, os, re, sys,shutil
 from code.utils.basic_utils import check_output_and_run
-import code.utils.split_fa as split_fa
 from pprint import pprint
 from lxml import etree
 from glob import glob
@@ -10,9 +9,7 @@ def convert_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"
     blast_xml_dir=workdir+config["data"]["mixed-method"]["preprocess"]["blast_out"]
     blast_xml_files=glob(blast_xml_dir+"/*xml")
-
     argot_tsv_dir=workdir + config["data"]["mixed-method"]["argot2"]["preprocess"]["blast"]
-
     xslt_root = etree.parse("config/bl_xml2argot.xsl")
     transform = etree.XSLT(xslt_root)
 
@@ -61,4 +58,3 @@ def process_argot2(config):
             shutil.move(result_file, outfile)
         else:
             logging.info("Outfile " + outfile + " already exists.\n Please delete it to regenerate")
-        

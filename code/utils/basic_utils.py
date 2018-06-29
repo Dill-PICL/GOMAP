@@ -1,6 +1,6 @@
 import os, re, logging, subprocess, sys, yaml,shutil
 from yamldirs import create_files
-from dirsync import sync
+from pyrocopy import pyrocopy
 from logging import Logger
 
 def make_dir(file):
@@ -35,7 +35,8 @@ def init_dirs(config):
     with open(config["pipeline"]["dir_struct"]) as tmp_file:
         dir_struct = tmp_file.read()
         with create_files(dir_struct) as workdir:
-            sync(workdir,gomap_dir,"update")
+            results = pyrocopy.copy(workdir, gomap_dir, excludeFiles=['a'])
+            logging.info(results)
     return(config)
 
 def copy_input(config):

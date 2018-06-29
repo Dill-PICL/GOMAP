@@ -1,14 +1,14 @@
 import logging, os, re, ConfigParser, sys
 from code.utils.basic_utils import check_output_and_run
 from pprint import pprint
-from dirsync import sync
+from pyrocopy import pyrocopy
 from glob import glob
 
 def copy_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"
     tmp_blast_dir = workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]
     pannzer_blast_dir = workdir + config["data"]["mixed-method"]["pannzer"]["preprocess"]["blast"]
-    sync(tmp_blast_dir,pannzer_blast_dir,"sync",exclude="temp")
+    results = pyrocopy.copy(tmp_blast_dir, pannzer_blast_dir, excludeDirs=['temp'])
 
 def run_pannzer(config):
     workdir=config["input"]["gomap_dir"]+"/"
