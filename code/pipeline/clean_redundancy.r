@@ -33,5 +33,6 @@ tmp_out = lapply(uniq_datasets,function(in_gaf){
     }else{
         flog.info(paste("The",out_gaf,"missing, So removing duplicates from",in_gaf))
         remove_redundancy(in_gaf,out_gaf,config)
+        flog.info(paste("Completed Removing Redundacy"))
     }
 })

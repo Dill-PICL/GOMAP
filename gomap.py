@@ -47,7 +47,7 @@ with open(config_file) as tmp_file:
 config = merger.merge(pipe_config, user_config)
 config = init_dirs(config)
 
-setlogging(config)
+
 
 conf_out = config["input"]["gomap_dir"]+"/"+config["input"]["basename"]+".all.yml"
 config["input"]["config_file"] = conf_out
@@ -67,13 +67,16 @@ Depending the step selected by the user we are going to run the relevant part of
 '''
 
 if main_args.step == "preprocess":
+    setlogging(config,"base")
     logging.info("Running Pre-processing Step")
     copy_input(config)
     run_preprocess(config)
 elif main_args.step == "aggregate":
+    setlogging(config,"base")
     logging.info("Running Aggregate Step")
     aggregate(config)
 elif main_args.step == "setup":
+    setlogging(config,"base")
     logging.info("Downloading data from CyVerse")
     setup(config)
 

@@ -6,12 +6,15 @@ pprint is only needed for debugging purposes
 
 import  logging, sys
 from pprint import pprint
+from code.utils.logging_utils import setlogging
 
 def run_preprocess(config):
+	setlogging(config,"preprocess")
 	"""A really useful function.
 
     Returns None
     """
+
 	logging.info("Processing Sequence-Similarity Steps")
 	from code.pipeline.run_rbh_blast import make_input_blastdb,run_tair_blast,run_uniprot_blast,get_rbh_annotations
 	make_input_blastdb(config)
@@ -41,9 +44,10 @@ def run_preprocess(config):
 	Step 7 is to run the preprocessing steps for Argot2.5
 	sadsdsadsa
 	'''
-	from code.pipeline.run_argot2 import convert_blast,run_hmmer
+	from code.pipeline.run_argot2 import convert_blast,run_hmmer,submit_argot2
 	convert_blast(config)
 	run_hmmer(config)
+	submit_argot2(config)
 
 	'''
 	Step 8 is to run the mixed-method pipeline PANNZER
@@ -52,4 +56,4 @@ def run_preprocess(config):
 	copy_blast(config)
 	run_pannzer(config)
 
-		
+	

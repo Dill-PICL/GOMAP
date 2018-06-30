@@ -32,7 +32,7 @@ tmp:
                 - a
             - conf:
                 - a
-log:
+logs:
   - a
 gaf:
   - raw:
@@ -47,3 +47,5 @@ gaf:
     - a
 input:
     - a
+argot_links.csv:
+    "filename,link\n"

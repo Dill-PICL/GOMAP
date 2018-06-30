@@ -2,6 +2,10 @@ import os, re, logging, subprocess, sys, yaml,shutil
 from yamldirs import create_files
 from pyrocopy import pyrocopy
 from logging import Logger
+from pprint import pprint,pformat
+from code.utils.logging_utils import setlogging
+
+
 
 def make_dir(file):
     dir_name = os.path.dirname(file)
@@ -9,6 +13,7 @@ def make_dir(file):
         os.makedirs(dir_name)
 
 def check_output_and_run(outfile,command,stdin_file=None,stdout_file=None):
+    logger= logging.getLogger()
     if not os.path.exists(outfile):
         logging.info(outfile+" not present so running command\n" +" ".join(command))
         if stdin_file is not None:
@@ -32,12 +37,18 @@ def init_dirs(config):
     config["input"]["gomap_dir"] = gomap_dir
     if not os.path.exists(gomap_dir):
         os.makedirs(gomap_dir, mode=0777)
+    excl_files=['a']    
+    for root,dir,files in os.walk(gomap_dir):
+            excl_files = excl_files + files
     with open(config["pipeline"]["dir_struct"]) as tmp_file:
         dir_struct = tmp_file.read()
         with create_files(dir_struct) as workdir:
-            results = pyrocopy.copy(workdir, gomap_dir, excludeFiles=['a'])
-            logging.info(results)
+            results = pyrocopy.copy(workdir, gomap_dir, excludeFiles=excl_files,detailedResults=True)
+            setlogging(config,"init_dirs")
+            logging.info("Initializing directory structure")
+            logging.info(pformat(results))
     return(config)
+    
 
 def copy_input(config):
     src=config["input"]["workdir"]+"/"+config["input"]["fasta"]

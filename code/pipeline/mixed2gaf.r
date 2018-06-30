@@ -31,7 +31,7 @@ basename <- config$input$basename
 
 #processing argot2.5 results
 argot_result_dir = paste(workdir,config[["data"]][["mixed-method"]][["argot2"]][["result_dir"]],sep="")
-all_argot2_results = dir(argot_result_dir,full.names = T,pattern = "*.tsv")
+all_argot2_results = dir(argot_result_dir,full.names = T,pattern = "*.tsv$")
 argot2_results = all_argot2_results[grep(basename,all_argot2_results)]
 argot2_gaf=paste(gaf_dir,paste(basename,"argot2.5","gaf",sep="."),sep = "")
 

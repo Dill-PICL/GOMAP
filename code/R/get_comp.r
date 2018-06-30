@@ -13,6 +13,8 @@ compile_comprehensive = function(nr_datasets,out_gaf,config){
     all_datasets = do.call(rbind,tmp_datasets)
     all_datasets = gaf_check_simple(go_obo,all_datasets)
     
+    print(NROW(all_datasets))
+    
     #remove redundancy to get the minimal set
     print(paste("Removing Redundancy"))
     unit_perc = 1

@@ -47,11 +47,28 @@ data:
         preprocess:
           blast: tmp/mixed-meth/argot2.5/blast
           hmmer: tmp/mixed-meth/argot2.5/hmmer
+          html: tmp/mixed-meth/argot2.5/html
         result_dir: tmp/mixed-meth/argot2.5/results
         score_th:
           P: 0.15
           C: 0.05
           F: 0.15
+        batch_url: "http://www.medcomp.medicina.unipd.it/Argot2-5/insert_batch.php"
+        baseurl: "http://www.medcomp.medicina.unipd.it/Argot2-5/"
+        payload:
+          blast_file: None
+          hmmer_file: None
+          filtra: checked
+#          scient_name: None
+          tax_id: None
+          rule_system: both
+          w_hypoth: open_world
+          email: None
+          descr: None
+          inf_content: "0"
+          int_confidence: "0"
+          totalScore: "0"
+          measure: simgic
       pannzer:
         preprocess:
           blast: tmp/mixed-meth/pannzer/blast

@@ -15,7 +15,12 @@ remove_redundancy = function(in_gaf,out_gaf,config){
     data = gaf_check_simple(go_obo,data)
     
     flog.info(paste("Removing Redundancy from ",in_gaf))
-    unit_perc = 1
+    if(NROW(data)>1000){
+        unit_perc = 1    
+    }else{
+        unit_perc = 10
+    }
+    
     unit_size=nrow(data) %/% (100/unit_perc)
     #out_gaf = in_gaf[,rm_red(.SD,aspect,db_object_id,.I,total_rows,graph,obsolete_terms,alt_ids),by=list(aspect,db_object_id)]
     out_data = data[,rm_red(.SD,aspect,db_object_id,go_obo,obs_and_alt,.I,unit_size,unit_perc,in_gaf),by=list(aspect,db_object_id)]
@@ -37,13 +42,14 @@ rm_gaf_red  = function(in_gaf,go_obo){
     unit_perc = 1
     unit_size=nrow(in_gaf) %/% (100/unit_perc)
     #out_gaf = in_gaf[,rm_red(.SD,aspect,db_object_id,.I,total_rows,graph,obsolete_terms,alt_ids),by=list(aspect,db_object_id)]
-    out_gaf = in_gaf[,rm_red(.SD,aspect,db_object_id,go_obo,obs_and_alt,.I,unit_size,unit_perc),by=list(aspect,db_object_id)]
+    out_gaf = in_gaf[,rm_red(.SD,aspect,db_object_id,go_obo,obs_and_alt,.I,unit_size,unit_perc,assigned_by),by=list(aspect,db_object_id)]
     setcolorder(out_gaf,gaf_col_order)
     
     return(out_gaf)
 }
 
 rm_red <- function(data,aspect,gene,go_obo,obs_and_alt,idxs,unit_size,unit_perc,tool_name){
+    
     print_dt_progress(unit_size,idxs,unit_perc,tool_name)
     
     #leaf_terms = get_minimal_set(list(unique(data$term_accession)),graph,obsolete_terms,alt_ids)

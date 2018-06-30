@@ -10,7 +10,7 @@
         <xsl:variable name="evalue" select="math:min(Hit_hsps/Hsp/Hsp_evalue)"/>
         <xsl:value-of select="$currNode/Iteration_query-def" />
         <xsl:text>&#x9;</xsl:text>
-        <xsl:value-of select="Hit_accession"/>
+        <xsl:value-of select="Hit_id"/>
         <xsl:text>&#x9;</xsl:text>
         <xsl:value-of select="$evalue"/>
         <xsl:text>&#xa;</xsl:text>
