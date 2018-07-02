@@ -16,7 +16,7 @@ def run_preprocess(config):
 	setlogging(config,"preprocess")
 
 
-	if config["input"]["email"] is "":
+	if config["input"]["email"] is "" or config["input"]["email"] is None:
 		logging.error("Please add an email address to the config file")
 	else:
 		valid_email = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', config["input"]["email"])
