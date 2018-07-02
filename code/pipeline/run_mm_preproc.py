@@ -39,7 +39,7 @@ def make_tmp_fa(config):
     fa_files = glob(fa_pattern)
     
     for fa_file in fa_files:
-        split_fasta(fa_file,tmp_fa_dir,10)
+        split_fasta(fa_file,tmp_fa_dir,100)
 
 def run_uniprot_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"

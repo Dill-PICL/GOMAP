@@ -22,7 +22,7 @@ def aggregate(config):
     from code.pipeline.run_argot2 import process_argot2,download_argot2
     logging.info("Obtaining and aggregating Argot2.5 results")
     download_argot2(config)
-    process_argot2(config)        
+    process_argot2(config)
     
     from code.pipeline.mixed2gaf import mixed2gaf, filter_mixed
     logging.info("Filtering mixed-method GAF")
