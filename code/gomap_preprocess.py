@@ -9,11 +9,20 @@ from pprint import pprint
 from code.utils.logging_utils import setlogging
 
 def run_preprocess(config):
-	setlogging(config,"preprocess")
 	"""A really useful function.
 
-    Returns None
-    """
+	Returns None
+	"""
+	setlogging(config,"preprocess")
+
+
+	if config["input"]["email"] is "":
+		logging.error("Please add an email address to the config file")
+	else:
+		valid_email = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', config["input"]["email"])
+		if not valid_email:
+			logging.error("The email address specified is not valid. Please check the email or use a different email address")
+	
 
 	logging.info("Processing Sequence-Similarity Steps")
 	from code.pipeline.run_rbh_blast import make_input_blastdb,run_tair_blast,run_uniprot_blast,get_rbh_annotations

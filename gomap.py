@@ -4,6 +4,7 @@
 Importing all the modules necessary for running the pipeline
 pprint is only needed for debugging purposes
 '''
+
 import  os, re, logging, json, sys, argparse, jsonmerge, yaml
 from argparse import RawTextHelpFormatter
 from pprint import pprint
@@ -53,13 +54,6 @@ conf_out = config["input"]["gomap_dir"]+"/"+config["input"]["basename"]+".all.ym
 config["input"]["config_file"] = conf_out
 with open(conf_out,"w") as out_f:
 	yaml.dump(config,out_f)
-
-
-# logging_config = config["logging"]
-# log_file = config["input"]["gomap_dir"] + "/log/" + config["input"]["basename"] + '.log'
-# gomap_logger.basicConfig(filename=log_file,level=logging_config['level'],filemode='w+',format=logging_config["format"],datefmt=logging_config["formatTime"])
-# logger = gomap_logger.getLogger("gomap")
-# logger.info("Starting to run the pipline for " + config["input"]["basename"])
 
 
 '''
