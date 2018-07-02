@@ -4,7 +4,7 @@ Importing all the modules necessary for running the pipeline
 pprint is only needed for debugging purposes
 '''
 
-import  logging, sys
+import  logging, sys, re
 from pprint import pprint
 from code.utils.logging_utils import setlogging
 
