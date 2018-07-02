@@ -95,18 +95,18 @@ data:
 software:
   blast:
     bin:            data/software/blast-2.6.0+/bin
-    num_threads:    4
+#    num_threads:    4
     evalue:         10e-10
     opt_params: ["-max_target_seqs", '10']
     cols:           data/data/cols/blast_cols.txt
   iprs:
     path:           data/software/interproscan-5.25-64.0
     cols:           data/data/cols/iprs_cols.txt
-    options:
-      - -cpu 4
+    options: []
+#      - -cpu 4
   hmmer:
     path:           data/software/hmmer-3.1b2-linux-intel-x86_64/binaries
-    cpu:            4
+#    cpu:            4
   pannzer:
     database:
       SQL_DB: pannzer
@@ -128,4 +128,5 @@ pipeline:
   dir_struct:       "config/dirs.yml"
 input:
   workdir:          "/workdir"
+  cpus: 4
 

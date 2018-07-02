@@ -36,7 +36,7 @@ def run_hmmer(config):
     fa_files = glob(fa_dir+"/*fa")
     hmmer_bin = config["software"]["hmmer"]["path"]+"/hmmscan"
     hmmerdb=config["data"]["mixed-method"]["preprocess"]["hmmerdb"]
-    cpu = str(config["software"]["hmmer"]["cpu"])
+    cpu = str(config["input"]["cpus"])
     tmp_file=workdir+"hmmscan.tmp"
         
     for infile in fa_files:

@@ -57,7 +57,7 @@ def run_uniprot_blast(config):
         if skip_blast:
              logging.info(out_file+" already exists.\n The number of sequences in output match input")
         else:
-            blast_cmd = [blast_config["bin"]+"/blastp","-outfmt","5", "-db",uniprot_db,"-query",in_file,"-out",out_file,"-num_threads",str(blast_config["num_threads"])]+blast_opts
+            blast_cmd = [blast_config["bin"]+ "/blastp","-outfmt","5", "-db",uniprot_db,"-query",in_file,"-out",out_file,"-num_threads",str(config["input"]["cpus"])]+blast_opts
             check_output_and_run(out_file,blast_cmd)
 
 def compile_blast_out(config):
