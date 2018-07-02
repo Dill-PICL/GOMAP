@@ -25,6 +25,8 @@ tmp:
                 - a
             - results:
                 - a
+            - html:
+                - a
         - pannzer:
             - blast:
                 - a
