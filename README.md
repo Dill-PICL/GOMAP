@@ -2,172 +2,87 @@
 
 ## What is GOMAP?
 
-Gene Ontology - Meta Annotator for Plants (**GOMAP**) is a pipeline
-that annotates GO terms to plant protein sequences. The pipeline uses
-three different approaches to annotate GO terms to plant proteins and
-uses a mix of custom code and existing software tools to assign GO
-terms. The pipeline was designed to create a high confidence GO
-annotation dataset for reference proteomes, and it is recommended that
-the pipeline in it’s current form used for that. The main pipeline has
-been written using Python and R, and other software tools used will be
-briefly described in the requirements section. Three main approaches
-used to annotate GO terms are given below.
+Gene Ontology - Meta Annotator for Plants (**GOMAP**) is a pipeline that annotates GO terms to plant protein sequences. The pipeline uses three different approaches to annotate GO terms to plant proteins and uses a mix of custom code and existing software tools to assign GO terms. The pipeline was designed to create a high confidence GO annotation dataset for reference proteomes, and it is recommended that
+the pipeline in it’s current form used for that. The main pipeline has been written using Python and R, and other software tools used will be briefly described in the requirements section. Three main approaches used to annotate GO terms are given below.
 
 ## What methods are used to annotate GO terms?
 
-Sequence-similarity based methods
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Sequence-similarity based methods
 
-Sequence-similarity based GO annotations were performed using the
-reciprocal-best-hit method against two different datasets namely TAIR
-and UniProt. The NCBI BLASTP tool will be used reciprocally to search
-for similar sequences between the protein sequences of target species
-being annotated and other datasets. The results from BLASTP search will
-be processed using R script to determine the reciprocal-best-hits and
-assign GO terms from TAIR and UniProt to the target species.
+Sequence-similarity based GO annotations were performed using the reciprocal-best-hit method against two different datasets namely TAIR and UniProt. The NCBI BLASTP tool will be used reciprocally to search for similar sequences between the protein sequences of target species being annotated and other datasets. The results from BLASTP search will be processed using R script to determine the reciprocal-best-hits and assign GO terms from TAIR and UniProt to the target species.
 
-Domain-presence based methods
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Domain-presence based methods
 
-Putative protein domains will be assinged to the protein sequence using
-InterProScan5 pipeline. InterProScan5 uses a java based pipeline to find
-protein domain signatures in target sequences and assigns GO terms based
-on the presence of the domain signatures.
+Putative protein domains will be assinged to the protein sequence using InterProScan5 pipeline. InterProScan5 uses a java based pipeline to find protein domain signatures in target sequences and assigns GO terms based on the presence of the domain signatures.
 
-Mixed-method pipelines/tools
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Mixed-method pipelines / CAFA tools
 
-Three best performing pipelines/tools which have competed in the first
-iteration of the `CAFA <http://biofunctionprediction.org>`__ competition
-will be used to assign GO terms to proteins. These tools are
-`Argot2.5 <http://www.medcomp.medicina.unipd.it/Argot2-5/>`__,
-`PANNZER <http://ekhidna.biocenter.helsinki.fi/pannzer>`__, and
-`FANN-GO <http://montana.informatics.indiana.edu/fanngo/fanngo.html>`__.
-Each of the tools have specific requirements, setup instructions and
+Three best performing pipelines/tools which have competed in the first iteration of the [CAFA](http://biofunctionprediction.org) competition will be used to assign GO terms to proteins. These tools are [Argot2.5](http://www.medcomp.medicina.unipd.it/Argot2-5/), [PANNZER](http://ekhidna.biocenter.helsinki.fi/pannzer). Each of the tools have specific requirements, setup instructions and
 pre-processing steps. These all will be explained in the setup section.
 
-Requirements to be installed
-============================
+# Requirements to be installed
 
-| The GO-MAP pipeline itself will have all the code to run the pipeline,
-  but some requirements have to be installed before GO-MAP can be used.
+The GO-MAP pipeline itself will have all the code to run the pipeline, but some requirements have to be installed before GO-MAP can be used.
 
-What are the requirements for GO-MAP?
--------------------------------------
+## What are the requirements for GO-MAP?
 
+**TODO**
+
+<!-->
 -  OS
-
    -  linux
-
 -  Programming Languages
-
    -  R v3.4
-
    -  Python v2
-
    -  Java v1.8
-
    -  Perl
-
 -  software
-
-   -  MATLAB
-
    -  MySQL/MariaDB
-
 -  Python Packages
-
    -  biopython
-
    -  numpy
-
    -  scipy
-
    -  MySQL-python
-
 -  R packages
-
    -  ontologyIndex
-
    -  data.table
-
    -  ggplot2
-
    -  futile.logger
-
    -  jsonlite
+-->
 
-The pipeline if downloaded from CyVerse containsthe data files and
-following software to run the process on a given protein sequence fasta
-file. The disk space required for the pipeline is large (~160GB) and
-when it runs it will require close to 300GB of disk space.
+The pipeline if downloaded from CyVerse containsthe data files and following software to run the process on a given protein sequence fasta file. The disk space required for the pipeline is large (~160GB) and when it runs it will require close to 300GB of disk space.
 
--  Sequence-similarity
-
+<!--
 -  BLAST 2.6.0
-
 -  InterProScan5
-
 -  Java 1.8\*
-
 -  Python 2\*
-
 -  Perl\*
-
 -  FANN-GO
-
 -  Matlab\*
-
 -  PANNZER
-
 -  Python 2
-
 -  MySQL/MariaDB\*
-
 -  Argot2
-
 -  BLASTP
-
 -  Hmmer
+-->
 
--  Web browser to submit jobs to batch processing
+## Setting up GOMAP
+### What are the steps needed to setup the pipeline?
 
-Setting up GO-MAP
-=================
+* Install dependencies
+* Install required packages for R and Python
+* Setup MySQL database for Pannzer
+    * Create a database named pannzer
+    * Create a user names pannzer and grant all privileges on the database pannzer
+    * The password should be ``pannzer``
+    * If you decide to change any of this, please update the `config.json` `mix-meth.PANNZER.database]` file accordingly.
 
-What are the steps needed to setup the pipeline?
-------------------------------------------------
+## Running GO-MAP
 
-#. Install dependencies
-
-#. Install required packages for R and Python
-
--  A shell script is provided to make the installation of the packages
-   easy.
-
--  Run ``bash install/install_packages.sh`` from GAMER-pipeline
-   directory
-
--  Users with a python2 virtual environment please activate before
-   running the script
-
-#. Setup MySQL database for Pannzer
-
--  Create a database named pannzer
-
--  Create a user names pannzer and grant all privileges on the database
-   pannzer
-
--  The password should be ``pannzer``
-
--  If you decide to change any of this, please update the config.json
-   [mix-meth.PANNZER.database] file accordingly.
-
-Running GO-MAP
-==============
-
-How to run the GAMER-pipeline?
-------------------------------
+### How to run the GAMER-pipeline?
 
 GAMER-pipeline is run in two steps using pipeline1.py and pipleine2.py.
 First part of the pipeline runs the Sequence-similarity methods and
