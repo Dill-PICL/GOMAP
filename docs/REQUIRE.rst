@@ -1,12 +1,12 @@
-Requirements to be installed
-============================
+Requirements
+============
 
-The [DOI release] of the GO-MAP pipeline contains code, software, and
+The [DOI release] of the GOMAP pipeline contains code, software, and
 data files to run the pipeline. Although, there are some basic
 requirements which need to be installed. The requirements that have to
 be installed are listed below.
 
-What are the requirements that need to be installed to run GO-MAP?
+What are the requirements that need to be installed to run GOMAP?
 ------------------------------------------------------------------
 
 -  Hardware

@@ -1,11 +1,11 @@
 Introduction
 ============
 
-What is GO-MAP?
+What is GOMAP?
 ---------------
 
 **G**\ ene **O**\ ntology - **M**\ eta **A**\ nnotator for **P**\ lants
-(**GO-MAP**) is a pipeline that annotates GO terms to plant protein
+(**GOMAP**) is a pipeline that annotates GO terms to plant protein
 sequences. The pipeline uses 3 different approaches to annotate GO terms
 to plant proteins and uses a mix of custom code and existing software
 tools to assign GO terms. The pipeline was designed to create a high
@@ -52,12 +52,12 @@ the following sections [TODO]
 Requirements to be installed
 ============================
 
-The [DOI release] of the GO-MAP pipeline contains code, software, and
+The [DOI release] of the GOMAP pipeline contains code, software, and
 data files to run the pipeline. Although, there are some basic
 requirements which need to be installed. The requirements that have to
 be installed are listed below.
 
-What are the requirements that need to be installed to run GO-MAP?
+What are the requirements that need to be installed to run GOMAP?
 ------------------------------------------------------------------
 
 -  Hardware
@@ -159,7 +159,7 @@ What are the software tools needed to run specific annotation methods?
   file. The disk space required for the pipeline is large (~160GB) and
   when it runs it will require close to 300GB of disk space.
 
-Setting up GO-MAP
+Setting up GOMAP
 =================
 
 What are the steps needed to setup the pipeline?
@@ -190,7 +190,7 @@ What are the steps needed to setup the pipeline?
 -  If you decide to change any of this, please update the config.json
    [mix-meth.PANNZER.database] file accordingly.
 
-Running GO-MAP
+Running GOMAP
 ==============
 
 How to run the GAMER-pipeline?

@@ -1,4 +1,4 @@
-Setting up GO-MAP
+Setting up GOMAP
 =================
 
 What are the steps needed to setup the pipeline?

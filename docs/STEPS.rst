@@ -1,10 +1,10 @@
-Running GO-MAP
+Running GOMAP
 ==============
 
-How to run the GAMER-pipeline?
-------------------------------
+How to run GOMAP?
+-----------------
 
-GAMER-pipeline is run in two steps using pipeline1.py and pipleine2.py.
+GOMAP is run in two steps using pipeline1.py and pipleine2.py.
 First part of the pipeline runs the Sequence-similarity methods and
 domain-based methods, and FANN-GO and PANNZER. It also runs the
 pre-processing steps for Argot2.5. Second part of the pipeline processes
@@ -82,7 +82,7 @@ What are the steps needed to setup the pipeline?
 -  A shell script is provided to make the installation of the packages
    easy.
 
--  Run ``bash install/install_packages.sh`` from GAMER-pipeline
+-  Run ``bash install/install_packages.sh`` from GOMAP
    directory
 
 -  Users with a python2 virtual environment please activate before
@@ -100,10 +100,10 @@ What are the steps needed to setup the pipeline?
 -  If you decide to change any of this, please update the config.json
    [mix-meth.PANNZER.database] file accordingly.
 
-How to run the GAMER-pipeline?
+How to run the GOMAP?
 ------------------------------
 
-GAMER-pipeline is run in two steps using pipeline1.py and pipleine2.py.
+GOMAP is run in two steps using pipeline1.py and pipleine2.py.
 First part of the pipeline runs the Sequence-similarity methods and
 domain-based methods, and FANN-GO and PANNZER. It also runs the
 pre-processing steps for Argot2.5. Second part of the pipeline processes

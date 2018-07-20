@@ -1,11 +1,11 @@
 Introduction
 ============
 
-What is GO-MAP?
+What is GOMAP?
 ---------------
 
 **G**\ ene **O**\ ntology - **M**\ eta **A**\ nnotator for **P**\ lants
-(**GO-MAP**) is a pipeline that annotates GO terms to plant protein
+(**GOMAP**) is a pipeline that annotates GO terms to plant protein
 sequences. The pipeline uses 3 different approaches to annotate GO terms
 to plant proteins and uses a mix of custom code and existing software
 tools to assign GO terms. The pipeline was designed to create a high
@@ -42,9 +42,8 @@ Mixed-method pipelines or tools
 Three top performing pipelines/tools which have competed in the first
 iteration of the `CAFA <http://biofunctionprediction.org>`__ competition
 will be used to assign GO terms to proteins. These tools are
-`Argot2.5 <http://www.medcomp.medicina.unipd.it/Argot2-5/>`__,
-`PANNZER <http://ekhidna.biocenter.helsinki.fi/pannzer>`__, and
-`FANN-GO <http://montana.informatics.indiana.edu/fanngo/fanngo.html>`__.
+`Argot2.5 <http://www.medcomp.medicina.unipd.it/Argot2-5/>`__, and 
+`PANNZER <http://ekhidna.biocenter.helsinki.fi/pannzer>`__.
 Each of the tools have specific requirements, setup instructions and
 pre-processing steps. The details of these steps will be explained in
-the following sections [TODO]
+the following sections.
