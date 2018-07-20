@@ -3,6 +3,7 @@ pannzer2gaf <- function(in_files,out_gaf,config){
     in_files=pannzer_results
     #out_file="PANNZER/gaf/pannzer-0.0.gaf"
     gaf_date = format(Sys.time(),"%m%d%Y")
+    taxon_txt=paste("taxon:",config$input$taxon,sep="")
     
     
     tmp_out = lapply(in_files,function(infile){
@@ -45,7 +46,7 @@ pannzer2gaf <- function(in_files,out_gaf,config){
     gaf_data[,db_object_name:=""]
     gaf_data[,db_object_synonym:=""]
     gaf_data[,db_object_type:="protein"]
-    gaf_data[,taxon:="taxon:4577"]
+    gaf_data[,taxon:=taxon_txt]
     gaf_data[,date:=gaf_date]
     gaf_data[,assigned_by:="PANNZER"]
     gaf_data[,annotation_extension:=""]

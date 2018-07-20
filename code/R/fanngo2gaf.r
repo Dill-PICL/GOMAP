@@ -3,6 +3,7 @@ fanngo2gaf <- function(in_file,out_gaf,config){
     #in_file="FANNGO_linux_x64/scores.txt"
     #out_gaf="FANNGO_linux_x64/gaf/fanngo-0.0.gaf"
     gaf_date = format(Sys.time(),"%m%d%Y")
+    taxon_txt=paste("taxon:",config$input$taxon,sep="")
     
     fanngo_data = fread(in_file)
     tmp = gsub("_P[0-9]+","",fanngo_data$gene_id)
@@ -52,7 +53,7 @@ fanngo2gaf <- function(in_file,out_gaf,config){
     gaf_data[,db_object_name:=""]
     gaf_data[,db_object_synonym:=""]
     gaf_data[,db_object_type:="protein"]
-    gaf_data[,taxon:="taxon:4577"]
+    gaf_data[,taxon:=taxon_txt]
     gaf_data[,date:=gaf_date]
     gaf_data[,assigned_by:="FANN-GO"]
     gaf_data[,annotation_extension:=""]

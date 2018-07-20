@@ -144,13 +144,13 @@ get_tool_score = function(th,tool_data,gold_data,go_obo,tool_name="data"){
         unit_perc = 1
         unit_size = nrow(gold_data) %/% (100/unit_perc)
         
-        if(F){
-            th = 0.05
-            gold_data = gold    
-            tools_data$argot2$data[th==0.05][gene=="4577.AC182617.3_FG001"]
-            tool_data[db_object_symbol == "AC182617.3_FG001"][with>=0.05]
-            tool_score_perf[order(db_object_symbol)][db_object_symbol == "AC182617.3_FG001"]
-        }
+        # if(F){
+        #     th = 0.05
+        #     gold_data = gold    
+        #     tools_data$argot2$data[th==0.05][gene=="4577.AC182617.3_FG001"]
+        #     tool_data[db_object_symbol == "AC182617.3_FG001"][with>=0.05]
+        #     tool_score_perf[order(db_object_symbol)][db_object_symbol == "AC182617.3_FG001"]
+        # }
         
         
         tool_score_perf = gold_data[sort(common_genes),get_annot_sim_score(db_object_symbol,aspect,.SD,unit_size,.I,unit_perc,tool_data_list,go_obo,tool_name),by=list(db_object_symbol,aspect)]

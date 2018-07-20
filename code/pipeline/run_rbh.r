@@ -23,8 +23,8 @@ set_logger(config)
 #if(dir.exists(config$input$work_dir)){
 #    setwd(config$input$work_dir)
 #}
-
-ommited_ev_codes = config$go$evidence_codes$omitted
+taxon_txt=paste("taxon:",config$input$taxon,sep="")
+ommited_ev_codes = c(config$go$evidence_codes$omitted,config$input$taxon)
 
 
 #processing arabidopsis results
@@ -48,7 +48,7 @@ if(!file.exists(rbh_out)){
 
 
 if(!file.exists(out_gaf_file)){
-    assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,out_gaf_file)    
+    assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,out_gaf_file,taxon_txt)    
 }else{
     flog.info(paste(out_gaf_file, "already exists. Delete to regenerate"))
 }
@@ -72,7 +72,7 @@ if(!file.exists(rbh_out)){
         colnames(rbh_hits) <- c("qseqid","sseqid")
 }
 if(!file.exists(out_gaf_file)){
-    assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,out_gaf_file)    
+    assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,out_gaf_file,taxon_txt)    
 }else{
     flog.info(paste(out_gaf_file, "already exists. Delete to regenerate"))
 }

@@ -5,7 +5,7 @@ source("code/R/gaf_tools.r")
 
 iprs_cols = fread(config[["software"]][["iprs"]][["cols"]],header = F)$V1
 
-iprs2gaf <- function(go_obo,iprs_out,gaf_file){
+iprs2gaf <- function(go_obo,iprs_out,gaf_file,taxon_txt){
     
     obo_data = check_obo_data(go_obo)
     #rbh_hits <- fread(rbh_file,header = F,sep = "\t")
@@ -27,7 +27,7 @@ iprs2gaf <- function(go_obo,iprs_out,gaf_file){
     gaf_data[,assigned_by:="IPRS"]
     #gaf_data[,annotation_extension:=""]
     #gaf_data[,gene_product_form_id:=""]
-    gaf_data[,taxon:="taxon:4577"]
+    gaf_data[,taxon:=taxon_txt]
     gaf_data[,db_object_type:="protein"]
     #gaf_data[,db_object_synonym:=""]
     #test = "db_object_type"

@@ -112,7 +112,7 @@ get_rbh <- function(main2other,other2main, evalue_th){
     return(rbh_data)
 }
 
-assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,out_gaf_file){
+assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,out_gaf_file,taxon_txt){
 
     #rbh_hits <- fread(rbh_file,header = F,sep = "\t")
     rbh_hits = data.table(rbh_data)
@@ -139,7 +139,7 @@ assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,out_gaf_file){
     out_gaf[,db:="maize-GAMER"]
     out_gaf[,assigned_by:=ass_by]
     out_gaf[,db_reference:="MG:0000"]
-    out_gaf[,taxon:="taxon:4577"]
+    out_gaf[,taxon:=taxon_txt]
     out_gaf[,date:=gaf_date]
     out_gaf[,evidence_code:="IEA"]
     out_gaf[,db_object_name:=""]

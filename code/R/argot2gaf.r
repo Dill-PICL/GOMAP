@@ -8,6 +8,7 @@ argot2gaf <- function(in_files,out_file,config){
     })
     argot2_data = do.call(rbind,tmp_out)
     argot2_data = argot2_data[!grep("#",`SeqID`)]
+    taxon_txt=paste("taxon:",config$input$taxon,sep="")
     
     gaf_cols=fread(config$data$go$gaf_cols,header = F)$V1
     gaf_cols
@@ -37,7 +38,7 @@ argot2gaf <- function(in_files,out_file,config){
     gaf_data[,db_object_name:=""]
     gaf_data[,db_object_synonym:=""]
     gaf_data[,db_object_type:="protein"]
-    gaf_data[,taxon:="taxon:4577"]
+    gaf_data[,taxon:=taxon_txt]
     gaf_data[,date:=gaf_date]
     gaf_data[,assigned_by:="Argot2"]
     gaf_data[,annotation_extension:=""]
