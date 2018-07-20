@@ -7,5 +7,5 @@ the pipeline in its current form used for that.
 
 ### This version of GOMAP is only intended for development purposes. Please use [GOMAP-singularity](https://github.com/Dill-PICL/GOMAP-singularity) for annotating plant protein sequences
 
-Please see **TODO** for detailed documentation
+Please see [ReadTheDocs](http://go-map.readthedocs.io) for detailed documentation
 
