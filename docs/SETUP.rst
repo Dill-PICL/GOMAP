@@ -1,5 +1,5 @@
-Setting up GOMAP
-=================
+Setup
+=====
 
 What are the steps needed to setup the pipeline?
 ------------------------------------------------
