@@ -1,10 +1,8 @@
-Introduction
-============
+# Introduction
 
-What is GAMER-pipeline?
------------------------
+## What is GOMAP?
 
-Gene Ontology - Meta Annotator for Plants (**GO-MAP**) is a pipeline
+Gene Ontology - Meta Annotator for Plants (**GOMAP**) is a pipeline
 that annotates GO terms to plant protein sequences. The pipeline uses
 three different approaches to annotate GO terms to plant proteins and
 uses a mix of custom code and existing software tools to assign GO
@@ -15,8 +13,7 @@ been written using Python and R, and other software tools used will be
 briefly described in the requirements section. Three main approaches
 used to annotate GO terms are given below.
 
-What methods are used to annotate GO terms?
--------------------------------------------
+## What methods are used to annotate GO terms?
 
 Sequence-similarity based methods
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
