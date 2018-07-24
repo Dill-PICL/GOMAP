@@ -38,7 +38,7 @@ data:
   mixed-method:
       preprocess:
         hmmerdb:    data/data/mixed-meth/pfamdb/Pfam-A.hmm
-        num_seqs: '40'
+        num_seqs: '10000'
         blast_out: tmp/mixed-meth/preprocess/blast
         uniprot_db: data/data/mixed-meth/uniprot/uniprot_2017_07.sel
         fa_path: tmp/mixed-meth/preprocess/fa
@@ -122,7 +122,7 @@ logging:
   level:            DEBUG
 pipeline:
   config_file:      pipeline.json
-  version:          '0.2'
+  version:          '1.0.1'
   name:             GO-MAP
   pipeline_loc:     "/opt/GOMAP"
   dir_struct:       "config/dirs.yml"
