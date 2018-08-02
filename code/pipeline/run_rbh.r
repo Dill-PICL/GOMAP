@@ -65,7 +65,7 @@ out_gaf_file=paste(config[["input"]][["gomap_dir"]],"/",config$data$gaf$raw_dir,
 rbh_out = gsub("bl.out","rbh.out",main2other)
 
 if(!file.exists(rbh_out)){
-    rbh_hits = get_uniprot_rbh(main2other,other2main,eval_th)
+    rbh_hits = get_uniprot_rbh(main2other,other2main,config)
 }else{
         flog.info(paste(rbh_out, "already exists. Delete to regenerate"))
         rbh_hits = fread(rbh_out,header = F)
