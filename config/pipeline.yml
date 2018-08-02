@@ -4,7 +4,6 @@ data:
       basename:     At.TAIR10
       basedir:      data/data/seq-sim/tair
       tmpdir:       tmp/seq-sim/tair
-      gaf:          gaf/At.TAIR10
       metadata:
         date:       ''
         version:    TAIR10

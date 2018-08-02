@@ -14,6 +14,7 @@ if(F){
 }
 
 get_uniprot_rbh <- function(main2other,other2main, config){
+    spp="uniprot"
     evalue_th= as.numeric(config$blast$evalue)
     main2other_blast <- fread(main2other,header = F,sep = "\t",stringsAsFactors = F)
     colnames(main2other_blast) <- blast_cols
@@ -21,35 +22,24 @@ get_uniprot_rbh <- function(main2other,other2main, config){
     #db2mz_blast <- data.table(db2mz_blast)
     setkeyv(main2other_blast,c("qseqid","sseqid"))
     main2other_blast <- main2other_blast[evalue <= evalue_th]
-    if(F){
-		tmp_sseqid = lapply(strsplit(main2other_blast$sseqid,"\\|"),function(x){
-		    x[[2]]
-		})
-		main2other_blast[,sseqid:=unlist(tmp_sseqid)]
-    }
-
+    
     other2main_blast <- fread(other2main,header = F,sep = "\t",stringsAsFactors = F)
     colnames(other2main_blast) <- blast_cols
     #other2main_blast <- data.table(other2main_blast)
     setkeyv(other2main_blast,c("qseqid","sseqid"))
     other2main_blast <- other2main_blast[evalue < evalue_th]
-    if(F){
-		tmp_sseqid = lapply(strsplit(other2main_blast$qseqid,"\\|"),function(x){
-		    x[[2]]
-		})
-		other2main_blast[,qseqid:=unlist(tmp_sseqid)]
-    }
-	#other2main_blast
-
-    uniprot_gaf = read_gaf(config$`seq-sim`$UniProt$gaf_file)
+    
+    gaf_file = paste(config[["data"]]$`seq-sim`[[spp]]$basedir,"/",config[["data"]]$`seq-sim`[[spp]]$basename,".gaf",sep="")
+    uniprot_gaf = read_gaf(gaf_file)
     uniprot_gaf[db_object_id == main2other_blast$sseqid[1]]
 
     tmp_taxon = lapply(strsplit(uniprot_gaf$taxon,"\\:"),function(x){
         x[[2]]
     })
     uniprot_gaf[,taxon:=unlist(tmp_taxon)]
-    config$`seq-sim`$UniProt$tax_ids
-    tax_ids = config$`seq-sim`$UniProt$tax_ids
+    print(config$`seq-sim`$uniprot)
+    tax_ids = setdiff(config$`seq-sim`$uniprot$cleaning$sel_tax,config$input$taxon)
+    print(tax_ids)
     uniprot_gaf = uniprot_gaf[taxon %in% tax_ids]
 
     rbh_tmp <- mclapply(tax_ids,function(taxid){
