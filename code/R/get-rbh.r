@@ -15,10 +15,9 @@ if(F){
 
 get_uniprot_rbh <- function(main2other,other2main, config){
     spp="uniprot"
-    evalue_th= as.numeric(config$blast$evalue)
+    evalue_th= as.numeric(config$software$blast$evalue)
     main2other_blast <- fread(main2other,header = F,sep = "\t",stringsAsFactors = F)
     colnames(main2other_blast) <- blast_cols
-    main2other_blast
     #db2mz_blast <- data.table(db2mz_blast)
     setkeyv(main2other_blast,c("qseqid","sseqid"))
     main2other_blast <- main2other_blast[evalue <= evalue_th]
@@ -37,23 +36,18 @@ get_uniprot_rbh <- function(main2other,other2main, config){
         x[[2]]
     })
     uniprot_gaf[,taxon:=unlist(tmp_taxon)]
-    print(config$`seq-sim`$uniprot)
-    tax_ids = setdiff(config$`seq-sim`$uniprot$cleaning$sel_tax,config$input$taxon)
-    print(tax_ids)
+    tax_ids = setdiff(config$data$`seq-sim`$uniprot$cleaning$sel_tax,config$input$taxon)
     uniprot_gaf = uniprot_gaf[taxon %in% tax_ids]
 
-    rbh_tmp <- mclapply(tax_ids,function(taxid){
+    rbh_tmp <- lapply(tax_ids,function(taxid){
 
         tmp_uniprot_ids = uniprot_gaf[taxon==taxid]$db_object_id
-        mai2other_tmp = main2other_blast[sseqid %in% tmp_uniprot_ids]
-        which_max_score <- mai2other_tmp[,list(max_score=.I[which.max(score)]),by=qseqid]
-        main2other_blast_filt <- mai2other_tmp[which_max_score$max_score]
+        main2other_tmp = main2other_blast[sseqid %in% tmp_uniprot_ids]
+        print(sum(main2other_blast$sseqid %in% tmp_uniprot_ids))
+        which_max_score <- main2other_tmp[,list(max_score=.I[which.max(score)]),by=qseqid]
+        main2other_blast_filt <- main2other_tmp[which_max_score$max_score]
         #db2mz_blast_filt
         main2other_hits <- paste(main2other_blast_filt$qseqid,main2other_blast_filt$sseqid,sep = "-")
-
-
-
-        other2main_blast
         other2main_tmp = other2main_blast[qseqid %in% tmp_uniprot_ids]
 
         which_min_eval <- other2main_tmp[,list(min_ind=.I[which.min(evalue)]),by=qseqid]
@@ -65,10 +59,9 @@ get_uniprot_rbh <- function(main2other,other2main, config){
 
         rbh <- main2other_blast_filt[main2other_hits %in% other2main_hits]
         rbh
-    },mc.cores = 4)
+    })
 
     rbh_data = do.call(rbind,rbh_tmp)[,1:2,with=F]
-    #rbh_data
 
     rbh_out = gsub("bl.out","rbh.out",main2other)
 
