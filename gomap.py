@@ -42,6 +42,8 @@ main_args = main_parser.parse_args()
     location. and loads the pipleine configutation
 '''
 
+os.chdir("/opt/GOMAP/")
+
 with open("config/pipeline.yml") as tmp_file:
     pipe_config = yaml.load(tmp_file)
 
@@ -52,8 +54,6 @@ with open(config_file) as tmp_file:
 
 config = merger.merge(pipe_config, user_config)
 config = init_dirs(config)
-
-
 
 conf_out = config["input"]["gomap_dir"]+"/"+config["input"]["basename"]+".all.yml"
 config["input"]["config_file"] = conf_out

@@ -8,13 +8,14 @@ rank = MPI.COMM_WORLD.Get_rank()
 name = MPI.Get_processor_name()
 
 def run_mpi_blast(fa_files,config):
-    print("Hello World! \n I am process %d of %d on %s. \n" % (rank, size, name))
+    
+    print("Hello World! \n I am process %d of %d on %s." % (rank, size, name))
     print(os.environ.get('USER'))
     uniprot_db=config["data"]["mixed-method"]["preprocess"]["uniprot_db"]
     
     tmpdir=config["input"]["tmpdir"]
     src=os.path.dirname(uniprot_db)
-    dest=tmpdir
+    dest=tmpdir+"/blastdb"
     results = pyrocopy.copy(src,dest)
 
     chunk_size = len(fa_files)/(size)
