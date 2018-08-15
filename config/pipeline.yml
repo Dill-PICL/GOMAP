@@ -38,6 +38,7 @@ data:
       preprocess:
         hmmerdb:    data/data/mixed-meth/pfamdb/Pfam-A.hmm
         num_seqs: '10000'
+        small_seqs: '100'
         blast_out: tmp/mixed-meth/preprocess/blast
         uniprot_db: data/data/mixed-meth/uniprot/uniprot_2017_07.sel
         fa_path: tmp/mixed-meth/preprocess/fa
@@ -128,4 +129,6 @@ pipeline:
 input:
   workdir:          "/workdir"
   cpus: 4
+  openmpi: False
+  tmpdir: "TMPDIR"
 

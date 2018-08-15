@@ -3,6 +3,7 @@ from pprint import pprint
 from code.utils.basic_utils import check_output_and_run
 import xml.etree.ElementTree as ET
 from Bio import SeqIO
+from datetime import datetime
 
 
 def make_blastdb(in_fasta,config):
@@ -81,3 +82,15 @@ def combine_blast_xml(in_files,out_file):
     # os.remove(out_file)
 
     
+def run_blast(fa_file,blast_db,config):
+    in_file=fa_file
+    out_file=re.sub(r'fa$',"xml",fa_file)
+    blast_config=config["software"]["blast"]
+    blast_opts=config["data"]["mixed-method"]["preprocess"]["blast_opts"]
+    skip_blast = check_bl_out(in_file,out_file)
+
+    if skip_blast:
+            logging.info(out_file+" already exists.\n The number of sequences in output match input")
+    else:
+        blast_cmd = [blast_config["bin"]+ "/blastp","-outfmt","5", "-db",blast_db,"-query",in_file,"-out",out_file,"-num_threads",str(config["input"]["cpus"])]+blast_opts
+        check_output_and_run(out_file,blast_cmd)
