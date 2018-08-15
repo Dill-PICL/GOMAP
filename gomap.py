@@ -11,6 +11,11 @@ from pprint import pprint
 from code.gomap_preprocess import run_preprocess
 from code.gomap_aggregate import aggregate
 from code.gomap_setup import setup
+from code.gomap_seqsim import run_seqsim
+from code.gomap_domain import run_domain
+from code.gomap_mm_preproc import run_mm_preproc
+from code.gomap_mixmeth import run_mixmeth
+
 from code.utils.basic_utils import init_dirs, copy_input
 from code.utils.logging_utils import setlogging
 
@@ -29,7 +34,7 @@ merger = Merger(schema)
 '''
 main_parser = argparse.ArgumentParser(description='Welcome to running the GO-MAP pipeline',formatter_class=RawTextHelpFormatter)
 main_parser.add_argument('--config',help="The config file in yml format. \nPlease see config.json for an example. \nIf a config file is not provided then the default parameters will be used.",required=True)
-main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['preprocess','aggregate','init','setup'],required=True)
+main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['setup','seqsim','domain','mixmeth-preproc','mixmeth','aggregate'],required=True)
 main_args = main_parser.parse_args()
 
 '''
@@ -60,11 +65,23 @@ with open(conf_out,"w") as out_f:
 Depending the step selected by the user we are going to run the relevant part of GO-MAP
 '''
 
-if main_args.step == "preprocess":
-    setlogging(config,"base")
-    logging.info("Running Pre-processing Step")
-    copy_input(config)
-    run_preprocess(config)
+if main_args.step == "seqsim":
+    print("Running Sequence-similarity based Annotation Step")
+    setlogging(config,"seqsim")
+    logging.info("Running Sequence-similarity based Annotation Step")
+    run_seqsim(config)
+elif main_args.step == "domain":
+    setlogging(config,"domain")
+    logging.info("Running Domain Based Annotation Step")
+    run_domain(config)
+elif main_args.step == "mixmeth-preproc":
+    setlogging(config,"mixmeth-preproc")
+    logging.info("Running preprocessing step for mixed-methods")
+    run_mm_preproc(config)
+elif main_args.step == "mixmeth":
+    setlogging(config,"mixmeth")
+    logging.info("Running mixed-method based annotations")
+    run_mixmeth(config)
 elif main_args.step == "aggregate":
     setlogging(config,"base")
     logging.info("Running Aggregate Step")
