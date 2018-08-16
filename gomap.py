@@ -71,22 +71,27 @@ if main_args.step == "seqsim":
     logging.info("Running Sequence-similarity based Annotation Step")
     run_seqsim(config)
 elif main_args.step == "domain":
+    print("Running Domain Based Annotation Step")
     setlogging(config,"domain")
     logging.info("Running Domain Based Annotation Step")
     run_domain(config)
 elif main_args.step == "mixmeth-preproc":
+    print("Running preprocessing step for mixed-methods")
     setlogging(config,"mixmeth-preproc")
     logging.info("Running preprocessing step for mixed-methods")
     run_mm_preproc(config)
 elif main_args.step == "mixmeth":
+    print("Running mixed-method based annotations")
     setlogging(config,"mixmeth")
     logging.info("Running mixed-method based annotations")
     run_mixmeth(config)
 elif main_args.step == "aggregate":
-    setlogging(config,"base")
+    print("Running Aggregate Step")
+    setlogging(config,"aggregate")
     logging.info("Running Aggregate Step")
     aggregate(config)
 elif main_args.step == "setup":
+    print("Downloading data from CyVerse")
     setlogging(config,"base")
     logging.info("Downloading data from CyVerse")
     setup(config)
