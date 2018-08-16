@@ -32,8 +32,8 @@ merger = Merger(schema)
 '''
     Parsing the input config file that will be supplied by te user.
 '''
-main_parser = argparse.ArgumentParser(description='Welcome to running the GO-MAP pipeline',formatter_class=RawTextHelpFormatter)
-main_parser.add_argument('--config',help="The config file in yml format. \nPlease see config.json for an example. \nIf a config file is not provided then the default parameters will be used.",required=True)
+main_parser = argparse.ArgumentParser(description='Welcome to running the GOMAP pipeline',formatter_class=RawTextHelpFormatter)
+main_parser.add_argument('--config',help="The config file in yaml format. \nPlease see test/config.yml for an example.",required=True)
 main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['setup','seqsim','domain','mixmeth-preproc','mixmeth','aggregate'],required=True)
 main_args = main_parser.parse_args()
 

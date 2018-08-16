@@ -26,3 +26,4 @@ test.json
 jupyter-reqs
 software/
 test.md
+mpi4py-test.py
