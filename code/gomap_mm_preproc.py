@@ -28,7 +28,7 @@ def run_mm_preproc(config):
 	'''
 	Step 6 is to run components of preprocessing pipeline to create input data for the mixed method pipelines
 	'''
-	from code.pipeline.run_mm_preproc import process_fasta,make_tmp_fa, run_uniprot_blast, compile_blast_out
+	from code.pipeline.run_mixmeth_preproc import process_fasta,make_tmp_fa, run_uniprot_blast, compile_blast_out
 	process_fasta(config)
 	make_tmp_fa(config)
 	run_uniprot_blast(config)
