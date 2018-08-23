@@ -49,5 +49,3 @@ gaf:
     - a
 input:
     - a
-argot_links.csv:
-    "filename,link\n"

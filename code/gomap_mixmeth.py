@@ -13,7 +13,6 @@ def run_mixmeth(config):
 
 	Returns None
 	"""
-	setlogging(config,"preprocess")
 
 	'''
 	Step 7 is to run the preprocessing steps for Argot2.5
@@ -30,5 +29,3 @@ def run_mixmeth(config):
 	from code.pipeline.run_pannzer import copy_blast, run_pannzer
 	copy_blast(config)
 	run_pannzer(config)
-
-	

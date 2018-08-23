@@ -104,8 +104,8 @@ def submit_argot2(config):
             #r_batch = s.post("http://localhost/test/upload.php",headers=headers,data=payload,files=files)
 
             r_insert = s.post(argot_url,data=payload,files=files,headers=headers)
-            pprint(dict(r_insert.request.headers))
-            pprint(dict(r_insert.headers))
+            # pprint(dict(r_insert.request.headers))
+            # pprint(dict(r_insert.headers))
             with open(html_file,"w") as outfile:
                 outfile.writelines(r_insert.text)
         
@@ -132,7 +132,6 @@ def download_argot2(config):
             all_links = res_tree.findall(".//a")
             csv_href = argot_config["baseurl"]+"/"+[ link.attrib["href"] for link in all_links if "getTSVFile.php" in link.attrib["href"] ][0]
 
-            print(csv_href,result_file)
             csv_r = requests.get(csv_href)
             with open(result_file+".zip","w") as outfile:
                 outfile.write(csv_r.content)
@@ -150,9 +149,8 @@ def process_argot2(config):
         if not os.path.isfile(outfile):
             logging.info("Unzipping " + os.path.basename(result_zip))
             archive = zipfile.ZipFile(result_zip)
-            pprint(archive.namelist())
-            result_file="argot_results_ts0.tsv"            
-            archive.extract(result_file,".")
-            shutil.move(result_file, outfile)
+            result_file="argot_results_ts0.tsv"
+            archive.extract(result_file,workdir)
+            shutil.move(workdir+"/"+result_file, outfile)
         else:
             logging.info("Outfile " + outfile + " already exists.\n Please deltreeit to regenerate")
