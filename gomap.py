@@ -54,12 +54,12 @@ with open(config_file) as tmp_file:
 
 config = merger.merge(pipe_config, user_config)
 config = init_dirs(config)
+copy_input(config)
 
 conf_out = config["input"]["gomap_dir"]+"/"+config["input"]["basename"]+".all.yml"
 config["input"]["config_file"] = conf_out
 with open(conf_out,"w") as out_f:
 	yaml.dump(config,out_f)
-
 
 '''
 Depending the step selected by the user we are going to run the relevant part of GO-MAP
