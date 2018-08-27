@@ -30,4 +30,4 @@ def run_mpi_blast(fa_files,config):
     for fa_file in sel_files:
         print("I am process %d of %d on %s. \n" % (rank, size, name))
         print("Running BLASTP on %s against %s" % (fa_file,uniprot_db))
-        #run_blast(fa_file,uniprot_db,config)
+        run_blast(fa_file,uniprot_db,config)

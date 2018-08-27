@@ -34,7 +34,7 @@ merger = Merger(schema)
 '''
 main_parser = argparse.ArgumentParser(description='Welcome to running the GOMAP pipeline',formatter_class=RawTextHelpFormatter)
 main_parser.add_argument('--config',help="The config file in yaml format. \nPlease see test/config.yml for an example.",required=True)
-main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['setup','seqsim','domain','mixmeth-preproc','mixmeth','aggregate'],required=True)
+main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['setup','seqsim','domain','mixmeth-blast',;'mixmeth-preproc','mixmeth','aggregate'],required=True)
 main_args = main_parser.parse_args()
 
 '''
@@ -75,6 +75,11 @@ elif main_args.step == "domain":
     setlogging(config,"domain")
     logging.info("Running Domain Based Annotation Step")
     run_domain(config)
+elif main_args.step == "mixmeth-blast":
+    print("Running preprocessing step for mixed-methods")
+    setlogging(config,"mixmeth-preproc")
+    logging.info("Running preprocessing step for mixed-methods")
+    run_mm_preproc(config)
 elif main_args.step == "mixmeth-preproc":
     print("Running preprocessing step for mixed-methods")
     setlogging(config,"mixmeth-preproc")

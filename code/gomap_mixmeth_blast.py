@@ -8,7 +8,7 @@ import  logging, sys, re
 from pprint import pprint
 from code.utils.logging_utils import setlogging
 
-def run_mm_preproc(config):
+def run_mixmeth_blast(config):
 	"""A really useful function.
 
 	Returns None
@@ -28,23 +28,8 @@ def run_mm_preproc(config):
 	'''
 	Step 6 is to run components of preprocessing pipeline to create input data for the mixed method pipelines
 	'''
-	from code.pipeline.run_mixmeth_preproc import compile_blast_out
-	compile_blast_out(config)
-
-	'''
-	Step 7 is to run the preprocessing steps for Argot2.5
-	sadsdsadsa
-	'''
-	from code.pipeline.run_argot2 import convert_blast,run_hmmer,submit_argot2
-	convert_blast(config)
-	run_hmmer(config)
-	submit_argot2(config)
-
-	'''
-	Step 8 is to run the mixed-method pipeline PANNZER
-	'''
-	from code.pipeline.run_pannzer import copy_blast, run_pannzer
-	copy_blast(config)
-	run_pannzer(config)
-
-	
+	from code.pipeline.run_mixmeth_preproc import process_fasta,make_tmp_fa, run_uniprot_blast, compile_blast_out
+	process_fasta(config)
+	make_tmp_fa(config)
+	run_uniprot_blast(config)
+	logging.info("All the blast commands have been run and temporary files have been generated")
