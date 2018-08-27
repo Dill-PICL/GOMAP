@@ -14,8 +14,6 @@ def run_mm_preproc(config):
 	Returns None
 	"""
 
-	setlogging(config,"preprocess")
-
 	if config["input"]["email"] is "" or config["input"]["email"] is None:
 		logging.error("Please add an email address to the config file")
 		sys.exit("You have to add an email address to the config file")

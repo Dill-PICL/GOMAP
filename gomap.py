@@ -13,6 +13,7 @@ from code.gomap_aggregate import aggregate
 from code.gomap_setup import setup
 from code.gomap_seqsim import run_seqsim
 from code.gomap_domain import run_domain
+from code.gomap_mixmeth_blast import run_mixmeth_blast
 from code.gomap_mm_preproc import run_mm_preproc
 from code.gomap_mixmeth import run_mixmeth
 
@@ -79,7 +80,7 @@ elif main_args.step == "mixmeth-blast":
     print("Running preprocessing step for mixed-methods")
     setlogging(config,"mixmeth-preproc")
     logging.info("Running preprocessing step for mixed-methods")
-    run_mm_preproc(config)
+    run_mixmeth_blast(config)
 elif main_args.step == "mixmeth-preproc":
     print("Running preprocessing step for mixed-methods")
     setlogging(config,"mixmeth-preproc")
