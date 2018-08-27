@@ -93,4 +93,5 @@ def run_blast(fa_file,blast_db,config):
             logging.info(out_file+" already exists.\n The number of sequences in output match input")
     else:
         blast_cmd = [blast_config["bin"]+ "/blastp","-outfmt","5", "-db",blast_db,"-query",in_file,"-out",out_file,"-num_threads",str(config["input"]["cpus"])]+blast_opts
+        print(" ".join(blast_cmd))
         check_output_and_run(out_file,blast_cmd)
