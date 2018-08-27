@@ -36,13 +36,11 @@ def run_mm_preproc(config):
 	from code.pipeline.run_argot2 import convert_blast,run_hmmer,submit_argot2
 	convert_blast(config)
 	run_hmmer(config)
-	submit_argot2(config)
 
 	'''
 	Step 8 is to run the mixed-method pipeline PANNZER
 	'''
 	from code.pipeline.run_pannzer import copy_blast, run_pannzer
 	copy_blast(config)
-	run_pannzer(config)
 
 	
