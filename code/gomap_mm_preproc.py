@@ -40,7 +40,7 @@ def run_mm_preproc(config):
 	'''
 	Step 8 is to run the mixed-method pipeline PANNZER
 	'''
-	from code.pipeline.run_pannzer import copy_blast, run_pannzer
+	from code.pipeline.run_pannzer import copy_blast
 	copy_blast(config)
 
 	
