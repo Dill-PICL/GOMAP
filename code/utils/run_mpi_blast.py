@@ -10,7 +10,6 @@ name = MPI.Get_processor_name()
 def run_mpi_blast(fa_files,config):
     
     print("Hello World! \n I am process %d of %d on %s." % (rank, size, name))
-    print(os.environ.get('USER'))
     uniprot_db=config["data"]["mixed-method"]["preprocess"]["uniprot_db"]
     
     tmpdir=config["input"]["tmpdir"]
@@ -30,4 +29,5 @@ def run_mpi_blast(fa_files,config):
     print(start,end)
     for fa_file in sel_files:
         print("I am process %d of %d on %s. \n" % (rank, size, name))
+        print("Running BLASTP on %s against %s" % (fa_file,uniprot_db))
         run_blast(fa_file,uniprot_db,config)
