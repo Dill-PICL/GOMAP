@@ -33,7 +33,7 @@ def run_mm_preproc(config):
 	Step 7 is to run the preprocessing steps for Argot2.5
 	sadsdsadsa
 	'''
-	from code.pipeline.run_argot2 import convert_blast,run_hmmer,submit_argot2
+	from code.pipeline.run_argot2 import convert_blast,run_hmmer
 	convert_blast(config)
 	run_hmmer(config)
 

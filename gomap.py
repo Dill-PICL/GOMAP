@@ -8,7 +8,6 @@ pprint is only needed for debugging purposes
 import  os, re, logging, json, sys, argparse, jsonmerge, yaml
 from argparse import RawTextHelpFormatter
 from pprint import pprint
-from code.gomap_preprocess import run_preprocess
 from code.gomap_aggregate import aggregate
 from code.gomap_setup import setup
 from code.gomap_seqsim import run_seqsim

@@ -14,15 +14,6 @@ def run_mixmeth_blast(config):
 	Returns None
 	"""
 
-	if config["input"]["email"] is "" or config["input"]["email"] is None:
-		logging.error("Please add an email address to the config file")
-		sys.exit("You have to add an email address to the config file")
-	else:
-		valid_email = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', config["input"]["email"])
-		if not valid_email:
-			logging.error("The email address specified is not valid. Please check the email or use a different email address")
-			sys.exit("The email in the config file is not valid")
-
 	'''
 	Step 6 is to run components of preprocessing pipeline to create input data for the mixed method pipelines
 	'''
