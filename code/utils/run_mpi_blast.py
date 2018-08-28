@@ -12,7 +12,7 @@ def run_mpi_blast(fa_files,config):
     print("Hello World! \n I am process %d of %d on %s." % (rank, size, name))
     uniprot_db=config["data"]["mixed-method"]["preprocess"]["uniprot_db"]
     
-    tmpdir=config["input"]["tmpdir"]
+    tmpdir="/tmpdir"
     src=os.path.dirname(uniprot_db)
     dest=tmpdir+"/blastdb"
     results = pyrocopy.copy(src,dest)
