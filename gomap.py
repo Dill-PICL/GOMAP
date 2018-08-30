@@ -30,7 +30,7 @@ schema = {
 merger = Merger(schema)
 
 '''
-    Parsing the input config file that will be supplied by te user.
+    Parsing the input config file that will be supplied by the user.
 '''
 main_parser = argparse.ArgumentParser(description='Welcome to running the GOMAP pipeline',formatter_class=RawTextHelpFormatter)
 main_parser.add_argument('--config',help="The config file in yaml format. \nPlease see test/config.yml for an example.",required=True)

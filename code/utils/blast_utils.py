@@ -39,8 +39,6 @@ def check_bl_out(in_fasta,in_xml):
 
     return(skip_blast)
     
-    
-    
 def combine_blast_xml(in_files,out_file):
     same_time=False
     if os.path.isfile(out_file):

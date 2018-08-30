@@ -43,4 +43,6 @@ def run_mm_preproc(config):
 	from code.pipeline.run_pannzer import copy_blast
 	copy_blast(config)
 
+	logging.info("Completed Running mixmeth-preproc step")
+	print("Completed Running mixmeth-preproc step")
 	

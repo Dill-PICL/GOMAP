@@ -1,6 +1,7 @@
 import logging, os, re, sys,shutil
 from code.utils.basic_utils import check_output_and_run
 from pprint import pprint
+from joblib import Parallel, delayed
 from lxml import etree, html
 from glob import glob
 import zipfile
@@ -9,26 +10,49 @@ import requests
 from requests_toolbelt import MultipartEncoder
 import time
 
+def xml2tsv(in_xml):
+    out_tsv = re.sub(r"xml$","tsv",in_xml)
+    if not os.path.exists(out_tsv):
+        logging.info("Converting %s into %s." % (in_xml,out_tsv))
+        xslt_root = etree.parse("config/bl_xml2argot.xsl")
+        transform = etree.XSLT(xslt_root)
+        bl_tree = etree.parse(in_xml)
+        result_txt = transform(bl_tree)
+        result_txt.write_output(out_tsv)
+    else:
+        logging.info("Not converting %s into %s. Output file exists" % (in_xml,out_tsv))
+        
+def concat_tsv(all_tmp_bl_files,argot_out):
+    with open(argot_out,"w+") as oufile:
+        for tmp_tsv in all_tmp_bl_files:
+            oufile.write(open(tmp_tsv,"r").read())
 
 def convert_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"
-    blast_xml_dir=workdir+config["data"]["mixed-method"]["preprocess"]["blast_out"]
-    blast_xml_files=glob(blast_xml_dir+"/*xml")
+    ncpus=int(config["input"]["cpus"])
+    tmp_bl_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp"
     argot_tsv_dir=workdir + config["data"]["mixed-method"]["argot2"]["preprocess"]["blast"]
-    xslt_root = etree.parse("config/bl_xml2argot.xsl")
-    transform = etree.XSLT(xslt_root)
+    all_tmp_bl_files = sorted(glob(tmp_bl_dir+"/*.xml"))
 
-    for blast_xml in blast_xml_files:
-        argot_out=argot_tsv_dir+"/"+re.sub(r'.xml$',".tsv",os.path.basename(blast_xml))
-        bl_tree = etree.parse(blast_xml)
-        result_txt = transform(bl_tree)
-        result_txt.write_output(argot_out)
+    Parallel(n_jobs=ncpus)(delayed(xml2tsv)(tmp_bl_file) for tmp_bl_file in all_tmp_bl_files)
+
+    tmp_fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]
+    fa_pattern=tmp_fa_dir+"/"+config["input"]["basename"]+"*.fa"
+    fa_files = sorted(glob(fa_pattern))
+
+    for fa_file in fa_files:        
+        tmp_fa_pat=re.sub(r'.fa$',"",os.path.basename(fa_file))
+        argot_out=argot_tsv_dir+"/"+tmp_fa_pat+".tsv"
+        bl_pattern=tmp_bl_dir+"/"+tmp_fa_pat+"*.tsv"
+        all_tmp_bl_files = sorted(glob(bl_pattern))
+        concat_tsv(all_tmp_bl_files,argot_out)
         zipfile_loc=argot_out+'.zip'
         if os.path.isfile(zipfile_loc):
             logging.info(zipfile_loc +" already exists. Please delete if you need this recreated")
         else:
-            zf = zipfile.ZipFile(zipfile_loc, mode='w')
+            zf = zipfile.ZipFile(zipfile_loc, mode='w',compression=zipfile.ZIP_DEFLATED)
             zf.write(argot_out)
+        os.remove(argot_out)    
         
 def run_hmmer(config):
     workdir = config["input"]["gomap_dir"] + "/"
@@ -42,9 +66,11 @@ def run_hmmer(config):
     for infile in fa_files:
         outfile = workdir+config["data"]["mixed-method"]["argot2"]["preprocess"]["hmmer"] + "/" + re.sub("\.fa",".hmm.out",os.path.basename(infile))
         cmd = [hmmer_bin,"-o",tmp_file,"--tblout",outfile,"--cpu",cpu,hmmerdb,infile]
-        zipfile = outfile+".zip"
-        check_output_and_run(zipfile,cmd)
-        check_output_and_run(zipfile,["zip","-9",zipfile,outfile])
+        zipfile_loc = outfile+".zip"
+        check_output_and_run(zipfile_loc,cmd)
+        if os.path.exists(outfile):
+            zf = zipfile.ZipFile(zipfile_loc, 'w',zipfile.ZIP_DEFLATED)
+            zf.write(outfile)
         if os.path.isfile(tmp_file):
             os.remove(tmp_file)
 

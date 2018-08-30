@@ -2,8 +2,6 @@ import logging, os, re, json, sys
 from code.utils.basic_utils import check_output_and_run
 from code.utils.split_fa import split_fasta
 from code.utils.blast_utils import combine_blast_xml
-from code.utils.run_mpi_blast import run_mpi_blast
-from code.utils.run_single_blast import run_single_blast
 from glob import glob
 from pprint import pprint
 from distutils.version import StrictVersion
@@ -51,8 +49,10 @@ def run_uniprot_blast(config):
     fa_files = sorted(glob(fa_pattern))
 
     if config["input"]["mpi"] is True:
+        from code.utils.run_mpi_blast import run_mpi_blast
         run_mpi_blast(fa_files,config)
     else:
+        from code.utils.run_single_blast import run_single_blast
         run_single_blast(fa_files,config)
 
 
@@ -68,5 +68,5 @@ def compile_blast_out(config):
         tmp_fa_pat=re.sub(r'.fa$',"",os.path.basename(fa_file))
         tmp_bl_out=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/"+tmp_fa_pat+".xml"
         bl_pattern=tmp_bl_dir+"/"+tmp_fa_pat+"*.xml"
-        all_tmp_bl_files = fa_files = sorted(glob(bl_pattern))
+        all_tmp_bl_files = sorted(glob(bl_pattern))
         combine_blast_xml(all_tmp_bl_files,tmp_bl_out)
