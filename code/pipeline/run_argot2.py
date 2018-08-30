@@ -83,16 +83,9 @@ def submit_argot2(config):
     fa_pattern=fa_path+"*fa"
     fa_files = [ re.sub(".fa","",os.path.basename(fa_file)) for fa_file in glob(fa_pattern)]
     for fa_file in fa_files:
-        blast_file=glob(argot2_blast_dir+fa_file+"*tsv")[0]
-        blast_zip=blast_file+".zip"
-        with zipfile.ZipFile(blast_zip, 'w') as myzip:
-            myzip.write(blast_file,os.path.basename(blast_file))
-        
-        hmmer_file=glob(argot2_hmmer_dir+fa_file+"*out")[0]
-        hmmer_zip=hmmer_file+".zip"
-        with zipfile.ZipFile(hmmer_zip, 'w') as myzip:
-            myzip.write(hmmer_file,os.path.basename(hmmer_file))
-            
+        blast_file=glob(argot2_blast_dir+fa_file+"*tsv.zip")[0]
+        hmmer_file=glob(argot2_hmmer_dir+fa_file+"*out.zip")[0]
+                    
         payload=argot_config["payload"]
         payload["email"] = config["input"]["email"]
         payload["descr"] = fa_file
@@ -100,8 +93,8 @@ def submit_argot2(config):
         payload["tax_id"] = config["input"]["taxon"]
         payload["taxon_ID"] = config["input"]["taxon"]
         files={
-            "blast_file":(blast_zip,open(blast_zip, 'rb'),'text/plain'),
-            "hmmer_file":(hmmer_zip,open(hmmer_zip, 'rb'),'text/plain')
+            "blast_file":(blast_file,open(blast_file, 'rb'),'text/plain'),
+            "hmmer_file":(hmmer_file,open(hmmer_file, 'rb'),'text/plain')
             }
        
         headers = {
@@ -125,6 +118,8 @@ def submit_argot2(config):
             logging.info("This file has been previously submitted")
             logging.info("Remove "+html_file+ " to resubmit")
         else:
+            logging.info("Submitting %s and %s to Argot2.5" % (os.path.basename(blast_file),os.path.basename(hmmer_file)))
+            print("Submitting %s and %s to Argot2.5" % (os.path.basename(blast_file),os.path.basename(hmmer_file)))
             s = requests.session()
             r_batch = s.post("http://www.medcomp.medicina.unipd.it/Argot2-5/form_batch.php",headers=headers)
             #r_batch = s.post("http://localhost/test/upload.php",headers=headers,data=payload,files=files)
