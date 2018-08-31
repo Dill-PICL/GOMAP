@@ -71,9 +71,10 @@ def run_hmmer(config):
         if os.path.exists(outfile):
             zf = zipfile.ZipFile(zipfile_loc, 'w',zipfile.ZIP_DEFLATED)
             zf.write(outfile,os.path.basename(outfile))
+            os.remove(outfile)
         if os.path.isfile(tmp_file):
             os.remove(tmp_file)
-        os.remove(outfile)
+        
 
 def submit_argot2(config):
     workdir = config["input"]["gomap_dir"] + "/"
