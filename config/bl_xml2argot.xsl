@@ -8,7 +8,9 @@
     <!-- <xsl:for-each select="$fields"> -->
       <xsl:for-each select="$currNode/Iteration_hits/Hit">
         <xsl:variable name="evalue" select="math:min(Hit_hsps/Hsp/Hsp_evalue)"/>
-        <xsl:value-of select="$currNode/Iteration_query-def" />
+        <xsl:call-template name="tokenizeString">
+          <xsl:with-param name="list" select="$currNode/Iteration_query-def"/>
+        </xsl:call-template>
         <xsl:text>&#x9;</xsl:text>
         <xsl:value-of select="Hit_id"/>
         <xsl:text>&#x9;</xsl:text>
@@ -18,4 +20,17 @@
     <!-- </xsl:for-each> -->
   </xsl:template>
   <xsl:template match="text()[not(string-length(normalize-space()))]"/>
+
+  <xsl:template name="tokenizeString">
+		<!--passed template parameter -->
+        <xsl:param name="list"/>
+        <xsl:choose>
+          <xsl:when test="contains($list, '\s+')">
+            <xsl:value-of select="substring-before($list, '\s+')" />
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$list" />
+          </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>	
 </xsl:stylesheet>

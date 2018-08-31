@@ -51,7 +51,7 @@ def convert_blast(config):
             logging.info(zipfile_loc +" already exists. Please delete if you need this recreated")
         else:
             zf = zipfile.ZipFile(zipfile_loc, mode='w',compression=zipfile.ZIP_DEFLATED)
-            zf.write(argot_out)
+            zf.write(argot_out,os.path.basename(argot_out))
         os.remove(argot_out)    
         
 def run_hmmer(config):
@@ -70,9 +70,10 @@ def run_hmmer(config):
         check_output_and_run(zipfile_loc,cmd)
         if os.path.exists(outfile):
             zf = zipfile.ZipFile(zipfile_loc, 'w',zipfile.ZIP_DEFLATED)
-            zf.write(outfile)
+            zf.write(outfile,os.path.basename(outfile))
         if os.path.isfile(tmp_file):
             os.remove(tmp_file)
+        os.remove(outfile)
 
 def submit_argot2(config):
     workdir = config["input"]["gomap_dir"] + "/"
