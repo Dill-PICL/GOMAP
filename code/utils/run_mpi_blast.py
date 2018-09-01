@@ -55,8 +55,11 @@ def run_mpi_blast(fa_files,config):
 
     print("Hello World! \n I am process %d of %d on %s." % (rank, size, name))
     uniprot_db=config["data"]["mixed-method"]["preprocess"]["uniprot_db"]
+    if uniprot_db["input"]["tmpdir"]:
+        tmpdir=uniprot_db["input"]["tmpdir"]
+    else:
+        tmpdir="/tmpdir"
     
-    tmpdir="/tmpdir"
     src=os.path.dirname(uniprot_db)
     dest=tmpdir+"/blastdb"
     results = pyrocopy.copy(src,dest)
@@ -67,23 +70,3 @@ def run_mpi_blast(fa_files,config):
         all_dat = master(work_list)
     else:
         slave(uniprot_db,config)
-
-
-    # chunk_size = len(fa_files)/(size)
-    # print(chunk_size)
-    # start=chunk_size*(rank)
-    # if rank == 0:
-    #     start=chunk_size*(rank)
-    #     end=chunk_size*(rank+1)
-    # elif rank+1 < size:
-    #     end=chunk_size*(rank+1)
-    # else:
-    #     start=chunk_size*(rank)
-    #     end=len(fa_files)
-    
-    # sel_files = natsorted(fa_files)[start:end]
-    # print(start,end)
-    # for fa_file in sel_files:
-    #     print("I am process %d of %d on %s. \n" % (rank, size, name))
-    #     print("Running BLASTP on %s against %s" % (fa_file,uniprot_db))
-    #     run_blast(fa_file,uniprot_db,config)

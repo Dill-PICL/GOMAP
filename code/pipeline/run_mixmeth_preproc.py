@@ -91,10 +91,3 @@ def compile_blast_out(config):
         pprint(chunks[i])
         pprint("chunk")
         #combine_blast_xml(chunks[i],bl_out)
-        
-    sys.exit()
-    # tmp_fa_pat=re.sub(r'.fa$',"",os.path.basename(fa_file))
-    # tmp_bl_out=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/"+tmp_fa_pat+".xml"
-    # bl_pattern=tmp_bl_dir+"/"+tmp_fa_pat+"*.xml"
-    # all_tmp_bl_files = sorted(glob(bl_pattern))
-    # combine_blast_xml(all_tmp_bl_files,tmp_bl_out)
