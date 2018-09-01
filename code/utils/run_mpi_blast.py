@@ -55,8 +55,8 @@ def run_mpi_blast(fa_files,config):
 
     print("Hello World! \n I am process %d of %d on %s." % (rank, size, name))
     uniprot_db=config["data"]["mixed-method"]["preprocess"]["uniprot_db"]
-    if "tmpdir" in uniprot_db["input"]:
-        tmpdir=uniprot_db["input"]["tmpdir"]
+    if "tmpdir" in config["input"]:
+        tmpdir=config["input"]["tmpdir"]
     else:
         tmpdir="/tmpdir"
     
