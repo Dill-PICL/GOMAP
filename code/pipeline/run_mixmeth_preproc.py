@@ -4,7 +4,9 @@ from code.utils.split_fa import split_fasta
 from code.utils.blast_utils import combine_blast_xml
 from glob import glob
 from pprint import pprint
+from Bio import SeqIO
 from distutils.version import StrictVersion
+from natsort import natsorted
 
 def process_fasta(config):
     workdir=config["input"]["gomap_dir"]+"/"
@@ -33,14 +35,10 @@ def make_uniprotdb(config):
 
 def make_tmp_fa(config):
     workdir=config["input"]["gomap_dir"]+"/"
-    fa_path=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]
+    fa_file=workdir + "input/" + config["input"]["fasta"]
     tmp_fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp/"
     small_seqs=config["data"]["mixed-method"]["preprocess"]["small_seqs"]
-    fa_pattern=fa_path+"/"+config["input"]["basename"]+"*.fa"
-    fa_files = glob(fa_pattern)
-    
-    for fa_file in fa_files:
-        split_fasta(fa_file,tmp_fa_dir,small_seqs)
+    split_fasta(fa_file,tmp_fa_dir,small_seqs)
 
 def run_uniprot_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"
@@ -59,14 +57,44 @@ def run_uniprot_blast(config):
 
 def compile_blast_out(config):
     workdir=config["input"]["gomap_dir"]+"/"
-    tmp_fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]
-    fa_pattern=tmp_fa_dir+"/"+config["input"]["basename"]+"*.fa"
+    num_seqs=int(config["data"]["mixed-method"]["preprocess"]["num_seqs"])
     tmp_bl_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp"
+    fa_pattern=tmp_bl_dir+"/"+config["input"]["basename"]+"*.fa"
+    print(fa_pattern)
+    fa_files = natsorted(glob(fa_pattern))
 
-    fa_files = sorted(glob(fa_pattern))
-    for fa_file in fa_files:        
-        tmp_fa_pat=re.sub(r'.fa$',"",os.path.basename(fa_file))
-        tmp_bl_out=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/"+tmp_fa_pat+".xml"
-        bl_pattern=tmp_bl_dir+"/"+tmp_fa_pat+"*.xml"
-        all_tmp_bl_files = sorted(glob(bl_pattern))
-        combine_blast_xml(all_tmp_bl_files,tmp_bl_out)
+    chunks = []
+    counter_start=0
+    counter_curr=-1
+    chunk_seqs = 0
+    for fa_file in fa_files:
+        counter_curr = counter_curr+1
+        all_seqs = list(SeqIO.parse(fa_file, "fasta"))
+        num_fa_records = len(all_seqs)
+        chunk_seqs = chunk_seqs + num_fa_records
+        if chunk_seqs % num_seqs == 0:
+            tmp_xml = [re.sub(r'\.fa$','.xml',x) for x in fa_files[counter_start:counter_curr+1]]
+            chunks.append(tmp_xml)
+            counter_start = counter_curr+1
+        elif counter_curr+1 == len(fa_files):
+            tmp_xml = [re.sub(r'\.fa$','.xml',x) for x in fa_files[counter_start:]]
+            chunks.append(tmp_xml)   
+
+    bl_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/"
+    fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]
+    fa_pattern=fa_dir+"/"+config["input"]["basename"]+"*.fa"
+    fa_files = natsorted(glob(fa_pattern))
+    for i in range(len(chunks)):
+        bl_out=bl_dir+re.sub(r'\.fa$','.xml',os.path.basename(fa_files[i]))
+        pprint("chunk")
+        print(bl_out)
+        pprint(chunks[i])
+        pprint("chunk")
+        #combine_blast_xml(chunks[i],bl_out)
+        
+    sys.exit()
+    # tmp_fa_pat=re.sub(r'.fa$',"",os.path.basename(fa_file))
+    # tmp_bl_out=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/"+tmp_fa_pat+".xml"
+    # bl_pattern=tmp_bl_dir+"/"+tmp_fa_pat+"*.xml"
+    # all_tmp_bl_files = sorted(glob(bl_pattern))
+    # combine_blast_xml(all_tmp_bl_files,tmp_bl_out)

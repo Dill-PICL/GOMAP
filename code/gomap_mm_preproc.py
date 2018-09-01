@@ -28,7 +28,7 @@ def run_mm_preproc(config):
 	'''
 	from code.pipeline.run_mixmeth_preproc import compile_blast_out
 	compile_blast_out(config)
-
+	sys.exit()
 	'''
 	Step 7 is to run the preprocessing steps for Argot2.5
 	sadsdsadsa
