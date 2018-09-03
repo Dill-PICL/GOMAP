@@ -1,4 +1,4 @@
-import logging, sys, os
+import logging, sys, os, time
 from mpi4py import MPI
 from pyrocopy import pyrocopy
 from blast_utils import check_bl_out, run_blast
@@ -32,6 +32,7 @@ def master(wi):
         if not anext: break
         data = comm.recv(source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=status)
         comm.send(anext, dest=status.Get_source(), tag=WORKTAG)
+        time.sleep(5)
     
     for i in range(1,size):
         comm.send(None, dest=i, tag=DIETAG)

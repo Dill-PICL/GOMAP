@@ -2,7 +2,8 @@ import os, re, logging, subprocess, sys
 from pprint import pprint
 from code.utils.basic_utils import check_output_and_run
 import xml.etree.ElementTree as ET
-from Bio import SeqIO
+from Bio import SearchIO, SeqIO
+from natsort import natsorted
 from datetime import datetime
 
 
@@ -22,11 +23,9 @@ def check_bl_out(in_fasta,in_xml):
         skip_blast=False
     else:
         try:
-            tree = ET.parse(in_xml)
-            root = tree.getroot()
-            aligned_seqs = set(sorted([elem.text for elem in root.findall("./BlastOutput_iterations/Iteration/Iteration_query-def")]))
-            input_seqs = list(SeqIO.parse(in_fasta, "fasta"))
-            if len(aligned_seqs) == len(input_seqs):
+            blast_ids = natsorted([qresult.id for qresult in SearchIO.parse(in_xml, 'blast-xml')])
+            fa_ids = natsorted([seq.id for seq in SeqIO.parse(in_fasta,"fasta")])
+            if blast_ids == fa_ids:
                 skip_blast=True
             else:
                 logging.info("Number of input and output sequences do not match"+in_xml)
