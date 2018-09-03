@@ -9,6 +9,8 @@ import csv
 import requests
 from requests_toolbelt import MultipartEncoder
 import time
+from Bio import SeqIO
+from natsort import natsorted
 
 def xml2tsv(in_xml):
     out_tsv = re.sub(r"xml$","tsv",in_xml)
@@ -17,15 +19,22 @@ def xml2tsv(in_xml):
         xslt_root = etree.parse("config/bl_xml2argot.xsl")
         transform = etree.XSLT(xslt_root)
         bl_tree = etree.parse(in_xml)
-        result_txt = transform(bl_tree)
-        result_txt.write_output(out_tsv)
+        result_txt = str(transform(bl_tree)).splitlines(True)
+        pprint(result_txt[1:15])
+        sel_lines = [ line if re.match(r"[0-9A-Za-z]",line) else "" for line in result_txt]
+        pprint(sel_lines[1:15])
+        with open(out_tsv,"w") as outfile:
+            outfile.writelines(sel_lines)
+            outfile.close()
     else:
         logging.info("Not converting %s into %s. Output file exists" % (in_xml,out_tsv))
         
 def concat_tsv(all_tmp_bl_files,argot_out):
-    with open(argot_out,"w+") as oufile:
+    with open(argot_out,"w+") as outfile:
         for tmp_tsv in all_tmp_bl_files:
-            oufile.write(open(tmp_tsv,"r").read())
+            with open(tmp_tsv,"r") as infile:
+                outfile.write(infile.read())
+                infile.close()
 
 def convert_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"
@@ -36,23 +45,44 @@ def convert_blast(config):
 
     Parallel(n_jobs=ncpus)(delayed(xml2tsv)(tmp_bl_file) for tmp_bl_file in all_tmp_bl_files)
 
-    tmp_fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]
-    fa_pattern=tmp_fa_dir+"/"+config["input"]["basename"]+"*.fa"
-    fa_files = sorted(glob(fa_pattern))
+def compile_blast_tsv(config):
+    workdir=config["input"]["gomap_dir"]+"/"
+    num_seqs=int(config["data"]["mixed-method"]["preprocess"]["num_seqs"])
+    tmp_bl_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp"
+    fa_pattern=tmp_bl_dir+"/"+config["input"]["basename"]+"*.fa"
+    fa_files = natsorted(glob(fa_pattern))
 
-    for fa_file in fa_files:        
-        tmp_fa_pat=re.sub(r'.fa$',"",os.path.basename(fa_file))
-        argot_out=argot_tsv_dir+"/"+tmp_fa_pat+".tsv"
-        bl_pattern=tmp_bl_dir+"/"+tmp_fa_pat+"*.tsv"
-        all_tmp_bl_files = sorted(glob(bl_pattern))
-        concat_tsv(all_tmp_bl_files,argot_out)
-        zipfile_loc=argot_out+'.zip'
+    chunks = []
+    counter_start=0
+    counter_curr=-1
+    chunk_seqs = 0
+    for fa_file in fa_files:
+        counter_curr = counter_curr+1
+        all_seqs = list(SeqIO.parse(fa_file, "fasta"))
+        num_fa_records = len(all_seqs)
+        chunk_seqs = chunk_seqs + num_fa_records
+        if chunk_seqs % num_seqs == 0:
+            tmp_xml = [re.sub(r'\.fa$','.tsv',x) for x in fa_files[counter_start:counter_curr+1]]
+            chunks.append(tmp_xml)
+            counter_start = counter_curr+1
+        elif counter_curr+1 == len(fa_files):
+            tmp_xml = [re.sub(r'\.fa$','.tsv',x) for x in fa_files[counter_start:]]
+            chunks.append(tmp_xml)
+    
+    argot_tsv_dir=workdir + config["data"]["mixed-method"]["argot2"]["preprocess"]["blast"]+"/"
+    fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]
+    fa_pattern=fa_dir+"/"+config["input"]["basename"]+"*.fa"
+    fa_files = natsorted(glob(fa_pattern))    
+    for i in range(len(chunks)):
+        tsv_out=argot_tsv_dir+re.sub(r'\.fa$','.tsv',os.path.basename(fa_files[i]))
+        zipfile_loc=tsv_out+'.zip'
+        concat_tsv(chunks[i],tsv_out)
         if os.path.isfile(zipfile_loc):
             logging.info(zipfile_loc +" already exists. Please delete if you need this recreated")
         else:
             zf = zipfile.ZipFile(zipfile_loc, mode='w',compression=zipfile.ZIP_DEFLATED)
-            zf.write(argot_out,os.path.basename(argot_out))
-        os.remove(argot_out)    
+            zf.write(tsv_out,os.path.basename(tsv_out))
+
         
 def run_hmmer(config):
     workdir = config["input"]["gomap_dir"] + "/"
@@ -71,7 +101,6 @@ def run_hmmer(config):
         if os.path.exists(outfile):
             zf = zipfile.ZipFile(zipfile_loc, 'w',zipfile.ZIP_DEFLATED)
             zf.write(outfile,os.path.basename(outfile))
-            os.remove(outfile)
         if os.path.isfile(tmp_file):
             os.remove(tmp_file)
         

@@ -60,7 +60,6 @@ def compile_blast_out(config):
     num_seqs=int(config["data"]["mixed-method"]["preprocess"]["num_seqs"])
     tmp_bl_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp"
     fa_pattern=tmp_bl_dir+"/"+config["input"]["basename"]+"*.fa"
-    print(fa_pattern)
     fa_files = natsorted(glob(fa_pattern))
 
     chunks = []
@@ -86,8 +85,4 @@ def compile_blast_out(config):
     fa_files = natsorted(glob(fa_pattern))
     for i in range(len(chunks)):
         bl_out=bl_dir+re.sub(r'\.fa$','.xml',os.path.basename(fa_files[i]))
-        pprint("chunk")
-        print(bl_out)
-        pprint(chunks[i])
-        pprint("chunk")
-        #combine_blast_xml(chunks[i],bl_out)
+        combine_blast_xml(chunks[i],bl_out)

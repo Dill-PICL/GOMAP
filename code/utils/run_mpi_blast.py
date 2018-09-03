@@ -31,7 +31,6 @@ def master(wi):
         anext = current_work.get_next_item()
         if not anext: break
         data = comm.recv(source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=status)
-        print(data)
         comm.send(anext, dest=status.Get_source(), tag=WORKTAG)
     
     for i in range(1,size):
@@ -42,7 +41,6 @@ def slave(uniprot_db,config):
     status = MPI.Status()
     while 1:
         data = comm.recv(source=0, tag=MPI.ANY_TAG, status=status)
-        print(data)
         if status.Get_tag(): break
         run_blast(data,uniprot_db,config)
         comm.send(data, dest=0)
