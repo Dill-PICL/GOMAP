@@ -42,6 +42,7 @@ def slave(uniprot_db,config):
     while 1:
         data = comm.recv(source=0, tag=MPI.ANY_TAG, status=status)
         if status.Get_tag(): break
+        print("Running BLASTP for %s against %s" % (data,uniprot_db))
         run_blast(data,uniprot_db,config)
         comm.send(data, dest=0)
 
