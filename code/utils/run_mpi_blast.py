@@ -66,12 +66,9 @@ def run_mpi_blast(fa_files,config):
     work_list = natsorted(fa_files)
 
     if rank == 0:
-        results = pyrocopy.copy(src,dest)
         all_dat = master(work_list)
-        
     else:
         results = pyrocopy.copy(src,dest)
-        time.sleep(10)
         slave(uniprot_db,config)
         
         
