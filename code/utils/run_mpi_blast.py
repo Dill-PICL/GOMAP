@@ -3,6 +3,7 @@ from mpi4py import MPI
 from pyrocopy import pyrocopy
 from blast_utils import check_bl_out, run_blast
 from natsort import natsorted
+from pprint import pprint
 
 WORKTAG = 0
 DIETAG = 1
@@ -69,6 +70,7 @@ def run_mpi_blast(fa_files,config):
         all_dat = master(work_list)
     else:
         results = pyrocopy.copy(src,dest)
+        pprint(results)
         slave(uniprot_db,config)
         
         
