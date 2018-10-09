@@ -44,9 +44,8 @@ def run_uniprot_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"
     tmp_fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp"
     fa_pattern=tmp_fa_dir+"/"+config["input"]["basename"]+"*.fa"
-    print(fa_pattern)
+    
     fa_files = sorted(glob(fa_pattern))
-
 
     if config["input"]["mpi"] is True:
         from code.utils.run_mpi_blast import run_mpi_blast
