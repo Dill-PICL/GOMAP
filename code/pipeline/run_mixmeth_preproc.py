@@ -11,9 +11,9 @@ from natsort import natsorted
 def process_fasta(config):
     workdir=config["input"]["gomap_dir"]+"/"
     fa_file=workdir + "input/" + config["input"]["fasta"]
-    split_dir=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]
+    split_base=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]+"/"+config["input"]["basename"]
     num_seqs=config["data"]["mixed-method"]["preprocess"]["num_seqs"]
-    split_fasta(fa_file,split_dir,num_seqs)
+    split_fasta(fa_file,num_seqs,split_base)
 
 def make_uniprotdb(config):
     uniprot_fa = config["mixed-method"]["preprocess"]["uniprot_db"]+".fa"
@@ -36,15 +36,17 @@ def make_uniprotdb(config):
 def make_tmp_fa(config):
     workdir=config["input"]["gomap_dir"]+"/"
     fa_file=workdir + "input/" + config["input"]["fasta"]
-    tmp_fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp/"
+    tmp_fa_base=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp/"+config["input"]["basename"]
     small_seqs=config["data"]["mixed-method"]["preprocess"]["small_seqs"]
-    split_fasta(fa_file,tmp_fa_dir,small_seqs)
+    split_fasta(fa_file,small_seqs,tmp_fa_base)
 
 def run_uniprot_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"
     tmp_fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp"
     fa_pattern=tmp_fa_dir+"/"+config["input"]["basename"]+"*.fa"
+    print(fa_pattern)
     fa_files = sorted(glob(fa_pattern))
+
 
     if config["input"]["mpi"] is True:
         from code.utils.run_mpi_blast import run_mpi_blast

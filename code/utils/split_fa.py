@@ -1,13 +1,16 @@
-import argparse, string, sys, logging, os
+import argparse, string, sys, logging, os, re
 from Bio import SeqIO
 
 
 #checking if the transcript pattern is supplied by the user and making
 #regular expression objects of the pattern
-def split_fasta(input,outdir,num_seqs,suffix="fa"):
+def split_fasta(input,num_seqs,outbase=None,suffix="fa"):
     al_chars = list(string.ascii_lowercase)
     all_seqs = list(SeqIO.parse(input, "fasta"))
     num_seqs = int(num_seqs)
+
+    if outbase is None:
+        outbase = re.sub("\.fa$","",input)
 
     counter = 0
     for i in range(0 , len(all_seqs),num_seqs):
@@ -17,7 +20,7 @@ def split_fasta(input,outdir,num_seqs,suffix="fa"):
         out_comp = infile_sep[:-1]
         out_comp.append(str(counter))
         out_comp.append(infile_sep[-1:][0])
-        out_file = outdir+ "/" + str.join(os.path.extsep,out_comp)
+        out_file = outbase+"."+str(counter)+".fa"
         if os.path.isfile(out_file):
             logging.warn("The "+out_file+" exists so not overwriting. Delete the split fasta files if you want them to be recreated ")
             break
