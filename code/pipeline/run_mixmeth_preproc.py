@@ -7,11 +7,12 @@ from pprint import pprint
 from Bio import SeqIO
 from distutils.version import StrictVersion
 from natsort import natsorted
+from pyrocopy import pyrocopy
 
 def process_fasta(config):
     workdir=config["input"]["gomap_dir"]+"/"
-    fa_file=workdir + "input/" + config["input"]["fasta"]
-    split_base=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]+"/"+config["input"]["basename"]
+    fa_file=workdir + "input/" + config["input"]["split_path"]
+    split_base=workdir + config["input"]["split_path"]+"/"+config["input"]["basename"]
     num_seqs=config["data"]["mixed-method"]["preprocess"]["num_seqs"]
     split_fasta(fa_file,num_seqs,split_base)
 
@@ -42,13 +43,17 @@ def make_tmp_fa(config):
 
 def run_uniprot_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"
-    tmp_fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp"
-    fa_pattern=tmp_fa_dir+"/"+config["input"]["basename"]+"*.fa"
-    
+    print(workdir)
+    tmp_fa_dir=workdir + config["input"]["split_path"]+"/"
+    dest=workdir+config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp/"
+    results = pyrocopy.copy(tmp_fa_dir,dest)
+    print(results)
+    fa_pattern=dest+config["input"]["basename"]+"*.fa"
     fa_files = sorted(glob(fa_pattern))
 
     if config["input"]["mpi"] is True:
         from code.utils.run_mpi_blast import run_mpi_blast
+        print(fa_files)
         run_mpi_blast(fa_files,config)
     else:
         from code.utils.run_single_blast import run_single_blast
@@ -58,10 +63,11 @@ def run_uniprot_blast(config):
 
 def compile_blast_out(config):
     workdir=config["input"]["gomap_dir"]+"/"
-    num_seqs=int(config["data"]["mixed-method"]["preprocess"]["num_seqs"])
+    num_seqs=int(config["input"]["num_seqs"])
     tmp_bl_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp"
     fa_pattern=tmp_bl_dir+"/"+config["input"]["basename"]+"*.fa"
     fa_files = natsorted(glob(fa_pattern))
+    print(fa_files)
 
     chunks = []
     counter_start=0
@@ -80,10 +86,8 @@ def compile_blast_out(config):
             tmp_xml = [re.sub(r'\.fa$','.xml',x) for x in fa_files[counter_start:]]
             chunks.append(tmp_xml)   
 
-    bl_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/"
-    fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]
-    fa_pattern=fa_dir+"/"+config["input"]["basename"]+"*.fa"
-    fa_files = natsorted(glob(fa_pattern))
+    bl_dir=workdir + config["data"]["mixed-method"]["pannzer"]["preprocess"]["blast"]+"/"
     for i in range(len(chunks)):
-        bl_out=bl_dir+re.sub(r'\.fa$','.xml',os.path.basename(fa_files[i]))
+        bl_out=bl_dir+config["input"]["basename"]+"."+str(i+1)+".xml"
+        print(bl_out)
         combine_blast_xml(chunks[i],bl_out)

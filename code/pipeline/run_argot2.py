@@ -47,7 +47,7 @@ def convert_blast(config):
 
 def compile_blast_tsv(config):
     workdir=config["input"]["gomap_dir"]+"/"
-    num_seqs=int(config["data"]["mixed-method"]["preprocess"]["num_seqs"])
+    num_seqs=int(config["input"]["num_seqs"])
     tmp_bl_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp"
     fa_pattern=tmp_bl_dir+"/"+config["input"]["basename"]+"*.fa"
     fa_files = natsorted(glob(fa_pattern))
@@ -70,11 +70,9 @@ def compile_blast_tsv(config):
             chunks.append(tmp_xml)
     
     argot_tsv_dir=workdir + config["data"]["mixed-method"]["argot2"]["preprocess"]["blast"]+"/"
-    fa_dir=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]
-    fa_pattern=fa_dir+"/"+config["input"]["basename"]+"*.fa"
-    fa_files = natsorted(glob(fa_pattern))    
     for i in range(len(chunks)):
-        tsv_out=argot_tsv_dir+re.sub(r'\.fa$','.tsv',os.path.basename(fa_files[i]))
+        tsv_out=argot_tsv_dir+config["input"]["basename"]+"."+str(i+1)+".tsv"
+        print(tsv_out)
         zipfile_loc=tsv_out+'.zip'
         concat_tsv(chunks[i],tsv_out)
         if os.path.isfile(zipfile_loc):
@@ -86,7 +84,7 @@ def compile_blast_tsv(config):
         
 def run_hmmer(config):
     workdir = config["input"]["gomap_dir"] + "/"
-    fa_dir = workdir+config["data"]["mixed-method"]["preprocess"]["fa_path"]    
+    fa_dir = workdir+config["input"]["split_path"]
     fa_files = glob(fa_dir+"/*fa")
     hmmer_bin = config["software"]["hmmer"]["path"]+"/hmmscan"
     hmmerdb=config["data"]["mixed-method"]["preprocess"]["hmmerdb"]
@@ -111,15 +109,16 @@ def submit_argot2(config):
     argot2_blast_dir=workdir+argot_config["preprocess"]["blast"]+"/"
     argot2_hmmer_dir=workdir+argot_config["preprocess"]["hmmer"]+"/"
     fa_path=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]+"/"
-    fa_pattern=fa_path+"*fa"
-    fa_files = [ re.sub(".fa","",os.path.basename(fa_file)) for fa_file in glob(fa_pattern)]
-    for fa_file in fa_files:
-        blast_file=glob(argot2_blast_dir+fa_file+"*tsv.zip")[0]
-        hmmer_file=glob(argot2_hmmer_dir+fa_file+"*out.zip")[0]
+    tsv_pattern=argot2_blast_dir+"*tsv"
+    tsv_files = [ re.sub(".tsv","",os.path.basename(fa_file)) for fa_file in glob(tsv_pattern)]
+    print(tsv_files)
+    for tsv_file in tsv_files:
+        blast_file=glob(argot2_blast_dir+tsv_file+"*tsv.zip")[0]
+        hmmer_file=glob(argot2_hmmer_dir+tsv_file+"*out.zip")[0]
                     
         payload=argot_config["payload"]
         payload["email"] = config["input"]["email"]
-        payload["descr"] = fa_file
+        payload["descr"] = tsv_file
         payload['scient_name'] = config["input"]["species"]
         payload["tax_id"] = config["input"]["taxon"]
         payload["taxon_ID"] = config["input"]["taxon"]
@@ -143,7 +142,7 @@ def submit_argot2(config):
         }
 
         argot_url=argot_config["batch_url"]
-        html_file=workdir+argot_config["preprocess"]["html"]+"/"+fa_file+".insert.html"   
+        html_file=workdir+argot_config["preprocess"]["html"]+"/"+tsv_file+".insert.html"   
         
         if os.path.isfile(html_file):
             logging.info("This file has been previously submitted")

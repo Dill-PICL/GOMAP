@@ -83,6 +83,8 @@ def run_blast(fa_file,blast_db,config):
     in_file=fa_file
     out_file=re.sub(r'fa$',"xml",fa_file)
     blast_config=config["software"]["blast"]
+    workdir=config["input"]["gomap_dir"]+"/"
+
     blast_opts=config["data"]["mixed-method"]["preprocess"]["blast_opts"]
     skip_blast = check_bl_out(in_file,out_file)
 

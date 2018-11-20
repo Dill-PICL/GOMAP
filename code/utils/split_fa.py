@@ -39,3 +39,4 @@ if __name__ is '__main__':
     args = parser.parse_args()
     print(args)
     split_fasta(args.input,args.outdir,args.num_seqs,args.suffix)
+

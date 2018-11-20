@@ -36,13 +36,13 @@ def run_mm_preproc(config):
 	from code.pipeline.run_argot2 import convert_blast,run_hmmer, compile_blast_tsv
 	convert_blast(config)
 	compile_blast_tsv(config)
-	run_hmmer(config)	
+	run_hmmer(config)
 
 	'''
 	Step 8 is to run the mixed-method pipeline PANNZER
 	'''
-	from code.pipeline.run_pannzer import copy_blast
-	copy_blast(config)
+	#from code.pipeline.run_pannzer import copy_blast
+	#copy_blast(config)
 
 	logging.info("Completed Running mixmeth-preproc step")
 	print("Completed Running mixmeth-preproc step")

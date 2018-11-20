@@ -76,9 +76,9 @@ elif main_args.step == "domain":
     logging.info("Running Domain Based Annotation Step")
     run_domain(config)
 elif main_args.step == "mixmeth-blast":
-    print("Running preprocessing step for mixed-methods")
+    print("Running uniprot blast for mixed-methods")
     setlogging(config,"mixmeth-preproc")
-    logging.info("Running preprocessing step for mixed-methods")
+    logging.info("Running uniprot blast for mixed-methods")
     run_mixmeth_blast(config)
 elif main_args.step == "mixmeth-preproc":
     print("Running preprocessing step for mixed-methods")

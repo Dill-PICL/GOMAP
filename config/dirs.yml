@@ -8,6 +8,8 @@ tmp:
     domain:
         - iprs:
             - a
+            - split:
+            - temp:
     mixed-meth:
         - preprocess:
             - fa:
@@ -48,4 +50,4 @@ gaf:
   - mixed-method:
     - a
 input:
-    - a
+    - split:

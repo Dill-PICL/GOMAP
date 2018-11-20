@@ -31,6 +31,7 @@ data:
         species:    uniprot
   domain:
     tmpdir:         tmp/domain/iprs
+    split_path:     tmp/domain/iprs/split
     tool:
         name:       Interproscan5
         version:    5.25-64.0
@@ -59,7 +60,6 @@ data:
           blast_file: None
           hmmer_file: None
           filtra: checked
-#          scient_name: None
           tax_id: None
           rule_system: both
           w_hypoth: open_world
@@ -95,7 +95,6 @@ data:
 software:
   blast:
     bin:            data/software/blast-2.6.0+/bin
-#    num_threads:    4
     evalue:         10e-10
     opt_params: ["-max_target_seqs", '500']
     cols:           data/data/cols/blast_cols.txt
@@ -103,10 +102,8 @@ software:
     path:           data/software/interproscan-5.25-64.0
     cols:           data/data/cols/iprs_cols.txt
     options: []
-#      - -cpu 4
   hmmer:
     path:           data/software/hmmer-3.1b2-linux-intel-x86_64/binaries
-#    cpu:            4
   pannzer:
     database:
       SQL_DB: pannzer
@@ -127,8 +124,10 @@ pipeline:
   pipeline_loc:     "/opt/GOMAP"
   dir_struct:       "config/dirs.yml"
 input:
-  workdir:          "/workdir"
+  workdir: "/workdir"
   cpus: 4
   openmpi: False
   tmpdir: "TMPDIR"
-
+  num_seqs: 5000
+  small_seqs: 100
+  split_path: "input/split"
