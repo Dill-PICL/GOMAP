@@ -72,7 +72,6 @@ def compile_blast_tsv(config):
     argot_tsv_dir=workdir + config["data"]["mixed-method"]["argot2"]["preprocess"]["blast"]+"/"
     for i in range(len(chunks)):
         tsv_out=argot_tsv_dir+config["input"]["basename"]+"."+str(i+1)+".tsv"
-        print(tsv_out)
         zipfile_loc=tsv_out+'.zip'
         concat_tsv(chunks[i],tsv_out)
         if os.path.isfile(zipfile_loc):
@@ -85,14 +84,38 @@ def compile_blast_tsv(config):
 def run_hmmer(config):
     workdir = config["input"]["gomap_dir"] + "/"
     fa_dir = workdir+config["input"]["split_path"]
-    fa_files = glob(fa_dir+"/*fa")
+    fa_files = natsorted(glob(fa_dir+"/*fa"))
     hmmer_bin = config["software"]["hmmer"]["path"]+"/hmmscan"
     hmmerdb=config["data"]["mixed-method"]["preprocess"]["hmmerdb"]
     cpu = str(config["input"]["cpus"])
     tmp_file=workdir+"hmmscan.tmp"
+    num_seqs=int(config["input"]["num_seqs"])
+
+    chunks = []
+    counter_start=0
+    counter_curr=-1
+    chunk_seqs = 0
+    chunk_count=0
+    all_seqs = []
+    for fa_file in fa_files:
+        counter_curr = counter_curr+1
+        seqs = list(SeqIO.parse(fa_file, "fasta"))
+        num_fa_records = len(seqs)
+        chunk_seqs = chunk_seqs + num_fa_records
+        all_seqs = all_seqs + seqs
+
+        if chunk_seqs % num_seqs == 0 or fa_file == fa_files[-1]:
+            chunk_count=chunk_count+1
+            out_fa=workdir+config["data"]["mixed-method"]["argot2"]["preprocess"]["hmmer"] + "/" + config["input"]["basename"]+"."+str(chunk_count)+".fa"
+            print(out_fa)
+            SeqIO.write(all_seqs, out_fa, "fasta")
+            all_seqs=[]
+            chunk_seqs=0
         
+    hmmer_dir=workdir+config["data"]["mixed-method"]["argot2"]["preprocess"]["hmmer"]
+    fa_files = glob(hmmer_dir+"/*fa")
     for infile in fa_files:
-        outfile = workdir+config["data"]["mixed-method"]["argot2"]["preprocess"]["hmmer"] + "/" + re.sub("\.fa",".hmm.out",os.path.basename(infile))
+        outfile = re.sub("\.fa",".hmm.out",infile)
         cmd = [hmmer_bin,"-o",tmp_file,"--tblout",outfile,"--cpu",cpu,hmmerdb,infile]
         zipfile_loc = outfile+".zip"
         check_output_and_run(zipfile_loc,cmd)

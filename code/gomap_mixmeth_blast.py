@@ -17,6 +17,7 @@ def run_mixmeth_blast(config):
 	'''
 	Step 6 is to run components of preprocessing pipeline to create input data for the mixed method pipelines
 	'''
-	from code.pipeline.run_mixmeth_preproc import run_uniprot_blast
+	from code.pipeline.run_mixmeth_preproc import run_uniprot_blast,process_fasta
+	process_fasta(config)
 	run_uniprot_blast(config)
 	logging.info("All the blast commands have been run and temporary files have been generated")

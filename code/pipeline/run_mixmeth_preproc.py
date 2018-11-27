@@ -11,10 +11,11 @@ from pyrocopy import pyrocopy
 
 def process_fasta(config):
     workdir=config["input"]["gomap_dir"]+"/"
-    fa_file=workdir + "input/" + config["input"]["split_path"]
-    split_base=workdir + config["input"]["split_path"]+"/"+config["input"]["basename"]
-    num_seqs=config["data"]["mixed-method"]["preprocess"]["num_seqs"]
-    split_fasta(fa_file,num_seqs,split_base)
+    fa_file=workdir + "input/" + config["input"]["fasta"]
+    split_base=workdir + "/" + config["input"]["split_path"]+"/"+config["input"]["basename"]
+    num_seqs=config["input"]["small_seqs"]
+    split_fasta(fa_file,int(num_seqs),split_base)
+
 
 def make_uniprotdb(config):
     uniprot_fa = config["mixed-method"]["preprocess"]["uniprot_db"]+".fa"
@@ -67,7 +68,6 @@ def compile_blast_out(config):
     tmp_bl_dir=workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp"
     fa_pattern=tmp_bl_dir+"/"+config["input"]["basename"]+"*.fa"
     fa_files = natsorted(glob(fa_pattern))
-    print(fa_files)
 
     chunks = []
     counter_start=0
@@ -89,5 +89,4 @@ def compile_blast_out(config):
     bl_dir=workdir + config["data"]["mixed-method"]["pannzer"]["preprocess"]["blast"]+"/"
     for i in range(len(chunks)):
         bl_out=bl_dir+config["input"]["basename"]+"."+str(i+1)+".xml"
-        print(bl_out)
         combine_blast_xml(chunks[i],bl_out)
