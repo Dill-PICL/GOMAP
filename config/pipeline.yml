@@ -78,6 +78,11 @@ data:
           P: 0.4
           C: 0.2
           F: 0.55
+      fanngo:
+        out_dir: tmp/mixed-meth/fanngo
+        score_th:
+          P: 0.3
+          F: 0.65        
   gaf:
     raw_dir:          gaf/raw
     non_red_dir:      gaf/non_red
@@ -113,6 +118,9 @@ software:
       SQL_DB_PORT: ""
     path: data/software/PANNZER
     conf_template: template.conf
+  fanngo:
+    path: data/software/FANNGO_linux_x64
+    template: fanngo_template.m
 logging:
   format:           "%(levelname)s [%(asctime)s] %(message)s"
   formatTime:       "%Y-%m-%d %H:%M"

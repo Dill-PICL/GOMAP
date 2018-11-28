@@ -70,17 +70,14 @@ if(!file.exists(pannzer_gaf)){
     }
 }
 
-
-
-if(F){
-    #processing FANN-GO results
-    # Commented out because matlab is cannot be supplied in an image
-    fanngo_res= paste(config$`mixed-meth`$fanngo$output,"/",species,".score.txt",sep="")
-    fanngo_gaf = paste(gaf_dir,paste(species,"fanngo","gaf",sep="."),sep = "")
-    if(!file.exists(fanngo_gaf)){
-        fanngo2gaf(fanngo_res,fanngo_gaf,config)
-    }else{
-        flog.warn(paste("The",fanngo_gaf,"exists. So not Running converting FANN-GO results"))
-        flog.info(paste("Remove the file to reconvert"))
-    }
+#processing FANN-GO results
+# Commented out because matlab is cannot be supplied in an image
+fanngo_res= paste(workdir,config$data$`mixed-method`$fanngo$out_dir,"/",basename,".score.txt",sep="")
+fanngo_gaf = paste(gaf_dir,paste(basename,"fanngo","gaf",sep="."),sep = "")
+print(fanngo_gaf)
+if(!file.exists(fanngo_gaf)){
+    fanngo2gaf(fanngo_res,fanngo_gaf,config)
+}else{
+    flog.warn(paste("The",fanngo_gaf,"exists. So not Running converting FANN-GO results"))
+    flog.info(paste("Remove the file to reconvert"))
 }

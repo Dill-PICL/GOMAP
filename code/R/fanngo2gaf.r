@@ -1,3 +1,5 @@
+library("reshape2")
+library("data.table")
 fanngo2gaf <- function(in_file,out_gaf,config){
     print("Reading the input file")
     #in_file="FANNGO_linux_x64/scores.txt"
@@ -6,16 +8,11 @@ fanngo2gaf <- function(in_file,out_gaf,config){
     taxon_txt=paste("taxon:",config$input$taxon,sep="")
     
     fanngo_data = fread(in_file)
-    tmp = gsub("_P[0-9]+","",fanngo_data$gene_id)
-    tmp = gsub("FGP","FG",tmp,fixed = T)
-    tmp
-    fanngo_data[,gene_id:=tmp]
     
     fanngo_melt = melt(fanngo_data,id.vars = "gene_id")
     colnames(fanngo_melt) = c("db_object_id","term_accession","with")
-    
-    
-    gaf_cols=fread(config$go$gaf_cols,header = F)$V1
+        
+    gaf_cols=fread(config$data$go$gaf_cols,header = F)$V1
     gaf_cols
     
     print("Converting to GAF 2.0")
@@ -24,7 +21,7 @@ fanngo2gaf <- function(in_file,out_gaf,config){
     
     gaf_data$term_accession = gsub("_",":",gaf_data$term_accession,fixed = T)
     
-    obo_data = check_obo_data(config$go$obo)
+    obo_data = check_obo_data(config$data$go$obo)
     
     #tmp_aspect = get_aspect(obo_data,gaf_data$term_accession)
     

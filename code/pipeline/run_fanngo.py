@@ -1,21 +1,21 @@
 import logging, os, re, sys
-import code.basic_utils as basic_utils
-import code.split_fa as split_fa
+from code.utils.basic_utils import check_output_and_run
 import pprint as pp
 
 
 def run_fanngo(config):
-    fanngo_conf = config["mixed-meth"]["fanngo"]
+    workdir=config["input"]["gomap_dir"]+"/"
+    fanngo_sw_conf = config["data"]["mixed-method"]["fanngo"]
+    fanngo_conf = config["software"]["fanngo"]
     fanngo_template = fanngo_conf["path"]+"/"+fanngo_conf["template"]
-    run_file_str=os.path.basename(config["input"]["filt_fasta"]).replace(".fa","")+".fanngo.m"
-    run_file_path = fanngo_conf["path"]+"/"+run_file_str
+    run_file_path = workdir + fanngo_sw_conf["out_dir"] + "/" + config["input"]["basename"] +".fanngo.m"
     #print fanngo_template
     conf_lines = open(fanngo_template,"r").readlines()
     run_file = open(run_file_path,"w")
     cwd=os.getcwd()
-    output = cwd + "/" + fanngo_conf["output"]
-    out_score = output + "/" + os.path.basename(config["input"]["filt_fasta"]).replace(".fa",".score.txt")
-
+    output = workdir + run_file_path
+    out_score = workdir + fanngo_sw_conf["out_dir"] + "/" + config["input"]["basename"] +".score.txt"
+    input_fasta = workdir+"input/"+config["input"]["basename"]+".fa"
 
 
     for line in conf_lines:
@@ -25,7 +25,6 @@ def run_fanngo(config):
             outline = line.replace("$PATH",code_path)
             print >>run_file, outline
         elif line.find("$INPUT_FASTA") > -1:
-            input_fasta = cwd+"/"+config["input"]["filt_fasta"]
             outline = line.replace("$INPUT_FASTA",input_fasta)
             print >>run_file, outline
         elif line.find("$OUTPUT_SCORE") > -1:
@@ -34,5 +33,7 @@ def run_fanngo(config):
         else:
             print >>run_file, line
     run_file.close()
-    cmd = ["matlab", "-nojvm", "-nodisplay", "-nosplash"]
-    basic_utils.check_output_and_run(out_score,cmd,run_file_path,"temp/fanngo.log")
+    cmd = ["/matlab/bin/matlab", "-nojvm", "-nodisplay", "-nosplash"]
+    print(" ".join(cmd))
+    check_output_and_run(out_score,cmd,run_file_path)
+

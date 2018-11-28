@@ -36,6 +36,8 @@ tmp:
                 - a
             - conf:
                 - a
+        - fanngo:
+            - a
 logs:
   - a
 gaf:

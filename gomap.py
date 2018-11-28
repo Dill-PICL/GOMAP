@@ -15,6 +15,7 @@ from code.gomap_domain import run_domain
 from code.gomap_mixmeth_blast import run_mixmeth_blast
 from code.gomap_mm_preproc import run_mm_preproc
 from code.gomap_mixmeth import run_mixmeth
+from code.gomap_fanngo import run_fanngo
 
 from code.utils.basic_utils import init_dirs, copy_input
 from code.utils.logging_utils import setlogging
@@ -34,7 +35,7 @@ merger = Merger(schema)
 '''
 main_parser = argparse.ArgumentParser(description='Welcome to running the GOMAP pipeline',formatter_class=RawTextHelpFormatter)
 main_parser.add_argument('--config',help="The config file in yaml format. \nPlease see test/config.yml for an example.",required=True)
-main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['setup','seqsim','domain','mixmeth-blast','mixmeth-preproc','mixmeth','aggregate'],required=True)
+main_parser.add_argument('--step',help="GO-MAP has two distinct steps. Choose the step to run \n1) preprocess \n2) annotate", choices=['setup','seqsim','domain','mixmeth-blast','mixmeth-preproc','mixmeth','fanngo','aggregate'],required=True)
 main_args = main_parser.parse_args()
 
 '''
@@ -90,6 +91,11 @@ elif main_args.step == "mixmeth":
     setlogging(config,"mixmeth")
     logging.info("Running mixed-method based annotations")
     run_mixmeth(config)
+elif main_args.step == "fanngo":
+    print("Running run_fanngo based annotations")
+    setlogging(config,"fanngo")
+    logging.info("Running run_fanngo based annotations")
+    run_fanngo(config)
 elif main_args.step == "aggregate":
     print("Running Aggregate Step")
     setlogging(config,"aggregate")
