@@ -65,7 +65,7 @@ if(!file.exists(pannzer_raw)){
 #processing FANN-GO results
 fanngo_cafa = paste(mm_gaf_dir,paste(config$input$basename,"fanngo","gaf",sep="."),sep = "")
 fanngo_raw = paste(raw_gaf_dir,paste(config$input$basename,"fanngo","gaf",sep="."),sep = "")
-if(!file.exists(fanngo_raw)){
+if(!file.exists(fanngo_raw) & file.exists(fanngo_cafa)){
     filter_mixed_gaf(fanngo_cafa,fanngo_raw,"fanngo",config)
 }else{
     flog.warn(paste("The",fanngo_raw,"exists. So not filtering FANN-GO results"))

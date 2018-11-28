@@ -75,7 +75,7 @@ if(!file.exists(pannzer_gaf)){
 fanngo_res= paste(workdir,config$data$`mixed-method`$fanngo$out_dir,"/",basename,".score.txt",sep="")
 fanngo_gaf = paste(gaf_dir,paste(basename,"fanngo","gaf",sep="."),sep = "")
 print(fanngo_gaf)
-if(!file.exists(fanngo_gaf)){
+if(!file.exists(fanngo_gaf) & file.exists(fanngo_res)){
     fanngo2gaf(fanngo_res,fanngo_gaf,config)
 }else{
     flog.warn(paste("The",fanngo_gaf,"exists. So not Running converting FANN-GO results"))
