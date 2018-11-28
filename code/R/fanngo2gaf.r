@@ -1,4 +1,3 @@
-library("reshape2")
 library("data.table")
 fanngo2gaf <- function(in_file,out_gaf,config){
     print("Reading the input file")
