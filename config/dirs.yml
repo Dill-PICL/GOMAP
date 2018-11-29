@@ -12,8 +12,6 @@ tmp:
             - temp:
     mixed-meth:
         - preprocess:
-            - fa:
-                - a
             - blast:
                 - temp:
                     # - fa:

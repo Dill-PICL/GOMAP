@@ -9,7 +9,7 @@ import  os, re, logging, json, sys, argparse, jsonmerge
 from pprint import pprint
 from code.utils.basic_utils import check_output_and_run
 import tarfile
-cyverse_path="i:/iplant/home/shared/dillpicl/gomap/GOMAP-data.tar.gz"
+cyverse_path="i:/iplant/home/shared/dillpicl/gomap/GOMAP-data/"
 from code.utils.logging_utils import setlogging
 
 def setup(config):
@@ -30,24 +30,21 @@ def setup(config):
     """
     
     outfile="data/"+os.path.basename(cyverse_path)
-    cmd = ["irsync","-v",cyverse_path,outfile]
+    cmd = ["irsync","-rsv",cyverse_path,outfile]
     logging.info("Downloading file from Cyverse using irsync")
     #The irsync will checksum the files on both ends and dtermine if the download is necessary and will only download if necessary
     # might take time to check if the files needs to be downloaded
     check_output_and_run("outfile",cmd)
 
-    if not os.path.isfile("data/software/PANNZER/GO.py"):
-        logging.info("Extracting the files")
-        tar = tarfile.open(outfile)
-        # tar.extract("GOMAP-data/","data/")
-        try:
-            tar.extractall("data/")
-        except:
-            print("Error extracting files")
-        os.remove(outfile)
-    else:
-        logging.info("The GOMAP-data files have been already extracted")
-    
-
-
-    
+    # if not os.path.isfile("data/software/PANNZER/GO.py"):
+    #     logging.info("Extracting the files")
+    #     tar = tarfile.open(outfile)
+    #     # tar.extract("GOMAP-data/","data/")
+    #     try:
+    #         tar.extractall("data/")
+    #     except:
+    #         print("Error extracting files")
+    #     os.remove(outfile)
+    # else:
+    #     logging.info("The GOMAP-data files have been already extracted")
+ 
