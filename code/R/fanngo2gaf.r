@@ -17,27 +17,27 @@ fanngo2gaf <- function(in_file,out_gaf,config){
     print("Converting to GAF 2.0")
     gaf_data = data.table(fanngo_melt)
     rm(fanngo_melt,fanngo_data)
-    
     gaf_data$term_accession = gsub("_",":",gaf_data$term_accession,fixed = T)
+    
     
     obo_data = check_obo_data(config$data$go$obo)
     
     #tmp_aspect = get_aspect(obo_data,gaf_data$term_accession)
-    
-    tmp_aspect=lapply(gaf_data$term_accession,function(x){
-        out = obo_data$aspect[[x]]
-        if(is.null(out)){
-            print(x)
-            "N"
-        }else{
-            out    
-        }
-    })
+    tmp_aspect=obo_data$aspect[gaf_data$term_accession]
+    tmp_aspect[is.null(tmp_aspect)] = "N"
+    # tmp_aspect=lapply(tmp_aspect,function(x){
+    #     if(is.null(x)){
+    #         "N"
+    #     }else{
+    #         x
+    #     }
+    # })
     gaf_data[,aspect:=unlist(tmp_aspect)]
     
     min_score=min(gaf_data$with)
     max_score=max(gaf_data$with)
     gaf_data$with = (gaf_data$with - min_score)/(max_score - min_score)
+    # quit()
     
     gaf_cols[!gaf_cols %in% colnames(gaf_data)]
     #gaf_data[,db_object_id:=tmp]
