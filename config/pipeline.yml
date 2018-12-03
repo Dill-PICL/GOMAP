@@ -101,7 +101,7 @@ software:
   blast:
     bin:            data/software/blast-2.6.0+/bin
     evalue:         10e-10
-    opt_params: ["-max_target_seqs", '500']
+    opt_params: []
     cols:           data/data/cols/blast_cols.txt
   iprs:
     path:           data/software/interproscan-5.25-64.0

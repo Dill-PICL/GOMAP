@@ -5,7 +5,7 @@ This submodule lets the user download the data files necessary for running the G
 
 Currently the files are stored in Gokul's personal directory so the download has to be initiated by gokul's own CyVerse account with icommands
 '''
-import  os, re, logging, json, sys, argparse, jsonmerge
+import  os, re, logging, json, sys, argparse, jsonmerge, gzip, shutil
 from pprint import pprint
 from code.utils.basic_utils import check_output_and_run
 import tarfile
@@ -29,22 +29,46 @@ def setup(config):
         The config dict generated in the gomap.py script.
     """
     
-    outfile="data/"+os.path.basename(cyverse_path)
-    cmd = ["irsync","-rsv",cyverse_path,outfile]
+    outdir="data/"
+    cmd = ["irsync","-rsv",cyverse_path,outdir]
     logging.info("Downloading file from Cyverse using irsync")
     #The irsync will checksum the files on both ends and dtermine if the download is necessary and will only download if necessary
     # might take time to check if the files needs to be downloaded
+    print(os.getcwd())
+    print(" ".join(cmd))
     check_output_and_run("outfile",cmd)
 
-    # if not os.path.isfile("data/software/PANNZER/GO.py"):
-    #     logging.info("Extracting the files")
-    #     tar = tarfile.open(outfile)
-    #     # tar.extract("GOMAP-data/","data/")
-    #     try:
-    #         tar.extractall("data/")
-    #     except:
-    #         print("Error extracting files")
-    #     os.remove(outfile)
-    # else:
-    #     logging.info("The GOMAP-data files have been already extracted")
- 
+    with open("data/compress_files.txt","r") as comp_files:
+        counter=0
+        for infile in comp_files.readlines():
+            counter=counter+1
+            outfile = outdir+infile.strip()
+            gzfile = outdir+infile.strip()+".gz"
+            if os.path.exists(gzfile):
+                if os.path.exists(outfile):
+                    print( gzfile + " already extracted")
+                else:
+                    print("Extracting " +  gzfile)
+                    with gzip.open(gzfile,"rb") as in_f:
+                        with open(outfile,"wb") as out_f:
+                            shutil.copyfileobj(in_f,out_f)
+                    os.remove(gzfile)
+            else:
+                print(gzfile + " doesn't exist")
+
+    with open("data/tar_files.txt","r") as comp_files:
+        for infile in comp_files.readlines():
+            infile=infile.strip()
+            outfile = outdir+infile.strip()
+            tar_f = outdir+infile.strip()+".tar.gz"
+            base_dir=os.path.basename(outfile)
+            if os.path.exists(tar_f):
+                if os.path.exists(outfile):
+                    print(tar_f + " already extracted")
+                else:
+                    print("Extracting " +  tar_f)
+                    with tarfile.open(tar_f) as tar:
+                        tar.extractall("data/")
+                    os.remove(tar_f)
+            else:
+                print(tar_f + " doesn't exist")
