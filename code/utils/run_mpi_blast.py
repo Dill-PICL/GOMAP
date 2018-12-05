@@ -49,7 +49,7 @@ def slave(dest,config):
         run_blast(data,uniprot_db,config)
         comm.send(data, dest=0)
 
-def run_mpi_blast(fa_files,config):
+def run_mpi_blast(config):
     
     size = MPI.COMM_WORLD.Get_size()
     rank = MPI.COMM_WORLD.Get_rank()
@@ -65,9 +65,17 @@ def run_mpi_blast(fa_files,config):
     src=os.path.dirname(uniprot_db)
     dest=tmpdir+"/blastdb"
 
-    work_list = natsorted(fa_files)
 
     if rank == 0:
+        workdir=config["input"]["gomap_dir"]+"/"
+        print(workdir)
+        tmp_fa_dir=workdir + config["input"]["split_path"]+"/"
+        dest=workdir+config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp/"
+        results = pyrocopy.copy(tmp_fa_dir,dest)
+        print(results)
+        fa_pattern=dest+config["input"]["basename"]+"*.fa"
+        fa_files = sorted(glob(fa_pattern))
+        work_list = natsorted(fa_files)
         all_dat = master(work_list)
     else:
         results = pyrocopy.copy(src,dest)
