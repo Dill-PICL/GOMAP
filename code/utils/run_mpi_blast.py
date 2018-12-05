@@ -81,5 +81,3 @@ def run_mpi_blast(config):
         results = pyrocopy.copy(src,dest)
         #pprint(results)
         slave(dest,config)
-        
-        
