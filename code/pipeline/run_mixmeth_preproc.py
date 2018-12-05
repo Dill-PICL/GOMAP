@@ -54,7 +54,7 @@ def run_uniprot_blast(config):
 
     if config["input"]["mpi"] is True:
         from code.utils.run_mpi_blast import run_mpi_blast
-        print(fa_files)
+        #print(fa_files)
         run_mpi_blast(fa_files,config)
     else:
         from code.utils.run_single_blast import run_single_blast
