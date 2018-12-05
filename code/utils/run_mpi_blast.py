@@ -4,6 +4,7 @@ from pyrocopy import pyrocopy
 from blast_utils import check_bl_out, run_blast
 from natsort import natsorted
 from pprint import pprint
+from glob import glob
 
 WORKTAG = 0
 DIETAG = 1
