@@ -75,7 +75,7 @@ def run_mpi_blast(config):
         results = pyrocopy.copy(tmp_fa_dir,dest)
         print(results)
         fa_pattern=dest+config["input"]["basename"]+"*.fa"
-        fa_files = sorted(glob(fa_pattern))
+        fa_files = glob(fa_pattern)
         work_list = natsorted(fa_files)
         all_dat = master(work_list)
     else:
