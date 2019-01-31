@@ -15,7 +15,7 @@ def run_fanngo(config):
     cwd=os.getcwd()
     output = workdir + run_file_path
     out_score = workdir + fanngo_sw_conf["out_dir"] + "/" + config["input"]["basename"] +".score.txt"
-    input_fasta = workdir+"input/"+config["input"]["basename"]+".fa"
+    input_fasta = workdir+"input/"+config["input"]["fasta"]
 
 
     for line in conf_lines:
