@@ -33,7 +33,8 @@ def run_fanngo(config):
         else:
             print >>run_file, line
     run_file.close()
-    cmd = ["/matlab/bin/matlab", "-nojvm", "-nodisplay", "-nosplash"]
+    cmd = ["octave", "--norc", "--no-window-system", "--quiet"]
     print(" ".join(cmd))
+    os.environ["NPROC"] = str(config["input"]["cpus"]);
     check_output_and_run(out_score,cmd,run_file_path)
 
