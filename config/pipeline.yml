@@ -116,6 +116,7 @@ software:
       SQL_DB_USER: pannzer
       SQL_DB_HOST: localhost
       SQL_DB_PORT: ""
+      SQL_DB_SOCKET: ""/tmpdir/mysqld.sock""
     path: data/software/PANNZER
     conf_template: template.conf
   fanngo:
