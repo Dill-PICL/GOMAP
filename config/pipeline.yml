@@ -99,7 +99,7 @@ data:
       - NAS
     gaf_col_data:
       db: GOMAP
-      db_reference: MG:0000
+      db_reference: GOMAP:0000
       evidence_code: IEA
       db_object_type: gene
 software:
