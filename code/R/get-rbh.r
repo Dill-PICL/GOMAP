@@ -125,8 +125,6 @@ assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,out_gaf_file,ta
     out_gaf[,taxon:=taxon_txt]
     out_gaf[,date:=gaf_date]
     out_gaf[,evidence_code:="IEA"]
-    out_gaf[,db_object_name:=""]
-    out_gaf[,db_object_synonym:=""]
     out_gaf[,with:=""]
 
     out_dir <- dirname(out_gaf_file)

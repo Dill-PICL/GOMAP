@@ -31,7 +31,7 @@ read_gaf_header = function(infile){
     return(colnames(curr_gaf))
 }
 
-write_gaf = function(out_gaf,outfile){
+write_gaf = function(config,out_gaf,outfile){
     out_gaf[is.na(out_gaf)] = ""
 
     unfilled_gaf_col = gaf_cols[!gaf_cols %in% colnames(out_gaf)]
