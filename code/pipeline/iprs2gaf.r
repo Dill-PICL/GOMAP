@@ -27,6 +27,5 @@ if(file.exists(out_gaf)){
 }else{
     flog.info(paste("The",out_gaf,"missing, So generating the dataset"))
     iprs_data = iprs2gaf(go_obo,iprs_out,taxon_txt)
-    
     write_gaf(config,iprs_data,out_gaf)
 }
