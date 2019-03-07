@@ -34,7 +34,9 @@ read_gaf_header = function(infile){
 write_gaf = function(config,out_gaf,outfile){
     
     out_gaf[is.na(out_gaf)] = ""
-    gaf_col_data = go_obo = config[["data"]][["go"]][["gaf_col_data"]]
+    gaf_col_data = config[["data"]][["go"]][["gaf_col_data"]]
+
+    print(gaf_col_data)
 
     for(col in names(gaf_col_data)){
         out_gaf[,c(col):=gaf_col_data[[col]]]
