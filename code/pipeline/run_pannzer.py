@@ -34,6 +34,7 @@ def run_pannzer(config):
         blank_config.set("MYSQL","SQL_DB_HOST",pannzer_conf["database"]["SQL_DB_HOST"])
         blank_config.set("MYSQL","SQL_DB_PORT",pannzer_conf["database"]["SQL_DB_PORT"])
         blank_config.set("MYSQL","SQL_DB_USER",pannzer_conf["database"]["SQL_DB_USER"])
+        blank_config.set("MYSQL","SQL_DB_SOCKET",pannzer_conf["database"]["SQL_DB_SOCKET"])
         # blank_config.set("MYSQL","SQL_DB_PASSWORD",pannzer_conf["database"]["SQL_DB_PASSWORD"])
         blank_config.set("MYSQL","SQL_DB",pannzer_conf["database"]["SQL_DB"])
         #pp.pprint(blank_config.items("GENERAL_SETTINGS"))
