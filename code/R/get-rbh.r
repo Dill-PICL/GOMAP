@@ -95,7 +95,7 @@ get_rbh <- function(main2other,other2main, evalue_th){
     return(rbh_data)
 }
 
-assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,out_gaf_file,taxon_txt){
+assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,taxon_txt){
 
     #rbh_hits <- fread(rbh_file,header = F,sep = "\t")
     rbh_hits = data.table(rbh_data)
@@ -119,17 +119,15 @@ assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,out_gaf_file,ta
 
     ass_by = config[["data"]]$`seq-sim`[[spp]][["metadata"]]$species
     out_gaf <- do.call(rbind,tmp_out)
-    out_gaf[,db:="maize-GAMER"]
     out_gaf[,assigned_by:=ass_by]
-    out_gaf[,db_reference:="MG:0000"]
     out_gaf[,taxon:=taxon_txt]
     out_gaf[,date:=gaf_date]
-    out_gaf[,evidence_code:="IEA"]
-    out_gaf[,with:=""]
+    
+    
 
     out_dir <- dirname(out_gaf_file)
     ifelse(!dir.exists(out_dir),dir.create(out_dir,recursive = T),paste(out_dir,"already exists so not creating one"))
-    write_gaf(out_gaf,out_gaf_file)
+    return(out_gaf)
 }
 
 get_blast_out <- function(config1,config2){
