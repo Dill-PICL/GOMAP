@@ -41,7 +41,7 @@ write_gaf = function(config,out_gaf,outfile){
     }
 
     unfilled_gaf_col = gaf_cols[!gaf_cols %in% colnames(out_gaf)]
-
+    
     for(col in unfilled_gaf_col){
         out_gaf[,c(col):=""]
     }
