@@ -32,11 +32,13 @@ argot2_cafa=paste(mm_gaf_dir,paste(config$input$basename,"argot2.5","gaf",sep=".
 argot2_raw=paste(raw_gaf_dir,paste(config$input$basename,"argot2.5","gaf",sep="."),sep = "")
 
 if(!file.exists(argot2_raw)){
-    filter_mixed_gaf(argot2_cafa,argot2_raw,"argot2",config=config)
+    argot2_filt = filter_mixed_gaf(argot2_cafa,"argot2",config=config)
+    write_gaf(config = config,out_gaf = argot2_filt,outfile = argot2_raw)
 }else{
     if(file.mtime(argot2_cafa) > file.mtime(argot2_raw)){
         flog.info(paste("Filtering Argot2 GAF"))
-        filter_mixed_gaf(argot2_cafa,argot2_raw,"argot2",config=config)    
+        argot2_filt = filter_mixed_gaf(argot2_cafa,"argot2",config=config)
+        write_gaf(config = config,out_gaf = argot2_filt,outfile = argot2_raw)
     }else{
         flog.warn(paste("The",argot2_raw,"exists. So not filtering Argot-2.5 results"))
         flog.info(paste("Remove the file to reconvert"))    
@@ -50,11 +52,13 @@ pannzer_cafa = paste(mm_gaf_dir,paste(config$input$basename,"pannzer","gaf",sep=
 pannzer_raw = paste(raw_gaf_dir,paste(config$input$basename,"pannzer","gaf",sep="."),sep = "")
 
 if(!file.exists(pannzer_raw)){
-        filter_mixed_gaf(pannzer_cafa,pannzer_raw,"pannzer",config=config)
+    pannzer_filt = filter_mixed_gaf(pannzer_cafa,"pannzer",config=config)    
+    write_gaf(config = config,out_gaf = pannzer_filt,outfile = pannzer_raw)
 }else{
     if(file.mtime(pannzer_cafa)>file.mtime(pannzer_raw)){
         flog.info(paste("Filtering PANNZER GAF"))
-        filter_mixed_gaf(pannzer_cafa,pannzer_raw,"pannzer",config=config)    
+        pannzer_filt = filter_mixed_gaf(pannzer_cafa,"pannzer",config=config)    
+        write_gaf(config = config,out_gaf = pannzer_filt,outfile = pannzer_raw)
     }else{
         flog.warn(paste("The",pannzer_raw,"exists. So not filtering PANNZER results"))
         flog.info(paste("Remove the file to reconvert"))    
@@ -66,9 +70,10 @@ if(!file.exists(pannzer_raw)){
 fanngo_cafa = paste(mm_gaf_dir,paste(config$input$basename,"fanngo","gaf",sep="."),sep = "")
 fanngo_raw = paste(raw_gaf_dir,paste(config$input$basename,"fanngo","gaf",sep="."),sep = "")
 if(!file.exists(fanngo_raw) & file.exists(fanngo_cafa)){
-    filter_mixed_gaf(fanngo_cafa,fanngo_raw,"fanngo",config)
+    fanngo_filt = filter_mixed_gaf(fanngo_cafa,"fanngo",config)
+    write_gaf(config = config,out_gaf = fanngo_filt,outfile = fanngo_raw)
+    
 }else{
     flog.warn(paste("The",fanngo_raw,"exists. So not filtering FANN-GO results"))
     flog.info(paste("Remove the file to reconvert"))
-}    
-
+}

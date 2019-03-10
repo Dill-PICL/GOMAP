@@ -2,11 +2,12 @@ library("data.table",quietly = T)
 tool="Argot"
 #cafa_gaf <- argot2_cafa
 
-filter_mixed_gaf <- function(cafa_gaf,raw_gaf,tool,config){
+filter_mixed_gaf <- function(cafa_gaf,tool,config){
     cafa_data = read_gaf(cafa_gaf)
     print(config$data[["mixed-method"]][[tool]])
     score_ths = config$data[["mixed-method"]][[tool]]$score_th
-    print(score_ths)
+    
+    flog.info(score_ths)
     
     flog.info(paste("Filtering annotations with follwing score thresholds for ",tool))
     flog.info(paste(score_ths,names(score_ths)))
@@ -21,5 +22,5 @@ filter_mixed_gaf <- function(cafa_gaf,raw_gaf,tool,config){
     out_gaf = do.call(rbind,tmp_out)
     out_gaf[,with:=as.character(with)]
     out_gaf[,with:=""]
-    write_gaf(out_gaf,raw_gaf)
+    return(out_gaf)
 }

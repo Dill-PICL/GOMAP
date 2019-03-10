@@ -34,10 +34,12 @@ read_gaf_header = function(infile){
 write_gaf = function(config,out_gaf,outfile){
     
     out_gaf[is.na(out_gaf)] = ""
+    
     gaf_col_data = config[["data"]][["go"]][["gaf_col_data"]]
+    unfilled_gaf_data_cols = names(gaf_col_data)
 
-    for(col in names(gaf_col_data)){
-        out_gaf[,c(col):=gaf_col_data[[col]]]
+    for(col in unfilled_gaf_data_cols){
+      out_gaf[,c(col):=gaf_col_data[[col]]]
     }
 
     unfilled_gaf_col = gaf_cols[!gaf_cols %in% colnames(out_gaf)]

@@ -121,7 +121,7 @@ software:
       SQL_DB_USER: pannzer
       SQL_DB_HOST: localhost
       SQL_DB_PORT: ""
-      SQL_DB_SOCKET: "/tmpdir/mysqld.sock"
+      SQL_DB_SOCKET: "/run/mysqld/mysqld.sock"
     path: data/software/PANNZER
     conf_template: template.conf
   fanngo:
@@ -133,8 +133,8 @@ logging:
   level:            DEBUG
 pipeline:
   config_file:      pipeline.json
-  version:          '1.0.1'
-  name:             GO-MAP
+  version:          '1.1.0'
+  name:             GOMAP
   pipeline_loc:     "/opt/GOMAP"
   dir_struct:       "config/dirs.yml"
 input:

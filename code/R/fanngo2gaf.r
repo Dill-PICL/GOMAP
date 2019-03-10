@@ -1,5 +1,5 @@
 library("data.table")
-fanngo2gaf <- function(in_file,out_gaf,config){
+fanngo2gaf <- function(in_file,config){
     print("Reading the input file")
     #in_file="FANNGO_linux_x64/scores.txt"
     #out_gaf="FANNGO_linux_x64/gaf/fanngo-0.0.gaf"
@@ -42,15 +42,9 @@ fanngo2gaf <- function(in_file,out_gaf,config){
     gaf_cols[!gaf_cols %in% colnames(gaf_data)]
     #gaf_data[,db_object_id:=tmp]
     gaf_data[,db_object_symbol:=db_object_id]
-    gaf_data[,db:="maize-GAMER"]
-    gaf_data[,db_reference:="MG:0000"]
-    gaf_data[,evidence_code:="IEA"]
-    gaf_data[,db_object_type:="protein"]
     gaf_data[,taxon:=taxon_txt]
     gaf_data[,date:=gaf_date]
     gaf_data[,assigned_by:="FANN-GO"]
-    setcolorder(gaf_data,gaf_cols)
     
-    print("Writing the outfile")
-    write_gaf(gaf_data,out_gaf)
+    return(gaf_data)
 }

@@ -19,7 +19,6 @@ gaf_dir
 
 #processing argot2.5 results
 argot2_results = dir(config$`mixed-meth`$Argot$result_dir,full.names = T)
-
 argot2_gaf=paste(gaf_dir,paste(config$input$species,config$input$inbred,config$input$version,"argot2.5","gaf",sep="."),sep = "")
 filter_argot2(in_file=argot2_results,out_file=argot2_gaf,config=config)
 

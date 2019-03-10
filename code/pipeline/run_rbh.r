@@ -74,7 +74,7 @@ if(!file.exists(rbh_out)){
 }
 if(!file.exists(out_gaf_file)){
     gaf_data <- assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,taxon_txt)    
-    write_gaf(config,gaf_data,out_gaf_file)
+    write_gaf(config=config,out_gaf = gaf_data,outfile = out_gaf_file)
 }else{
     flog.info(paste(out_gaf_file, "already exists. Delete to regenerate"))
 }

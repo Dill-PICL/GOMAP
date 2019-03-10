@@ -1,4 +1,4 @@
-argot2gaf <- function(in_files,out_file,config){
+argot2gaf <- function(in_files,config){
     print("Reading the input file")
     gaf_date = format(Sys.time(),"%m%d%Y")
     tmp_out = lapply(in_files,function(infile){
@@ -31,16 +31,11 @@ argot2gaf <- function(in_files,out_file,config){
     #gaf_data[,db_object_id:=tmp]
     
     gaf_data[,db_object_symbol:=db_object_id]
-    gaf_data[,db:="maize-GAMER"]
-    gaf_data[,db_reference:="MG:0000"]
-    gaf_data[,evidence_code:="IEA"]
-    gaf_data[,db_object_type:="protein"]
     gaf_data[,taxon:=taxon_txt]
     gaf_data[,date:=gaf_date]
-    gaf_data[,assigned_by:="Argot2"]
-    setcolorder(gaf_data,gaf_cols)
-
+    gaf_data[,assigned_by:="Argot2.5"]
     
-    print("Writing the outfile")
-    write_gaf(gaf_data,out_file)
+    return(gaf_data)
+    # print("Writing the outfile")
+    # write_gaf(gaf_data,out_file)
 }

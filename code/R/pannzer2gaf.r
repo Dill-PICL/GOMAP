@@ -1,4 +1,4 @@
-pannzer2gaf <- function(in_files,out_gaf,config){
+pannzer2gaf <- function(in_files,config){
     print("Reading the input file")
     in_files=pannzer_results
     #out_file="PANNZER/gaf/pannzer-0.0.gaf"
@@ -39,15 +39,9 @@ pannzer2gaf <- function(in_files,out_gaf,config){
     
     
     gaf_data[,db_object_symbol:=db_object_id]
-    gaf_data[,db:="maize-GAMER"]
-    gaf_data[,db_reference:="MG:0000"]
-    gaf_data[,evidence_code:="IEA"]
-    gaf_data[,db_object_type:="protein"]
     gaf_data[,taxon:=taxon_txt]
     gaf_data[,date:=gaf_date]
     gaf_data[,assigned_by:="PANNZER"]
-    setcolorder(gaf_data,gaf_cols)
     
-    print("Writing the outfile")
-    write_gaf(config,gaf_data,out_gaf)
+    return(gaf_data)
 }

@@ -37,12 +37,17 @@ argot2_gaf=paste(gaf_dir,paste(basename,"argot2.5","gaf",sep="."),sep = "")
 
 if(!file.exists(argot2_gaf)){
     flog.info(paste("Generating GAF file from Argot2.5 Results"))
-    argot2gaf(in_files=argot2_results,out_file=argot2_gaf,config=config)    
+    argot_gaf_data <- argot2gaf(in_files=argot2_results,config=config)    
+    print("Writing the outfile")
+    write_gaf(config = config,out_gaf = argot_gaf_data,outfile = argot2_gaf)
 }else{
     old_gaf = sum(file.mtime(argot2_results) > file.mtime(argot2_gaf))>1
     if(old_gaf){
-        flog.info(paste("Generating GAF file from Argot2.5 Results"))
-        argot2gaf(in_files=argot2_results,out_file=argot2_gaf,config=config)    
+        flog.info(paste("Generating GAF file from Argot2.5 Results")) 
+        argot_gaf_data <- argot2gaf(in_files=argot2_results,config=config)    
+        print("Writing the outfile")
+        write_gaf(config = config,out_gaf = argot_gaf_data,outfile = argot2_gaf)
+        
     }else{
         flog.warn(paste("The",argot2_gaf,"exists. So not Running converting Argot-2.5 results"))
         flog.info(paste("Remove the file to reconvert"))    
@@ -58,12 +63,14 @@ pannzer_gaf = paste(gaf_dir,paste(basename,"pannzer","gaf",sep="."),sep = "")
 
 if(!file.exists(pannzer_gaf)){
     flog.info(paste("Generating GAF file from PANNZER Results"))
-    pannzer2gaf(in_files = pannzer_results,out_gaf=pannzer_gaf,config)
+    pannzer_gaf_data = pannzer2gaf(in_files = pannzer_results,config)
+    write_gaf(config = config, out_gaf = pannzer_gaf_data,outfile = pannzer_gaf)
 }else{
     old_gaf = sum(file.mtime(pannzer_results) > file.mtime(pannzer_gaf))>1
     if(old_gaf){
         flog.info(paste("Generating GAF file from PANNZER Results"))
-        pannzer2gaf(in_files = pannzer_results,out_gaf=pannzer_gaf,config)
+        pannzer_gaf_data = pannzer2gaf(in_files = pannzer_results,config)
+        write_gaf(config = config, out_gaf = pannzer_gaf_data,outfile = pannzer_gaf)
     }else{
         flog.warn(paste("The",pannzer_gaf,"exists. So not Running converting PANNZER results"))
         flog.info(paste("Remove the file to reconvert"))
@@ -76,7 +83,9 @@ fanngo_res= paste(workdir,config$data$`mixed-method`$fanngo$out_dir,"/",basename
 fanngo_gaf = paste(gaf_dir,paste(basename,"fanngo","gaf",sep="."),sep = "")
 print(fanngo_gaf)
 if(!file.exists(fanngo_gaf) & file.exists(fanngo_res)){
-    fanngo2gaf(fanngo_res,fanngo_gaf,config)
+    fanngo_gaf_data <- fanngo2gaf(fanngo_res,config)
+    print("Writing FANNGO gaf ")
+    write_gaf(config = config,out_gaf = fanngo_gaf_data,outfile = fanngo_gaf)
 }else{
     flog.warn(paste("The",fanngo_gaf,"exists. So not Running converting FANN-GO results"))
     flog.info(paste("Remove the file to reconvert"))
