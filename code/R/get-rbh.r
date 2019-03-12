@@ -97,8 +97,6 @@ get_rbh <- function(main2other,other2main, evalue_th){
 
 assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,taxon_txt){
 
-    #rbh_hits <- fread(rbh_file,header = F,sep = "\t")
-    print(rbh_data)
     rbh_hits = data.table(rbh_data)
     colnames(rbh_hits) <- c("main","other")
     gaf_date = format(Sys.time(),"%m%d%Y")
