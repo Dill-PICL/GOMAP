@@ -98,6 +98,7 @@ get_rbh <- function(main2other,other2main, evalue_th){
 assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,taxon_txt){
 
     #rbh_hits <- fread(rbh_file,header = F,sep = "\t")
+    print(rbh_data)
     rbh_hits = data.table(rbh_data)
     colnames(rbh_hits) <- c("main","other")
     gaf_date = format(Sys.time(),"%m%d%Y")
@@ -113,6 +114,7 @@ assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,taxon_txt){
         if(dim(tmp_dt)[1]>0){
             tmp_dt[,db_object_id:=x[1]]
             tmp_dt[,db_object_symbol:=x[1]]
+            tmp_dt[,with:=paste("RBH",x[2],sep=":")]
             return(tmp_dt)
         }
     })
@@ -122,9 +124,9 @@ assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,taxon_txt){
     out_gaf[,assigned_by:=ass_by]
     out_gaf[,taxon:=taxon_txt]
     out_gaf[,date:=gaf_date]
+    out_gaf[,db_object_name:=""]
+    out_gaf[,db_object_synonym:=""]     
     
-    
-
     out_dir <- dirname(out_gaf_file)
     ifelse(!dir.exists(out_dir),dir.create(out_dir,recursive = T),paste(out_dir,"already exists so not creating one"))
     return(out_gaf)

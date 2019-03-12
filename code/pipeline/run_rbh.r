@@ -72,6 +72,7 @@ if(!file.exists(rbh_out)){
         rbh_hits = fread(rbh_out,header = F)
         colnames(rbh_hits) <- c("qseqid","sseqid")
 }
+
 if(!file.exists(out_gaf_file)){
     gaf_data <- assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,taxon_txt)    
     write_gaf(config=config,out_gaf = gaf_data,outfile = out_gaf_file)
