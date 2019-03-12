@@ -17,6 +17,7 @@ go_obo = config[["data"]][["go"]][["obo"]]
 workdir=paste(config[["input"]][["gomap_dir"]],"/",sep="")
 raw_dir=paste(workdir,config$data$gaf$raw_dir,"/",sep="")
 taxon_txt=paste("taxon:",config$input$taxon,sep="")
+setDTthreads(as.numeric(config[["input"]][["cpus"]]))
 
 iprs_out=paste(workdir,config[["data"]][["domain"]][["tmpdir"]], "/", config[["input"]][["basename"]],".go.tsv",sep="")
 

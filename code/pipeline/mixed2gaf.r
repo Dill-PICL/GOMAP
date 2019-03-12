@@ -28,6 +28,7 @@ set_logger(config)
 workdir=paste(config$input$gomap_dir,"/",sep="")
 gaf_dir = paste(workdir,config$data$gaf[["mixed_method_dir"]],"/",sep="")
 basename <- config$input$basename
+setDTthreads(as.numeric(config[["input"]][["cpus"]]))
 
 #processing argot2.5 results
 argot_result_dir = paste(workdir,config[["data"]][["mixed-method"]][["argot2"]][["result_dir"]],sep="")

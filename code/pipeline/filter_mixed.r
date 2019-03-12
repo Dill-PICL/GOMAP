@@ -26,6 +26,7 @@ set_logger(config)
 workdir=paste(config$input$gomap_dir,"/",sep="")
 mm_gaf_dir=paste(workdir,config$data$gaf$mixed_method_dir,"/",sep="")
 raw_gaf_dir=paste(workdir,config$data$gaf$raw_dir,"/",sep="")
+setDTthreads(config[["input"]][["cpus"]])
 
 #processing argot2.5 results
 argot2_cafa=paste(mm_gaf_dir,paste(config$input$basename,"argot2.5","gaf",sep="."),sep = "")

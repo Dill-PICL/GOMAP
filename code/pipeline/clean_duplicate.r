@@ -22,6 +22,7 @@ set_logger(config)
 workdir = paste(config$input$gomap_dir,"/",sep = "")
 raw_gaf_dir = paste(workdir,config$data$gaf$raw_dir,sep="")
 dup_datasets=dir(raw_gaf_dir,full.names = T,pattern = "*.gaf")
+setDTthreads(as.numeric(config[["input"]][["cpus"]]))
 
 tmp_out = lapply(dup_datasets,function(in_gaf){
     uniq_dir=raw_gaf_dir = paste(workdir,config$data$gaf$uniq_dir,"/",sep="")

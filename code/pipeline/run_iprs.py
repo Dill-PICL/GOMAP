@@ -39,7 +39,7 @@ def compile_iprs_out(config):
     tsv_files = sorted(glob(tsv_pattern))
     out_file = workdir + "/" + dom_config["tmpdir"] + "/" + config["input"]["basename"]+".tsv"
     combine_iprs_tsv(tsv_files,out_file)
-    print(tsv_files)
+    #print(tsv_files)
 
 
 def iprs2gaf(config):

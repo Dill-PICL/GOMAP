@@ -6,7 +6,6 @@ args <- commandArgs(T)
 config_file <- args[1]
 
 
-
 #Reading config file and creating config object
 config = read_yaml(config_file)
 if(F){
@@ -25,7 +24,7 @@ set_logger(config)
 #}
 taxon_txt=paste("taxon:",config$input$taxon,sep="")
 ommited_ev_codes = c(config$go$evidence_codes$omitted,config$input$taxon)
-
+setDTthreads(as.numeric(config[["input"]][["cpus"]]))
 
 #processing arabidopsis results
 spp = "TAIR"
