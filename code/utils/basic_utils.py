@@ -5,7 +5,7 @@ from logging import Logger
 from pprint import pprint,pformat
 from code.utils.logging_utils import setlogging
 from Bio import SeqIO
-from Bio.Alphabet.IUPAC import IUPACProtein
+from Bio.Alphabet.IUPAC import ExtendedIUPACProtein
 
 
 def make_dir(file):
@@ -56,7 +56,7 @@ def copy_input(config):
     dest=config["input"]["gomap_dir"]+"/input/"+config["input"]["fasta"]
     
     all_seqs = list(SeqIO.parse(src, "fasta"))
-    aa_pattern = re.compile("^["+IUPACProtein.letters+"]+$")
+    aa_pattern = re.compile("^["+ExtendedIUPACProtein.letters+"]+$")
     
     for seq in all_seqs:
         seq.description = ""
