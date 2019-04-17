@@ -35,5 +35,5 @@ def run_fanngo(config):
     run_file.close()
     cmd = ["/matlab/bin/matlab", "-nojvm", "-nodisplay", "-nosplash"]
     print(" ".join(cmd))
-    check_output_and_run(out_score,cmd,run_file_path)
+    check_output_and_run(out_score,cmd,stdin_file=run_file_path)
 
