@@ -9,7 +9,7 @@ import  os, re, logging, json, sys, argparse, jsonmerge, gzip, shutil
 from pprint import pprint
 from code.utils.basic_utils import check_output_and_run
 import tarfile
-cyverse_path="i:/iplant/home/shared/dillpicl/gomap/GOMAP-data/"
+cyverse_path="i:/iplant/home/shared/dillpicl/gomap/GOMAP-data.v1.2/"
 from code.utils.logging_utils import setlogging
 
 def setup(config):
