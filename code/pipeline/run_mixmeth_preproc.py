@@ -49,11 +49,11 @@ def run_uniprot_blast(config):
     else:
         from code.utils.run_single_blast import run_single_blast
         workdir=config["input"]["gomap_dir"]+"/"
-        print(workdir)
+        #print(workdir)
         tmp_fa_dir=workdir + config["input"]["split_path"]+"/"
         dest=workdir+config["data"]["mixed-method"]["preprocess"]["blast_out"]+"/temp/"
         results = pyrocopy.copy(tmp_fa_dir,dest)
-        print(results)
+        #print(results)
         fa_pattern=dest+config["input"]["basename"]+"*.fa"
         fa_files = sorted(glob(fa_pattern))
         run_single_blast(fa_files,config)

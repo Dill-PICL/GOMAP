@@ -39,15 +39,15 @@ tmp:
 logs:
   - a
 gaf:
-  - raw:
+  - b.raw_gaf:
     - a
-  - non_red:
+  - d.non_red_gaf:
     - a
-  - agg:
+  - e.agg_data:
     - a
-  - uniq:
+  - c.uniq_gaf:
     - a
-  - mixed-method:
+  - a.mm_gaf:
     - a
 input:
     - split:
