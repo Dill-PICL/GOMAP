@@ -30,7 +30,7 @@ def setup(config):
     """
     
     outdir="data/"
-    cmd = ["irsync","-rsv",cyverse_path,outdir]
+    cmd = ["irsync","-rv",cyverse_path,outdir]
     logging.info("Downloading file from Cyverse using irsync")
     #The irsync will checksum the files on both ends and dtermine if the download is necessary and will only download if necessary
     # might take time to check if the files needs to be downloaded

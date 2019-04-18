@@ -84,11 +84,11 @@ data:
           P: 0.3
           F: 0.65        
   gaf:
-    raw_dir:          gaf/raw
-    non_red_dir:      gaf/non_red
-    agg_dir:          gaf/agg
-    uniq_dir:         gaf/uniq
-    mixed_method_dir: gaf/mixed-method
+    raw_dir:          gaf/b.raw_gaf
+    non_red_dir:      gaf/d.non_red_gaf
+    agg_dir:          gaf/e.agg_data
+    uniq_dir:         gaf/c.uniq_gaf
+    mixed_method_dir: gaf/a.mm_gaf
   go:
     gaf_cols:       data/data/cols/gaf_cols.txt
     obo:            data/data/go/go.obo
@@ -97,6 +97,11 @@ data:
       - IEA
       - ND
       - NAS
+    gaf_col_data:
+      db: GOMAP
+      db_reference: GOMAP:0000
+      evidence_code: IEA
+      db_object_type: gene
 software:
   blast:
     bin:            data/software/blast-2.6.0+/bin
@@ -116,7 +121,7 @@ software:
       SQL_DB_USER: pannzer
       SQL_DB_HOST: localhost
       SQL_DB_PORT: ""
-      SQL_DB_SOCKET: "/tmpdir/mysqld.sock"
+      SQL_DB_SOCKET: "/run/mysqld/mysqld.sock"
     path: data/software/PANNZER
     conf_template: template.conf
   fanngo:
@@ -128,8 +133,8 @@ logging:
   level:            DEBUG
 pipeline:
   config_file:      pipeline.json
-  version:          '1.0.1'
-  name:             GO-MAP
+  version:          '1.1'
+  name:             'GOMAP'
   pipeline_loc:     "/opt/GOMAP"
   dir_struct:       "config/dirs.yml"
 input:

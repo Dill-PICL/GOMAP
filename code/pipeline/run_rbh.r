@@ -6,7 +6,6 @@ args <- commandArgs(T)
 config_file <- args[1]
 
 
-
 #Reading config file and creating config object
 config = read_yaml(config_file)
 if(F){
@@ -25,7 +24,7 @@ set_logger(config)
 #}
 taxon_txt=paste("taxon:",config$input$taxon,sep="")
 ommited_ev_codes = c(config$go$evidence_codes$omitted,config$input$taxon)
-
+setDTthreads(as.numeric(config[["input"]][["cpus"]]))
 
 #processing arabidopsis results
 spp = "TAIR"
@@ -48,7 +47,8 @@ if(!file.exists(rbh_out)){
 
 
 if(!file.exists(out_gaf_file)){
-    assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,out_gaf_file,taxon_txt)    
+    gaf_data <- assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,taxon_txt)    
+    write_gaf(config,gaf_data,out_gaf_file)
 }else{
     flog.info(paste(out_gaf_file, "already exists. Delete to regenerate"))
 }
@@ -71,8 +71,10 @@ if(!file.exists(rbh_out)){
         rbh_hits = fread(rbh_out,header = F)
         colnames(rbh_hits) <- c("qseqid","sseqid")
 }
+
 if(!file.exists(out_gaf_file)){
-    assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,out_gaf_file,taxon_txt)    
+    gaf_data <- assign_gaf_go(rbh_hits,spp,gaf_file,ommited_ev_codes,taxon_txt)    
+    write_gaf(config=config,out_gaf = gaf_data,outfile = out_gaf_file)
 }else{
     flog.info(paste(out_gaf_file, "already exists. Delete to regenerate"))
 }

@@ -22,7 +22,7 @@ def run_iprs(config):
     workdir=config["input"]["gomap_dir"]+"/"
     fa_pattern=workdir + config["input"]["split_path"]+"/"+config["input"]["basename"]+"*fa"
     fa_files = sorted(glob(fa_pattern))
-    print(fa_files)
+    #print(fa_files)
 
     if config["input"]["mpi"] is True:
         from code.utils.run_mpi_iprs import run_mpi_iprs
@@ -39,7 +39,7 @@ def compile_iprs_out(config):
     tsv_files = sorted(glob(tsv_pattern))
     out_file = workdir + "/" + dom_config["tmpdir"] + "/" + config["input"]["basename"]+".tsv"
     combine_iprs_tsv(tsv_files,out_file)
-    print(tsv_files)
+    #print(tsv_files)
 
 
 def iprs2gaf(config):

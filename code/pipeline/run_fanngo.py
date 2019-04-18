@@ -37,4 +37,3 @@ def run_fanngo(config):
     print(" ".join(cmd))
     os.environ["NPROC"] = str(config["input"]["cpus"]);
     check_output_and_run(out_score,cmd,run_file_path)
-

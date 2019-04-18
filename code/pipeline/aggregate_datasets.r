@@ -28,6 +28,7 @@ workdir=paste(config$input$gomap_dir,"/",sep="")
 nr_dir = paste(workdir,config$data$gaf$non_red_dir,sep="")
 all_nr_datasets=dir(nr_dir,full.names = T)
 nr_datasets = all_nr_datasets[grep(config$input$basename,all_nr_datasets)]
+setDTthreads(as.numeric(config[["input"]][["cpus"]]))
 
 agg_dir=paste(workdir,config$data$gaf$agg_dir,"/",sep="")
 out_gaf=paste(agg_dir,paste(config$input$basename,"aggregate","gaf",sep="."),sep = "")

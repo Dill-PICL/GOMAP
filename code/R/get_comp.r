@@ -29,10 +29,11 @@ compile_comprehensive = function(nr_datasets,out_gaf,config){
     #the columns will be reordered so make sure to reorder the columns for GAF 2.x specs
     setcolorder(out_data,gaf_cols)
     
-    out_data[,assigned_by:="maize-GAMER"]
+    gomap_ass = paste(config[["pipeline"]][["name"]],config[["pipeline"]][["version"]],sep="-")
+    out_data[,assigned_by:=gomap_ass]
     
     #collapse the annotaions and combine assigned by
-    write_gaf(out_data,out_gaf)
+    write_gaf(config,out_data,out_gaf)
 }
 
 

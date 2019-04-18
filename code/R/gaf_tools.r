@@ -31,14 +31,23 @@ read_gaf_header = function(infile){
     return(colnames(curr_gaf))
 }
 
-write_gaf = function(out_gaf,outfile){
+write_gaf = function(config,out_gaf,outfile){
+    
     out_gaf[is.na(out_gaf)] = ""
+    
+    gaf_col_data = config[["data"]][["go"]][["gaf_col_data"]]
+    unfilled_gaf_data_cols = names(gaf_col_data)
+
+    for(col in unfilled_gaf_data_cols){
+      out_gaf[,c(col):=gaf_col_data[[col]]]
+    }
 
     unfilled_gaf_col = gaf_cols[!gaf_cols %in% colnames(out_gaf)]
-
+    
     for(col in unfilled_gaf_col){
         out_gaf[,c(col):=""]
     }
+    
     out_gaf = out_gaf[,c(gaf_cols),with=F]
     setcolorder(out_gaf,gaf_cols)
 

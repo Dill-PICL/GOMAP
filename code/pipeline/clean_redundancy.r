@@ -23,6 +23,7 @@ workdir=paste(config$input$gomap_dir,"/",sep="")
 uniq_gaf_dir = paste(workdir,config$data$gaf$uniq_dir,sep="")
 uniq_datasets=dir(uniq_gaf_dir,full.names = T)
 in_gaf=uniq_datasets[1]
+setDTthreads(as.numeric(config[["input"]][["cpus"]]))
 
 tmp_out = lapply(uniq_datasets,function(in_gaf){
     non_red_dir=paste(workdir,config$data$gaf$non_red_dir,sep="")

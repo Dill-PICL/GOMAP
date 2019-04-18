@@ -3,6 +3,8 @@ if(F){
 }
 remove_redundancy = function(in_gaf,out_gaf,config){
     
+    print(in_gaf)
+    
     go_obo = check_obo_data(config$data$go$obo)
     obs_and_alt = c(unlist(go_obo$alt_id[go_obo$obsolete]),names(go_obo$obsolete[go_obo$obsolete]))
     # gaf_cols = fread(config$data$go$gaf_cols,sep = "\t",header = F)$V1
@@ -27,7 +29,7 @@ remove_redundancy = function(in_gaf,out_gaf,config){
     setcolorder(out_data,gaf_cols)
     
     flog.info(paste("Writing NR of ",in_gaf, "to",out_gaf))
-    write_gaf(out_data,out_gaf)
+    write_gaf(config = config,out_gaf = out_data,outfile = out_gaf)
 }
 
 rm_gaf_red  = function(in_gaf,go_obo){

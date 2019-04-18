@@ -4,7 +4,8 @@ from pyrocopy import pyrocopy
 from logging import Logger
 from pprint import pprint,pformat
 from code.utils.logging_utils import setlogging
-
+from Bio import SeqIO
+from Bio.Alphabet.IUPAC import ExtendedIUPACProtein
 
 
 def make_dir(file):
@@ -52,5 +53,18 @@ def init_dirs(config):
 
 def copy_input(config):
     src=config["input"]["workdir"]+"/"+config["input"]["fasta"]
-    dest=config["input"]["gomap_dir"]+"/input"
-    shutil.copy(src, dest)
+    dest=config["input"]["gomap_dir"]+"/input/"+config["input"]["fasta"]
+    
+    all_seqs = list(SeqIO.parse(src, "fasta"))
+    aa_pattern = re.compile("^["+ExtendedIUPACProtein.letters+"]+$")
+    
+    for seq in all_seqs:
+        seq.description = ""
+        aa_match = aa_pattern.match(str(seq.seq))
+        if aa_match is None:
+            sys.exit('The input sequences contain non IUPAC amino acid characters')
+            
+        
+    SeqIO.write(all_seqs, dest, "fasta")      
+        
+    #shutil.copy(src, dest)

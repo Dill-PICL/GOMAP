@@ -17,6 +17,7 @@ go_obo = config[["data"]][["go"]][["obo"]]
 workdir=paste(config[["input"]][["gomap_dir"]],"/",sep="")
 raw_dir=paste(workdir,config$data$gaf$raw_dir,"/",sep="")
 taxon_txt=paste("taxon:",config$input$taxon,sep="")
+setDTthreads(as.numeric(config[["input"]][["cpus"]]))
 
 iprs_out=paste(workdir,config[["data"]][["domain"]][["tmpdir"]], "/", config[["input"]][["basename"]],".go.tsv",sep="")
 
@@ -26,5 +27,6 @@ if(file.exists(out_gaf)){
     flog.warn(paste("Remove the ",out_gaf,"file to regenerate"))
 }else{
     flog.info(paste("The",out_gaf,"missing, So generating the dataset"))
-    iprs2gaf(go_obo,iprs_out,out_gaf,taxon_txt)
+    iprs_data = iprs2gaf(go_obo,iprs_out,taxon_txt,config)
+    write_gaf(config,iprs_data,out_gaf)
 }
