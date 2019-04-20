@@ -20,9 +20,7 @@ def xml2tsv(in_xml):
         transform = etree.XSLT(xslt_root)
         bl_tree = etree.parse(in_xml)
         result_txt = str(transform(bl_tree)).splitlines(True)
-        pprint(result_txt[1:15])
         sel_lines = [ line if re.match(r"[0-9A-Za-z]",line) else "" for line in result_txt]
-        pprint(sel_lines[1:15])
         with open(out_tsv,"w") as outfile:
             outfile.writelines(sel_lines)
             outfile.close()
@@ -107,7 +105,6 @@ def run_hmmer(config):
         if chunk_seqs % num_seqs == 0 or fa_file == fa_files[-1]:
             chunk_count=chunk_count+1
             out_fa=workdir+config["data"]["mixed-method"]["argot2"]["preprocess"]["hmmer"] + "/" + config["input"]["basename"]+"."+str(chunk_count)+".fa"
-            print(out_fa)
             SeqIO.write(all_seqs, out_fa, "fasta")
             all_seqs=[]
             chunk_seqs=0
@@ -134,7 +131,6 @@ def submit_argot2(config):
     fa_path=workdir + config["data"]["mixed-method"]["preprocess"]["fa_path"]+"/"
     tsv_pattern=argot2_blast_dir+"*tsv"
     tsv_files = [ re.sub(".tsv","",os.path.basename(fa_file)) for fa_file in glob(tsv_pattern)]
-    print(tsv_files)
     for tsv_file in tsv_files:
         blast_file=glob(argot2_blast_dir+tsv_file+"*tsv.zip")[0]
         hmmer_file=glob(argot2_hmmer_dir+tsv_file+"*out.zip")[0]
@@ -178,8 +174,6 @@ def submit_argot2(config):
             #r_batch = s.post("http://localhost/test/upload.php",headers=headers,data=payload,files=files)
 
             r_insert = s.post(argot_url,data=payload,files=files,headers=headers)
-            # pprint(dict(r_insert.request.headers))
-            # pprint(dict(r_insert.headers))
             with open(html_file,"w") as outfile:
                 outfile.writelines(r_insert.text)
         
