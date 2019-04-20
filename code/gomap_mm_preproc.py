@@ -40,10 +40,13 @@ def run_mm_preproc(config):
 	run_hmmer(config)
 
 	'''
-	Step 8 is to run the mixed-method pipeline PANNZER
+	Step 8 is to download the mysql files if necessary
 	'''
 	#from code.pipeline.run_pannzer import copy_blast
 	#copy_blast(config)
+    
+    from code.pipeline.run_pannser import download_mysql_data
+    download_mysql_data(config)    
 
 	logging.info("Completed Running mixmeth-preproc step")
 	print("Completed Running mixmeth-preproc step")

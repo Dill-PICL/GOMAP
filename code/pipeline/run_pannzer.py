@@ -1,15 +1,39 @@
-import logging, os, re, ConfigParser, sys
+import logging, os, re, ConfigParser, sys, gzip, shutil
 from code.utils.basic_utils import check_output_and_run
 from pprint import pprint
 from pyrocopy import pyrocopy
 from glob import glob
 
+cyverse_path="i:/iplant/home/shared/dillpicl/gomap/GOMAP-data.v1.2/"
+
+
+def download_mysql_data(config):
+    outdir="/var/lib/mysql/"
+    
+    if os.path.isdir(outdir):
+        os.mkdir(outdir)
+    
+    outfile="/var/lib/mysql/pannzer/uniprot.MYI"
+    cmd = ["irsync","-rv",cyverse_path,outdir]
+    logging.info("Downloading file from Cyverse using irsync")
+    print(" ".join(cmd))
+    check_output_and_run(outfile,cmd)
+    
+    gz_files = glob("/var/lib/mysql/pannzer/*.gz")
+    for gz_file in gz_files:
+        print("Extracting " +  gz_file)
+        outfile = gz_file.replace(".gz","")
+        with gzip.open(gzfile,"rb") as in_f:
+            with open(outfile,"wb") as out_f:
+                shutil.copyfileobj(in_f,out_f)
+            os.remove(gzfile)
+
 def copy_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"
     tmp_blast_dir = workdir + config["data"]["mixed-method"]["preprocess"]["blast_out"]
-    pannzer_blast_dir = workdir + config["data"]["mixed-method"]["pannzer"]["preprocess"]["blast"]
+    pannzer_blast_dir = workdir + config["data"]["mls ixed-method"]["pannzer"]["preprocess"]["blast"]
     results = pyrocopy.copy(tmp_blast_dir, pannzer_blast_dir, excludeDirs=['temp'])
-
+    
 def run_pannzer(config):
     workdir=config["input"]["gomap_dir"]+"/"
     pannzer_data=config["data"]["mixed-method"]["pannzer"]
