@@ -20,13 +20,16 @@ def download_mysql_data(config):
     check_output_and_run(outfile,cmd)
     
     gz_files = glob("/var/lib/mysql/pannzer/*.gz")
-    for gz_file in gz_files:
-        print("Extracting " +  gz_file)
-        outfile = gz_file.replace(".gz","")
-        with gzip.open(gzfile,"rb") as in_f:
-            with open(outfile,"wb") as out_f:
-                shutil.copyfileobj(in_f,out_f)
-            os.remove(gzfile)
+    if len(gz_files) > 0:
+        for gz_file in gz_files:
+            print("Extracting " +  gz_file)
+            outfile = gz_file.replace(".gz","")
+            with gzip.open(gzfile,"rb") as in_f:
+                with open(outfile,"wb") as out_f:
+                    shutil.copyfileobj(in_f,out_f)
+                os.remove(gzfile)
+    else:
+        print("No mysql files to extract")
 
 def copy_blast(config):
     workdir=config["input"]["gomap_dir"]+"/"
