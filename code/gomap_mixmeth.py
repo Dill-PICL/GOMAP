@@ -33,5 +33,5 @@ def run_mixmeth(config):
 	'''
 	Step 8 is to run the mixed-method pipeline PANNZER
 	'''
-	from code.pipeline.run_pannzer import  run_pannzer
-	run_pannzer(config)
+    from code.pipeline.run_pannzer import  run_pannzer
+    run_pannzer(config)
