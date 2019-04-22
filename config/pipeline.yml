@@ -126,7 +126,7 @@ software:
     conf_template: template.conf
   fanngo:
     path: data/software/FANNGO_linux_x64
-    template: fanngo_template.m
+    template: code/fanngo_template.m
 logging:
   format:           "%(levelname)s [%(asctime)s] %(message)s"
   formatTime:       "%Y-%m-%d %H:%M"
