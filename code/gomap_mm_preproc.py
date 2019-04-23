@@ -39,12 +39,6 @@ def run_mm_preproc(config):
     compile_blast_tsv(config)
     run_hmmer(config)
 
-    '''
-    Step 8 is to download the mysql files if necessary
-    '''
-    from code.pipeline.run_pannzer import download_mysql_data
-    download_mysql_data(config)    
-
     logging.info("Completed Running mixmeth-preproc step")
     print("Completed Running mixmeth-preproc step")
     
