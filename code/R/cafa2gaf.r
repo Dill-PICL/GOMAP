@@ -24,6 +24,7 @@ filter_argot2(in_file=argot2_results,out_file=argot2_gaf,config=config)
 
 #processing PANNZER results
 pannzer_results =  dir(config$`mixed-meth`$PANNZER$result_dir,pattern = "_results.GO$",full.names = T)
+print(pannzer_results)
 pannzer_gaf = paste(gaf_dir,paste(config$input$species,config$input$inbred,config$input$version,"pannzer","gaf",sep="."),sep = "")
 pannzer2gaf(in_files = pannzer_results,out_gaf=pannzer_gaf,config)
 

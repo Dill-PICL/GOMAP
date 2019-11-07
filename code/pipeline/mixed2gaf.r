@@ -58,7 +58,7 @@ if(!file.exists(argot2_gaf)){
 
 #processing PANNZER results
 pannzer_result_dir = paste(workdir,config$data$`mixed-method`$pannzer$result_dir,sep="")
-all_pannzer_results =  dir(pannzer_result_dir,pattern = ".GO",full.names = T)
+all_pannzer_results =  dir(pannzer_result_dir,pattern = "_results.GO$",full.names = T)
 pannzer_results = all_pannzer_results[grep(basename,all_pannzer_results)]
 pannzer_gaf = paste(gaf_dir,paste(basename,"pannzer","gaf",sep="."),sep = "")
 
