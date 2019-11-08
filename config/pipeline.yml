@@ -133,7 +133,7 @@ logging:
   level:            DEBUG
 pipeline:
   config_file:      pipeline.json
-  version:          '1.2'
+  version:          '1.3.2'
   name:             'GOMAP'
   pipeline_loc:     "/opt/GOMAP"
   dir_struct:       "config/dirs.yml"
