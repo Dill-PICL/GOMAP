@@ -2,7 +2,7 @@ pannzer2gaf <- function(in_files,config){
     print("Reading the input file")
     in_files=pannzer_results
     #out_file="PANNZER/gaf/pannzer-0.0.gaf"
-    gaf_date = format(Sys.time(),"%m%d%Y")
+    gaf_date = format(Sys.time(),"%Y%m%d")
     taxon_txt=paste("taxon:",config$input$taxon,sep="")
     
     

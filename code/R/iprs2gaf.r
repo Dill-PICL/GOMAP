@@ -12,7 +12,7 @@ iprs2gaf <- function(go_obo,iprs_out,taxon_txt,config){
     #rbh_hits <- fread(rbh_file,header = F,sep = "\t")
     data = fread(iprs_out,header = F)
     colnames(data) = iprs_cols
-    gaf_date = format(Sys.time(),"%m%d%Y")
+    gaf_date = format(Sys.time(),"%Y%m%d")
     data[,with:=paste(analysis,sig_acc,sep=":")]
     gaf_data = data[,list(GO=unlist(strsplit(go,"\\|"))),by=list(acc,with)]
     colnames(gaf_data) = c("db_object_id","with","term_accession")

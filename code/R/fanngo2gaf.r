@@ -3,7 +3,7 @@ fanngo2gaf <- function(in_file,config){
     print("Reading the input file")
     #in_file="FANNGO_linux_x64/scores.txt"
     #out_gaf="FANNGO_linux_x64/gaf/fanngo-0.0.gaf"
-    gaf_date = format(Sys.time(),"%m%d%Y")
+    gaf_date = format(Sys.time(),"%Y%m%d")
     taxon_txt=paste("taxon:",config$input$taxon,sep="")
     
     fanngo_data = fread(in_file)

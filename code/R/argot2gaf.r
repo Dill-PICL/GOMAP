@@ -1,6 +1,6 @@
 argot2gaf <- function(in_files,config){
     print("Reading the input file")
-    gaf_date = format(Sys.time(),"%m%d%Y")
+    gaf_date = format(Sys.time(),"%Y%m%d")
     tmp_out = lapply(in_files,function(infile){
         tmp_data = fread(infile,sep = "\t",header = T)
         colnames(tmp_data) = gsub("#","",colnames(tmp_data))

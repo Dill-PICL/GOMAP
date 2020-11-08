@@ -99,7 +99,7 @@ assign_gaf_go <- function(rbh_data,spp,gaf_file,ommited_ev_codes,taxon_txt){
 
     rbh_hits = data.table(rbh_data)
     colnames(rbh_hits) <- c("main","other")
-    gaf_date = format(Sys.time(),"%m%d%Y")
+    gaf_date = format(Sys.time(),"%Y%m%d")
 
 
     db_gaf <- read_gaf(gaf_file)
