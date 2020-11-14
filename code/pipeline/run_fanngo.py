@@ -7,7 +7,7 @@ def run_fanngo(config):
     workdir=config["input"]["gomap_dir"]+"/"
     fanngo_sw_conf = config["data"]["mixed-method"]["fanngo"]
     fanngo_conf = config["software"]["fanngo"]
-    fanngo_template = fanngo_conf["path"]+"/"+fanngo_conf["template"]
+    fanngo_template = fanngo_conf["template"]
     run_file_path = workdir + fanngo_sw_conf["out_dir"] + "/" + config["input"]["basename"] +".fanngo.m"
     #print fanngo_template
     conf_lines = open(fanngo_template,"r").readlines()
