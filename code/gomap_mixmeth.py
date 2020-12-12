@@ -25,13 +25,14 @@ def run_mixmeth(config):
 
     '''
     Step 7 is to run the preprocessing steps for Argot2.5
-    sadsdsadsa
     '''
     from code.pipeline.run_argot2 import submit_argot2
+    logging.info("Submitting the batch inputs to Argot2")
     submit_argot2(config)
 
     '''
     Step 8 is to run the mixed-method pipeline PANNZER
     '''
     from code.pipeline.run_pannzer import  run_pannzer
+    logging.info("Running Pannzer")
     run_pannzer(config)
