@@ -23,32 +23,14 @@ def generate_fanngo_file(conf_lines,cwd,fanngo_conf,input_fasta,out_score,run_fi
 def run_fanngo(config):
     workdir=config["input"]["gomap_dir"]+"/"
     fanngo_sw_conf = config["data"]["mixed-method"]["fanngo"]
-    # fanngo_conf = config["software"]["fanngo"]
-    # fanngo_template = fanngo_conf["template"]
-    # run_file_path = workdir + fanngo_sw_conf["out_dir"] + "/" + config["input"]["basename"] +".fanngo.m"
-    # print fanngo_template
-    # conf_lines = open(fanngo_template,"r").readlines()
-    # run_file = open(run_file_path,"w")
-    # cwd=os.getcwd()
-    # output = workdir + run_file_path
     out_score = workdir + fanngo_sw_conf["out_dir"] + "/" + config["input"]["basename"] +".score.txt"
     split_out_dir = workdir + fanngo_sw_conf["out_dir"] + "/split" 
-    # input_fasta = workdir+"input/"+config["input"]["fasta"]
-    # with open(run_file_path,"w") as run_file:
-    #     generate_fanngo_file(conf_lines, cwd, fanngo_conf,input_fasta,out_score,run_file)
-    #     run_file.close()
-    # cmd = ["octave", "--norc", "--no-window-system", "--quiet"]
-    # print(" ".join(cmd))
-    # os.environ["NPROC"] = str(config["input"]["cpus"])
-    # #check_output_and_run(out_score,cmd,run_file_path)
-    # print("asdsdsdsadda")
     if os.path.exists(out_score):
         logging.warn("The "+out_score+" exists so not running the fanngo\n\"")
         logging.warn("Delete "+ out_score +" to rerun the previous command")
     else:
         split_files = glob.glob(workdir+config["input"]["split_path"]+"/*fa")
         for split_file in split_files:
-            #print(split_file)
             run_fanngo_split(config,split_file)
         split_scores = glob.glob(split_out_dir+"/*score.txt")
         if len(split_scores) == len(split_files):
@@ -76,7 +58,7 @@ def run_fanngo_split(config, split_fa):
     out_score = workdir + fanngo_sw_conf["out_dir"] + "/split/" + out_base +".score.txt"
     input_fasta = workdir+"input/"+config["input"]["fasta"]
     with open(run_file_path,"w") as run_file:
-        generate_fanngo_file(conf_lines, cwd, fanngo_conf,input_fasta,out_score,run_file)
+        generate_fanngo_file(conf_lines, cwd, fanngo_conf,split_fa,out_score,run_file)
         run_file.close()
     cmd = ["octave", "--norc", "--no-window-system", "--quiet"]
     os.environ["NPROC"] = str(config["input"]["cpus"])
