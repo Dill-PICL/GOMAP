@@ -52,3 +52,4 @@ gaf:
     - a
 input:
     - split:
+    - big_split:

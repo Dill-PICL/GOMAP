@@ -29,7 +29,7 @@ def run_fanngo(config):
         logging.warn("The "+out_score+" exists so not running the fanngo\n\"")
         logging.warn("Delete "+ out_score +" to rerun the previous command")
     else:
-        split_files = glob.glob(workdir+config["input"]["split_path"]+"/*fa")
+        split_files = glob.glob(workdir+config["input"]["big_split_path"]+"/*fa")
         for split_file in split_files:
             run_fanngo_split(config,split_file)
         split_scores = glob.glob(split_out_dir+"/*score.txt")

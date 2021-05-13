@@ -133,7 +133,7 @@ logging:
   level:            DEBUG
 pipeline:
   config_file:      pipeline.json
-  version:          'v1.3.4'
+  version:          'v1.3.5'
   name:             'GOMAP'
   pipeline_loc:     "/opt/GOMAP"
   dir_struct:       "config/dirs.yml"
@@ -145,3 +145,4 @@ input:
   num_seqs: 5000
   small_seqs: 100
   split_path: "input/split"
+  big_split_path: "input/big_split"

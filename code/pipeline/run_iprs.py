@@ -11,7 +11,7 @@ from glob import glob
 def process_fasta(config):
     workdir=config["input"]["gomap_dir"]+"/"
     fa_file=workdir + "input/" + config["input"]["fasta"]
-    split_base=workdir + "/" + config["input"]["split_path"]+"/"+config["input"]["basename"]
+    split_base=workdir + config["input"]["split_path"]+"/"+config["input"]["basename"]
     print(split_base)
     num_seqs=config["input"]["small_seqs"]
     split_fasta(fa_file,int(num_seqs),split_base)
