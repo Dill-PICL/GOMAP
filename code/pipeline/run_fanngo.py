@@ -77,3 +77,8 @@ def combine_fanngo_scores(split_scores,out_score):
                 out_score_fh.writelines(lines)
                 split_score_fh.close()
         out_score_fh.close()
+
+
+def fanngo2gaf(config):
+    command = ["Rscript", "code/pipeline/fanngo2gaf.R",config["input"]["config_file"]]
+    check_output_and_run("test.pod",command)

@@ -25,6 +25,7 @@ def run_fanngo(config):
 	'''
 	Step 7 is to run FANNGO
 	'''
-	from code.pipeline.run_fanngo import run_fanngo
+	from code.pipeline.run_fanngo import run_fanngo,fanngo2gaf
 	process_fasta(config)
 	run_fanngo(config)
+	fanngo2gaf(config)
