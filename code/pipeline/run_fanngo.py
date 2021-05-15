@@ -29,7 +29,7 @@ def run_fanngo(config):
         logging.warn("The "+out_score+" exists so not running the fanngo\n\"")
         logging.warn("Delete "+ out_score +" to rerun the previous command")
     else:
-        split_files = glob.glob(workdir+config["input"]["big_split_path"]+"/*fa")
+        split_files = sorted(glob.glob(workdir+config["input"]["big_split_path"]+"/*fa"))
         for split_file in split_files:
             run_fanngo_split(config,split_file)
         split_scores = glob.glob(split_out_dir+"/*score.txt")
@@ -57,11 +57,13 @@ def run_fanngo_split(config, split_fa):
     output = workdir + run_file_path
     out_score = workdir + fanngo_sw_conf["out_dir"] + "/split/" + out_base +".score.txt"
     input_fasta = workdir+"input/"+config["input"]["fasta"]
+    print(split_fa)
     with open(run_file_path,"w") as run_file:
         generate_fanngo_file(conf_lines, cwd, fanngo_conf,split_fa,out_score,run_file)
         run_file.close()
-    cmd = ["octave", "--norc", "--no-window-system", "--quiet"]
+    cmd = ["octave", "--norc", "--no-window-system", "--quiet","--no-history","--traditional","--verbose"]
     os.environ["NPROC"] = str(config["input"]["cpus"])
+    print(run_file_path)
     check_output_and_run(out_score,cmd,run_file_path)
 
 def combine_fanngo_scores(split_scores,out_score):

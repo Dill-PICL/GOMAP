@@ -32,6 +32,9 @@ fanngo2gaf <- function(in_file,config){
     #         x
     #     }
     # })
+    
+    print(table(unlist(tmp_aspect)))
+
     gaf_data[,aspect:=unlist(tmp_aspect)]
     
     min_score=min(gaf_data$with)
