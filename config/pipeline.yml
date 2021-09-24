@@ -142,7 +142,7 @@ input:
   cpus: 4
   openmpi: False
   tmpdir: "TMPDIR"
-  num_seqs: 100000
+  num_seqs: 5000
   small_seqs: 100
   split_path: "input/split"
   big_split_path: "input/big_split"
