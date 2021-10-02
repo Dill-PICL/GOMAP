@@ -1,7 +1,7 @@
 import logging, sys, os
 from iprs_utils import run_iprs
 
-def run_single_iprs(fa_files,config):
+def run_single_iprs(fa_files,config,iprs_loc=None):
     
     for fa_file in fa_files:
         #print(fa_file)
