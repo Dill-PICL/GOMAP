@@ -48,6 +48,7 @@ def run_uniprot_blast(config):
         run_mpi_blast(config)
     else:
         from code.utils.run_single_blast import run_single_blast
+        print("Running the single blast step")
         workdir=config["input"]["gomap_dir"]+"/"
         #print(workdir)
         tmp_fa_dir=workdir + config["input"]["split_path"]+"/"
@@ -56,8 +57,14 @@ def run_uniprot_blast(config):
         #print(results)
         fa_pattern=dest+config["input"]["basename"]+"*.fa"
         fa_files = sorted(glob(fa_pattern))
-        run_single_blast(fa_files,config)
-
+        
+        uniprot_db=config["pipeline"]["pipeline_loc"]+"/"+config["data"]["mixed-method"]["preprocess"]["uniprot_db"]
+        src_db=os.path.dirname(uniprot_db)
+        # print(src_db)
+        dest_db="/tmpdir/blastdb"
+        results = pyrocopy.copy(src_db,dest_db)
+        uniprot_db=dest_db+"/"+os.path.basename(config["data"]["mixed-method"]["preprocess"]["uniprot_db"])
+        run_single_blast(fa_files,uniprot_db,config)
 
 
 def compile_blast_out(config):
