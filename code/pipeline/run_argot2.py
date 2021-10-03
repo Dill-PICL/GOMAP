@@ -83,7 +83,7 @@ def run_hmmer(config):
     workdir = config["input"]["gomap_dir"] + "/"
     fa_dir = workdir+config["input"]["split_path"]
     fa_files = natsorted(glob(fa_dir+"/*fa"))
-    hmmer_bin = config["software"]["hmmer"]["path"]+"/hmmsearch"
+    hmmer_bin = config["software"]["hmmer"]["path"]+"/hmmscan"
     hmmerdb=config["data"]["mixed-method"]["preprocess"]["hmmerdb"]
     cpu = str(config["input"]["cpus"])
     tmp_file=workdir+"hmmscan.tmp"
