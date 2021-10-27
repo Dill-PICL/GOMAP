@@ -142,8 +142,8 @@ def submit_argot2(config):
         payload["tax_id"] = config["input"]["taxon"]
         payload["taxon_ID"] = config["input"]["taxon"]
         files={
-            "blast_file":(blast_file,open(blast_file, 'rb'),'text/plain'),
-            "hmmer_file":(hmmer_file,open(hmmer_file, 'rb'),'text/plain')
+            "blast_file":(blast_file,open(blast_file, 'rb')),
+            "hmmer_file":(hmmer_file,open(hmmer_file, 'rb'))
             }
        
         headers = {
