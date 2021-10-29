@@ -2,7 +2,7 @@ data:
   seq-sim:
     TAIR:
       basename:     At.TAIR10
-      basedir:      data/data/seq-sim/tair
+      basedir:      /data/data/seq-sim/tair
       tmpdir:       tmp/seq-sim/tair
       metadata:
         date:       ''
@@ -10,7 +10,7 @@ data:
         species:    arabidopsis
     uniprot:
       basename:     Plant.UniProt.hc
-      basedir:      data/data/seq-sim/uniprot
+      basedir:      /data/data/seq-sim/uniprot
       tmpdir:       tmp/seq-sim/uniprot
       cleaning:
         sel_tax:
@@ -37,11 +37,11 @@ data:
         version:    5.25-64.0
   mixed-method:
       preprocess:
-        hmmerdb:    data/data/mixed-meth/pfamdb/Pfam-A.hmm
+        hmmerdb:    /data/data/mixed-meth/pfamdb/Pfam-A.hmm
         num_seqs: '5000'
         small_seqs: '100'
         blast_out: tmp/mixed-meth/preprocess/blast
-        uniprot_db: data/data/mixed-meth/uniprot/uniprot_2017_07.sel
+        uniprot_db: /data/data/mixed-meth/uniprot/uniprot_2017_07.sel
         fa_path: tmp/mixed-meth/preprocess/fa
         blast_opts: ["-evalue","10e-10"]
       argot2:
@@ -54,8 +54,8 @@ data:
           P: 0.15
           C: 0.05
           F: 0.15
-        batch_url: "http://www.medcomp.medicina.unipd.it/Argot2-5/insert_batch.php"
-        baseurl: "http://www.medcomp.medicina.unipd.it/Argot2-5/"
+        batch_url: "http:/www.medcomp.medicina.unipd.it/Argot2-5/insert_batch.php"
+        baseurl: "http:/www.medcomp.medicina.unipd.it/Argot2-5/"
         payload:
           blast_file: None
           hmmer_file: None
@@ -90,8 +90,8 @@ data:
     uniq_dir:         gaf/c.uniq_gaf
     mixed_method_dir: gaf/a.mm_gaf
   go:
-    gaf_cols:       data/data/cols/gaf_cols.txt
-    obo:            data/data/go/go.obo
+    gaf_cols:       /data/data/cols/gaf_cols.txt
+    obo:            /data/data/go/go.obo
     evidence_codes:
       omitted:
       - IEA
@@ -104,16 +104,16 @@ data:
       db_object_type: gene
 software:
   blast:
-    bin:            data/software/blast-2.6.0+/bin
+    bin:            /data/software/blast-2.6.0+/bin
     evalue:         10e-10
     opt_params: []
-    cols:           data/data/cols/blast_cols.txt
+    cols:           /data/data/cols/blast_cols.txt
   iprs:
-    path:           data/software/interproscan-5.25-64.0
-    cols:           data/data/cols/iprs_cols.txt
+    path:           /data/software/interproscan-5.25-64.0
+    cols:           /data/data/cols/iprs_cols.txt
     options: []
   hmmer:
-    path:           data/software/hmmer-3.1b2-linux-intel-x86_64/binaries
+    path:           /data/software/hmmer-3.1b2-linux-intel-x86_64/binaries
   pannzer:
     database:
       SQL_DB: pannzer
@@ -122,10 +122,10 @@ software:
       SQL_DB_HOST: localhost
       SQL_DB_PORT: ""
       SQL_DB_SOCKET: "/run/mysqld/mysqld.sock"
-    path: data/software/PANNZER
+    path: /data/software/PANNZER
     conf_template: template.conf
   fanngo:
-    path: data/software/FANNGO_linux_x64
+    path: /data/software/FANNGO_linux_x64
     template: code/fanngo_template.m
 logging:
   format:           "%(levelname)s [%(asctime)s] %(message)s"
