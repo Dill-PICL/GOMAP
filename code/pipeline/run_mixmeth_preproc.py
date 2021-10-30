@@ -58,7 +58,7 @@ def run_uniprot_blast(config):
         fa_pattern=dest+config["input"]["basename"]+"*.fa"
         fa_files = sorted(glob(fa_pattern))
         
-        uniprot_db=config["pipeline"]["pipeline_loc"]+"/"+config["data"]["mixed-method"]["preprocess"]["uniprot_db"]
+        uniprot_db=config["data"]["mixed-method"]["preprocess"]["uniprot_db"]
         src_db=os.path.dirname(uniprot_db)
         # print(src_db)
         dest_db="/tmpdir/blastdb"
