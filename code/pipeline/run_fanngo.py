@@ -8,7 +8,7 @@ def generate_fanngo_file(conf_lines,cwd,fanngo_conf,input_fasta,out_score,run_fi
     for line in conf_lines:
         line = line.strip()
         if line.find("$PATH") > -1:
-            code_path = cwd+"/"+fanngo_conf["path"]+"/code"
+            code_path = fanngo_conf["path"]+"/code"
             outline = line.replace("$PATH",code_path)
             print >>run_file, outline
         elif line.find("$INPUT_FASTA") > -1:

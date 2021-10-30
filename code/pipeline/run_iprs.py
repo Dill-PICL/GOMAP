@@ -24,15 +24,16 @@ def run_iprs(config):
     fa_files = sorted(glob(fa_pattern))
     #print(fa_files)
 
-    iprs_src=config["software"]["iprs"]["path"]
-    # print(src_db)
-    iprs_loc="/tmpdir/iprs"
-    results = pyrocopy.copy(iprs_src,iprs_loc)
+    
 
     if config["input"]["mpi"] is True:
         from code.utils.run_mpi_iprs import run_mpi_iprs
         run_mpi_iprs(fa_files,config)
     else:
+        iprs_src=config["software"]["iprs"]["path"]
+        # print(src_db)
+        iprs_loc="/tmpdir/iprs"
+        results = pyrocopy.copy(iprs_src,iprs_loc)
         from code.utils.run_single_iprs import run_single_iprs
         run_single_iprs(fa_files,config,iprs_loc)
 
