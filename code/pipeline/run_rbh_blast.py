@@ -19,9 +19,9 @@ Run the Reciprocal Blast searched between tair and input fasta
 def run_tair_blast(config):
 	pipeline_loc = config["pipeline"]["pipeline_loc"]+"/"
 	tair_config = config["data"]["seq-sim"]["TAIR"]
-	tair_fa = pipeline_loc+tair_config["basedir"]+"/"+tair_config["basename"]+".fa"
+	tair_fa =tair_config["basedir"]+"/"+tair_config["basename"]+".fa"
 	blast_config = config["software"]["blast"]
-	blast_bin = pipeline_loc+blast_config["bin"]+"/blastp"
+	blast_bin =blast_config["bin"]+"/blastp"
 	workdir=config["input"]["gomap_dir"]+"/"
 	input_fa = workdir+"/input/"+config["input"]["fasta"]
 	tmp_base_dir = workdir+tair_config["tmpdir"]
@@ -44,7 +44,7 @@ def run_uniprot_blast(config):
 	uniprot_config = config["data"]["seq-sim"]["uniprot"]
 	uniprot_fa = pipeline_loc + uniprot_config["basedir"] + "/" + uniprot_config["basename"]+".fa"
 	blast_config = config["software"]["blast"]
-	blast_bin = pipeline_loc+blast_config["bin"]+"/blastp"
+	blast_bin =blast_config["bin"]+"/blastp"
 	workdir=config["input"]["gomap_dir"]+"/"
 	input_fa = workdir+"/input/"+config["input"]["fasta"]
 	tmp_base_dir = workdir+uniprot_config["tmpdir"]
