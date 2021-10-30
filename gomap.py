@@ -20,7 +20,7 @@ from code.gomap_fanngo import run_fanngo
 from code.utils.basic_utils import init_dirs, copy_input
 from code.utils.logging_utils import setlogging
 
-BUFFERSIZE_KIB = 16000
+BUFFERSIZE_KIB = 160000
 
 from jsonmerge import Merger
 schema = {
