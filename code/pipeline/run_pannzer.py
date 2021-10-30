@@ -44,7 +44,7 @@ def run_pannzer(config):
     blast_dir=workdir + pannzer_data["preprocess"]["blast"]
     blast_files = glob(blast_dir+"/*.xml")    
     cwd = os.getcwd()
-    os.chdir(cwd+"/"+pannzer_conf["path"])
+    os.chdir(pannzer_conf["path"])
     for blast_file in blast_files:
         blank_config = ConfigParser.ConfigParser()
         blank_config.read(pannzer_conf["conf_template"])
