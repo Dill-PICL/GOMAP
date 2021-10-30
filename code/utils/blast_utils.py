@@ -9,7 +9,7 @@ from datetime import datetime
 
 def make_blastdb(in_fasta,config):
     fasta_db = in_fasta + ".phr"
-    makedb_command = [config["pipeline"]["pipeline_loc"]+"/"+config["software"]["blast"]["bin"]+"/makeblastdb","-in",in_fasta,"-dbtype","prot","-out",in_fasta,"-title",in_fasta,"-hash_index"]
+    makedb_command = ["/"+config["software"]["blast"]["bin"]+"/makeblastdb","-in",in_fasta,"-dbtype","prot","-out",in_fasta,"-title",in_fasta,"-hash_index"]
     check_output_and_run(fasta_db,makedb_command)
 
 def check_bl_out(in_fasta,in_xml):
