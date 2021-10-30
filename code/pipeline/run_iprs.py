@@ -33,6 +33,8 @@ def run_iprs(config):
         iprs_src=config["software"]["iprs"]["path"]
         # print(src_db)
         iprs_loc="/tmpdir/iprs"
+        global BUFFERSIZE_KIB
+        BUFFERSIZE_KIB = 16000
         results = pyrocopy.copy(iprs_src,iprs_loc)
         from code.utils.run_single_iprs import run_single_iprs
         run_single_iprs(fa_files,config,iprs_loc)
