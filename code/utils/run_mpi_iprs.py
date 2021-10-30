@@ -41,10 +41,6 @@ def master(wi):
 def slave(config):
     comm = MPI.COMM_WORLD
     status = MPI.Status()
-    iprs_src=config["software"]["iprs"]["path"]
-    # print(src_db)
-    iprs_loc="/tmpdir/iprs"
-    results = pyrocopy.copy(iprs_src,iprs_loc)
     while 1:
         data = comm.recv(source=0, tag=MPI.ANY_TAG, status=status)
         if status.Get_tag(): break
