@@ -42,7 +42,7 @@ Function to Run the Reciprocal Blast searched between uniprot and input fasta
 def run_uniprot_blast(config):
 	pipeline_loc = config["pipeline"]["pipeline_loc"]+"/"
 	uniprot_config = config["data"]["seq-sim"]["uniprot"]
-	uniprot_fa = pipeline_loc + uniprot_config["basedir"] + "/" + uniprot_config["basename"]+".fa"
+	uniprot_fa = uniprot_config["basedir"] + "/" + uniprot_config["basename"]+".fa"
 	blast_config = config["software"]["blast"]
 	blast_bin =blast_config["bin"]+"/blastp"
 	workdir=config["input"]["gomap_dir"]+"/"
