@@ -56,7 +56,7 @@ get_ns2go = function(go_obo){
 
 get_aspect = function(go_obo){
     ns2aspect=list(molecular_function="F",biological_process="P",cellular_component="C")
-    go_ns2aspect = ns2aspect[unlist(obo_data$namespace)]
+    go_ns2aspect = ns2aspect[unlist(go_obo$namespace)]
     names(go_ns2aspect) = names(go_obo$namespace)
     alt2aspect = ns2aspect[unlist(go_obo$namespace[unlist(go_obo$alt_conv)])]
     names(alt2aspect) = names(go_obo$alt_conv)
@@ -369,6 +369,6 @@ plot_illus_single = function(gene_row,dataset,node_color,node_symbol,dot_file,ti
 #e6f5c9
 
 
-get_specificity = function(terms,obo_data){
+# get_specificity = function(terms,obo_data){
     
-}
+# }
