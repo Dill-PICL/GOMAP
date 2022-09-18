@@ -26,7 +26,7 @@ iprs2gaf <- function(go_obo,iprs_out,taxon_txt,config){
     gaf_data[,taxon:=taxon_txt]
     gaf_data[,db_object_type:="protein"]
     gaf_data_filt <- gaf_data[term_accession %in% obo_data$id]
-    gaf_data_filt[,aspect:=unlist(obo_data$aspect[gaf_data$term_accession])]
+    gaf_data_filt[,aspect:=unlist(obo_data$aspect[gaf_data_filt$term_accession])]
     
     return(gaf_data_filt)
     
