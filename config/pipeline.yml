@@ -54,8 +54,8 @@ data:
           P: 0.15
           C: 0.05
           F: 0.15
-        batch_url: "http://www.medcomp.medicina.unipd.it/Argot2-5/insert_batch.php"
-        baseurl: "http://www.medcomp.medicina.unipd.it/Argot2-5/"
+        baseurl: https://www.medcomp.medicina.unipd.it/Argot2-5/
+        batch_url: https://www.medcomp.medicina.unipd.it/Argot2-5/insert_batch.php
         payload:
           blast_file: None
           hmmer_file: None
@@ -133,7 +133,7 @@ logging:
   level:            DEBUG
 pipeline:
   config_file:      pipeline.json
-  version:          'v1.3.9'
+  version:          'v1.4.0'
   name:             'GOMAP'
   pipeline_loc:     "/opt/GOMAP"
   dir_struct:       "config/dirs.yml"
