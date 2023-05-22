@@ -7,6 +7,6 @@ numpy==1.14.5
 PyYAML==5.4
 yamldirs==1.1.3
 pyrocopy==0.8.0
-requests==2.20.0
+requests==2.31.0
 requests-toolbelt==0.8.0
 numpydoc==0.8.0
